@@ -17,7 +17,6 @@ $$
 #Alesha  
 To determine k, the number of clusters to set initially we can use the empirical method or the elbow method. The empirical method assigns the number of clusters **≈ (n\^1/2)/2** for a dataset of 'n' points. The elbow method is based on the idea that increasing the number of clusters k will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters k, the inflection point is determined using the turning point in the curve.
 
-
 #Step by step process:
 
 

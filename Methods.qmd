@@ -3,25 +3,43 @@ title: "Methods"
 output: html_document
 ---
 
-#Addison  
-The K-Means method, as described by Steinley, is designed to partition data that is ***N*** objects having measurements on ***P*** variables, into ***K*** classes (*C~1~*,*C~2~*,*C~3~*,...,*C~k~*), where ***C~k~*** is the set of ***n~k~*** objects in cluster ***k***, where ***K*** is given. (Steinley, 2006) The method computes seed points, which are randomly assigned reference points called centroids. Taking note that a centroid is not considered a physically observed data point, but rather a location in the center of a three dimensional space that is used as a reference point for a cluster. The distance between the centroids and the surrounding data points is then calculated using a distance formula. Data points are measured and assigned to the closest centroid. Then the mean is derived for each newly created cluster which becomes the new centroid of each cluster. The process is then repeated until there are no changes in the distance and mean of data points to the assigned cluster centroids. While there are different distance calculations to choose from, like the Manhatten Distance or Chebyshev Distance, the most commonly used is the Euclidean Distance.
+The K-Means method, as described by Steinley, is designed to partition data that is $N$ objects having measurements on $P$ variables, into $K$ classes ($C_1$,$C_2$,$C_3$,...,$C_k$), where $C_k$ is the set of $n_k$ objects in cluster $k$, where $K$ is given. (Steinley, 2006) The method computes seed points, which are randomly assigned reference points called centroids. Taking note that a centroid is not considered a physically observed data point, but rather a location in the center of a three dimensional space that is used as a reference point for a cluster. The distance between the centroids and the surrounding data points is then calculated using a distance formula. Data points are measured and assigned to the closest centroid. Then the mean is derived for each newly created cluster which becomes the new centroid of each cluster. The process is then repeated until there are no changes in the distance and mean of data points to the assigned cluster centroids. While there are different distance calculations to choose from, like the Manhatten Distance or Chebyshev Distance, the most commonly used is the Euclidean Distance.
 
-#Chandan  
-The K-Means algorithm relies on Euclidean distance as a measure of similarity between data objects.Euclidean distance is a powerful tool for measuring similarity in various applications, including image processing, pattern recognition, and clustering, such as in the k-means algorithm, where it helps partition data into well-defined clusters based on their spatial relationships in the feature space In this context, similarity is inversely related to the Euclidean distance; in other words, the smaller the distance, the greater the similarity between objects. To initiate the algorithm, you must specify the initial number of clusters (k) and their initial centers. The algorithm then iteratively adjusts these cluster centers based on the similarity between data objects and cluster centers. Clustering continues until the objective function converges, signaling the end of the process and yielding the final result.
+The k-Means algorithm relies on Euclidean distance as a measure of similarity between data objects.Euclidean distance is a powerful tool for measuring similarity in various applications, including image processing, pattern recognition, and clustering, such as in the k-means algorithm, where it helps partition data into well-defined clusters based on their spatial relationships in the feature space.Euclidean distance can be employed as a key - metric to measure the dissimilarity between data points, facilitating the grouping of similar data instances into clusters using the k-means clustering algorithm. This allows us to uncover patterns and relationships within the defined set of data, which is critical for achieving the research objectives.
 
-The formula for calculating the Euclidean distance between a data object and a cluster center can be expressed as follows:  
+In this context, similarity is inversely related to the Euclidean distance; in other words, the smaller the distance, the greater the similarity between objects. To initiate the algorithm, you must specify the initial number of clusters $(K)$ and their initial centers. The algorithm then iteratively adjusts these cluster centers based on the similarity between data objects and cluster centers. Clustering continues until the objective function converges, signaling the end of the process and yielding the final result.
+
+The formula for calculating the Euclidean distance between a data object and a cluster center can be expressed as follows:
 $$
-d(x,Ci)=sqrt(∑j=1 to k (xj−Cij)2)
+d(x,Ci)=sqrt(\sum_{i=1}^{N} (xj−Cij)^2)
+$$ 
+Objective Function: The K-means clustering objective is to minimize the within-cluster variance. It is formulated as 
 $$
+d(x,Ci)=((\sum_{i=1}^{k}*\sum_{x∈Ci}^{}(||x-μi||)^2
+$$ 
 
-#Alesha  
-To determine k, the number of clusters to set initially we can use the empirical method or the elbow method. The empirical method assigns the number of clusters **≈ (n\^1/2)/2** for a dataset of 'n' points. The elbow method is based on the idea that increasing the number of clusters k will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters k, the inflection point is determined using the turning point in the curve.
+Where: $k$ is the number of clusters.  
 
-#Step by step process:
+$C_i$ represents the number of points in the cluster $i$  
+
+$μ_i$ represents the centroid mean of cluster $i$.  
+
+The objective function is the sum of squared Euclidean distances from each point in a cluster to its centroid. The goal is to find cluster assignments and centroids that minimize this objective.  
+
+To determine k, the number of clusters to initially set, we can use the empirical method or the elbow method. The empirical method assigns the number of clusters ≈$\frac{n^{\frac{1}{2}}}{2}$ for a dataset of $n$ observations. The elbow method is based on the idea that increasing the number of clusters k will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters $K$, the inflection point is determined using the turning point in the curve.  
+
+The k-means algorithm for partitioning can be executed in 5 main steps.  
+
+1. Partition $N$ objects, or observations, into $K$ nonempty subsets. Each cluster must not be empty and will have a different classification. This is $K$, if $k=2$ that means there will be two clusters.  
+
+2. Then compute seed points, which are randomly assigned reference points called centroids.  
+
+3. Assign each object to the cluster with the nearest assigned centroid.  
+
+4. Adjust the centroid location using the Euclidean distance formula, above, to minimize the distance of each data observation to its assigned centroid.  
+
+5. The final step is to repeat steps 2-4 until there is no change in distance between the observations and the centroids.  
+
+#Visual representation with notation OR use steps above and place appropriate pictures above/under the corresponding step.
 
 
-
-
-#Visual representation with notation
-
-There are two main tasks in the K-Means algorithm, to separate the data into classifications called clusters and to use those members of the cluster to find the true center of the clusters through an iterative process. The k-means algorithm for partitioning can be executed in 4 main steps. The first step is to partition n objects or data observations into k nonempty subsets meaning each cluster must not be empty and will have a different classification. This is 'k' so if k=2 that means there will be two clusters. K is usually set based on the data in use, where the user is assigning k after considering its effect with interpreting the data. Then the algorithm computes seed points, which are randomly assigned reference points called centroids.Taking note that a centroid is not considered a physically observed data point, but rather a space in the center of an invisible 3D sphere that is used as a reference point for a cluster. Step three is to assign each object to the cluster with the nearest seed point or newly assigned centroid as iterations continue. This step can be imagined as slicing across the spread of the data, as 'k' separate pieces, allowing those sets to gain and lose members, attempting to find the best value for the centroid, until there are no dissimilar data points across partitions(Parit, 2021). The mean value, may also be the center of gravity, of all data points assigned to a category is then computed taking its own place each iteration.The goal step three is to maximize similarities within the cluster, and minimize dissimilarities outside the cluster. This allows the ability to compare the position of an object to any of its nearing data points in any dimension to validate that it is the best classification by Euclidean distance. Data points may shift clusters during different iterations of this step, which in turn will alter the centroid. The Euclidean distance is calculated by "the square root of the sum of the squared differences between two vectors,'' where those vectors are the data point and another centroid. Fourth, the algorithm will check the second step again, reassigning individual objects if required, iterating as many times as needed until the centroid position does not change.

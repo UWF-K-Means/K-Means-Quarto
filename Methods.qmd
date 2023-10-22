@@ -31,7 +31,7 @@ To determine k, the number of clusters to initially set, we can use the empirica
 
 The k-means algorithm for partitioning can be executed in 5 main steps.
 
-1.  Partition $N$ objects, or observations, into $K$ nonempty subsets. Each cluster must not be empty and will have a different classification. This is $K$, if $k=2$ that means there will be two clusters.
+1.  Partition $N$ objects, or observations, into $K$ nonempty subsets. Each cluster must not be empty and will have a different classification. This is $K$, if $k=4$ that means there will be two clusters.
 
 2.  Then compute seed points, which are randomly assigned reference points called centroids. In @fig-centroids $k=4$ and are hilighted in green.
 

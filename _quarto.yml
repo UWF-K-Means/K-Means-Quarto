@@ -8,7 +8,6 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - summary.qmd
     - Methods.qmd
     - references.qmd
 
@@ -19,6 +18,7 @@ format:
     theme: cosmo
   pdf:
     documentclass: scrreprt
+    cite-method: biblatex
 
 editor: source
 

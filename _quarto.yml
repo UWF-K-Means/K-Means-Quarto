@@ -9,13 +9,15 @@ book:
     - index.qmd
     - intro.qmd
     - Methods.qmd
-    - references.bib
+    - references.qmd
 
 bibliography: references.bib
 
 format:
   html:
-    selft-contained: true
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
 
-editor: source
+editor: visual
 

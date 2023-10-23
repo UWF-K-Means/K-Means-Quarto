@@ -35,6 +35,3 @@ ggplot(clean_data, aes(x=Country)) +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
 
-Chandan @Start Addison's Edit
-
-Aleshas edit

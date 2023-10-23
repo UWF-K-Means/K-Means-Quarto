@@ -12,22 +12,24 @@ In this context, similarity is inversely related to the Euclidean distance; in o
 The formula for calculating the Euclidean distance between a data object and a cluster center can be expressed as follows:
 
 $$
-d(x,Ci)=sqrt(\sum_{i=1}^{N} (xj−Cij)^2)
-$$ Objective Function: The K-means clustering objective is to minimize the within-cluster variance. It is formulated as
+d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)
+$$  
+Objective Function: The K-means clustering objective is to minimize the within-cluster variance. It is formulated as
 
 $$
-d(x,Ci)=((\sum_{i=1}^{k}*\sum_{x∈Ci}^{}(||x-μi||)^2
+d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2)
 $$
 
-Where: $k$ is the number of clusters.
+Where:  
+$k$ is the number of clusters.
 
 $C_i$ represents the number of points in the cluster $i$
 
-$μ_i$ represents the centroid mean of cluster $i$.
+$\mu_i$ represents the centroid mean of cluster $i$.
 
 The objective function is the sum of squared Euclidean distances from each point in a cluster to its centroid. The goal is to find cluster assignments and centroids that minimize this objective.
 
-To determine k, the number of clusters to initially set, we can use the empirical method or the elbow method. The empirical method assigns the number of clusters ≈$\frac{n^{\frac{1}{2}}}{2}$ for a dataset of $n$ observations. The elbow method is based on the idea that increasing the number of clusters k will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters $K$, the inflection point is determined using the turning point in the curve.
+To determine k, the number of clusters to initially set, we can use the empirical method or the elbow method. The empirical method assigns the number of clusters $\approx \frac{n^{\frac{1}{2}}}{2}$ for a dataset of $n$ observations. The elbow method is based on the idea that increasing the number of clusters k will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters $K$, the inflection point is determined using the turning point in the curve.
 
 The k-means algorithm for partitioning can be executed in 5 main steps.
 
@@ -39,7 +41,7 @@ The k-means algorithm for partitioning can be executed in 5 main steps.
 
 ![centroids](centroids.png){#fig-centroids}
 
-4.  Adjust the centroid location using the Euclidean distance formula to minimize the distance of each data observation to its assigned centroid. @fig-clusters shows how the Euclidean distance drives some cluster members to reassign to a new cluster, influencing the centroids positions. This updats the cluster mean ,$μ_i$, in turn relocating the centroids from where they were seen in @figure-centroids.
+4.  Adjust the centroid location using the Euclidean distance formula to minimize the distance of each data observation to its assigned centroid. @fig-clusters shows how the Euclidean distance drives some cluster members to reassign to a new cluster, influencing the centroids positions. This updats the cluster mean ,$\mu_i$, in turn relocating the centroids from where they were seen in @figure-centroids.
 
 5.  The final step is to repeat steps 2-4 until there is no change in distance between the observations and the centroids.
 

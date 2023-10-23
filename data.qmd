@@ -4,7 +4,6 @@ author: "Addison Armstrong"
 format: 
   html:
     df-print: paged
-self-contained: true
 ---
 
 ```{r}

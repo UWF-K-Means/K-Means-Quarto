@@ -6,6 +6,7 @@ book:
   author: "Addison Armstrong, Alesha Bolin, Chandan Reddy Yapala"
   date: "9/27/2023"
   chapters:
+    - index.qmd
     - intro.qmd
     - Methods.qmd
     - references.qmd
@@ -13,12 +14,11 @@ book:
 bibliography: references.bib
 
 format:
-  html:
-    theme: cosmo
-    embed-resources: true
-    self-contained-math: true
+  html: 
+    selft-contained: true
   pdf:
     documentclass: scrreprt
+    cite-method: biblatex
 
 editor: source
 

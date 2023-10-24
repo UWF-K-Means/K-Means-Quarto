@@ -14,9 +14,8 @@ book:
 bibliography: references.bib
 
 format:
-  html:
-    embed-resources: true
-    self-contained-math: true
+  html: 
+    theme: cosmo
   pdf:
     documentclass: scrreprt
 

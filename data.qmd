@@ -1,6 +1,6 @@
 ---
-title: "Data Review"
-author: "Addison Armstrong"
+title: "Data Work"
+author: "K-Means Clustering"
 format: 
   html:
     df-print: paged
@@ -13,7 +13,6 @@ data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistica
 ```
 
 We know UK is the primary country associated. Making a data frame excluding UK to better see frequencies of other countries.
-
 ```{r}
 
 clean_data_uk <- na.omit(data)
@@ -23,7 +22,6 @@ clean_data <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
 ```
 
 Summary Stats:
-
 ```{r}
 summary(clean_data_uk)
 summary(clean_data)
@@ -33,4 +31,8 @@ ggplot(clean_data, aes(x=Country)) +
   geom_bar() +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
+
+
+
+
 

@@ -10,6 +10,7 @@ book:
     - index.qmd
     - intro.qmd
     - Methods.qmd
+    - analysis.qmd
     - references.qmd
 
 bibliography: references.bib

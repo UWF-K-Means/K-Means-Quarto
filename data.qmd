@@ -63,7 +63,7 @@ gg_miss_var(dataEcom, show_pct = TRUE)
 
 library(ggplot2)
 #remove InvoiceNo because it does not give any specific information other than identifies/labels a transaction.
-dfEcom <- as_tibble(dataEcom %>% dplyr::select(StockCode, Description,Quantity, InvoiceDate, UnitPrice, CustomerID, Country))
+dfEcom <- as_tibble(dataEcom %>% dplyr::select(StockCode, Description,Quantity, InvoiceDate, UnitPrice, CustomerID, Country))%>% drop_na()
 
 #how often each customer visits
 countCustomerID <- dfEcom %>% mutate %>% count(as.factor(CustomerID))
@@ -80,6 +80,31 @@ p1
 p2<- ggplot(dataEcom, aes(x=CustomerID)) +
   geom_bar()
 p2
+
+#kmeans
+library(cluster)
+install.packages("factoextra")
+library(factoextra)
+
+df <- na.omit(dataEcom)
+
+km5<-kmeans(dataEcom,5,nstart=25)
+
+
+k3 <- kmeans(dfEcom, centers = 3, nstart = 25)
+str(k3)
+
+k4 <- kmeans(dfEcom, centers = 4, nstart = 25)
+str(k4)
+
+k6 <- kmeans(dfEcom, centers = 6, nstart = 25)
+str(k6)
+
+#visualization of clusters
+fviz_cluster(k3, data = dfEcom)
+fviz_cluster(k4, data = dfEcom)
+fviz_cluster(k6, data = dfEcom)
+
 
 
 ```

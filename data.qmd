@@ -13,6 +13,7 @@ data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistica
 ```
 
 We know UK is the primary country associated. Making a data frame excluding UK to better see frequencies of other countries.
+
 ```{r}
 
 clean_data_uk <- na.omit(data)
@@ -22,6 +23,7 @@ clean_data <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
 ```
 
 Summary Stats:
+
 ```{r}
 summary(clean_data_uk)
 summary(clean_data)
@@ -33,6 +35,58 @@ ggplot(clean_data, aes(x=Country)) +
 ```
 
 
+Aleshas code:
+-Guys sorry it might be a mess I will be using this space for draft work while figuring this out, and at the end ill cut out what is not needed. 
+```{r}
+library(readr)
+library(tidyverse)
+library(ggplot2)
+dataEcom <- read_csv("data.csv")
+dataEcom <- dataEcom%>% filter(dataEcom$Country !="United Kingdom") %>% drop_na()
+#View(data)
+head(dataEcom)
+str(dataEcom)
+summary(dataEcom)
+
+ggplot(dataEcom, aes(x=Country)) +
+  geom_bar()+
+  theme(axis.text.x =element_text(angle=45,vjust=1,hjust=1))
+
+#Getting the amount of distinct CustomerID values and amount of distinct Descriptions
+n_distinct(dataEcom$CustomerID)
+n_distinct(dataEcom$Description)
+
+#install.packages("naniar")
+library(naniar)
+# Plotting percentage of missing values per feature
+gg_miss_var(dataEcom, show_pct = TRUE)
+
+library(ggplot2)
+#remove InvoiceNo because it does not give any specific information other than identifies/labels a transaction.
+dfEcom <- as_tibble(dataEcom %>% dplyr::select(StockCode, Description,Quantity, InvoiceDate, UnitPrice, CustomerID, Country))
+
+#how often each customer visits
+countCustomerID <- dfEcom %>% mutate %>% count(as.factor(CustomerID))
+countCustomerID
+
+#transactions per country
+countCountry <- dfEcom %>% mutate %>% count(as.factor(Country))
+countCountry
+
+p1<- ggplot(dataEcom, aes(x=StockCode)) +
+  geom_bar()
+p1
+
+p2<- ggplot(dataEcom, aes(x=CustomerID)) +
+  geom_bar()
+p2
 
 
+```
 
+Columns: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, Country
+
+
+Goals of clustering: unsupervised clustering is more concerned with classification than deep insights. Yet shines a light on features of the data that can be further discovered with deeper analytics. Explorium 2023
+
+The goal of our analysis is to use unsupervised learning reveal patterns and relationships within this ecommerce data. This will create a deeper understanding for the entire customer-ecommerce interaction and improve customer access and experiences. While K-Means clustering creates organization where there are large amounts of unlabeled data, this analysis is just a stepping stone for clarity and deeper investigations.

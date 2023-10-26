@@ -61,9 +61,9 @@ library(naniar)
 # Plotting percentage of missing values per feature
 gg_miss_var(dataEcom, show_pct = TRUE)
 
-library(ggplot2)
-#remove InvoiceNo because it does not give any specific information other than identifies/labels a transaction.
-dfEcom <- as_tibble(dataEcom %>% dplyr::select(StockCode, Description,Quantity, InvoiceDate, UnitPrice, CustomerID, Country))%>% drop_na()
+
+# create a df
+dfEcom <- as_tibble(dataEcom %>% dplyr::select(StockCode, InvoiceNo, Description,Quantity, InvoiceDate, UnitPrice, CustomerID, Country))%>% drop_na()
 
 #how often each customer visits
 countCustomerID <- dfEcom %>% mutate %>% count(as.factor(CustomerID))
@@ -80,6 +80,19 @@ p1
 p2<- ggplot(dataEcom, aes(x=CustomerID)) +
   geom_bar()
 p2
+
+#data manipulation, create a new column for total items purchased in a transaction.
+
+dfEcom <- as_tibble(dataEcom %>% dplyr::select(StockCode,Quantity, InvoiceDate, CustomerID,InvoiceNo))%>% drop_na()
+
+#New Column
+
+dfEcom$ItemCount <- dfEcom$Quantity *(filter(dataEcom$InvoiceNo(sum(StockCode))))
+
+#Group by customer id and add amounts
+customer_monetary <- as.data.frame(data %>%
+  group_by(CustomerID) %>%
+  summarise(Amount = sum(Amount)))
 
 #kmeans
 library(cluster)

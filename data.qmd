@@ -6,16 +6,33 @@ format:
     df-print: paged
 ---
 
+Addison's Code:
+Libraries:
 ```{r}
-library(readr)
+library(rlang)
+library(haven)
+library(dplyr)
+library(tidyverse)
 library(ggplot2)
-data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
+library(fastDummies)
+library(equatiomatic)
+library(car)
+library(sjPlot)
+library(MASS)
+library(lmtest)
+library(gmodels)
+library(tidyr)
+library(sjmisc)
+library(sjlabelled)
 ```
 
+Read data from CSV
+```{r}
+data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
+```
 We know UK is the primary country associated. Making a data frame excluding UK to better see frequencies of other countries.
 
 ```{r}
-
 clean_data_uk <- na.omit(data)
 
 #removing UK

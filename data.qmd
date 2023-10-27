@@ -24,6 +24,9 @@ library(gmodels)
 library(tidyr)
 library(sjmisc)
 library(sjlabelled)
+library(naniar)
+library(cluster)
+library(factoextra)
 ```
 
 Read data from CSV
@@ -49,6 +52,17 @@ summary(clean_data)
 ggplot(clean_data, aes(x=Country)) +
   geom_bar() +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+
+#Create total sales column
+clean_data <- clean_data %>% mutate(total = clean_data$Quantity*clean_data$UnitPrice)
+
+xs=quantile(clean_data$total,c(0,1/3,2/3,1))
+df1 <- clean_data %>% mutate(category=cut(total, breaks=xs, labels=c("low","middle","high"),include.lowest = TRUE))
+boxplot(df1$total~df1$category)
+
+df2 <- subset(df1, category == "high" & total < 80)
+
+plot <- boxplot(total~category, data = df2)
 ```
 
 

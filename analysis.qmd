@@ -1,6 +1,123 @@
 ---
 title: "Analysis"
 ---
+```{r, error=FALSE, warning=FALSE, message=FALSE}
+library(rlang)
+library(haven)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(fastDummies)
+library(equatiomatic)
+library(car)
+library(sjPlot)
+library(MASS)
+library(lmtest)
+library(gmodels)
+library(tidyr)
+library(sjmisc)
+library(sjlabelled)
+library(naniar)
+library(cluster)
+library(factoextra)
+```
+
+First we read data from a local CSV file:
+```{r}
+data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
+```
+
+Remove any disruptive null values from the the base data and view summary statistics of each available field:
+```{r}
+clean_data_uk <- na.omit(data)
+summary(clean_data_uk)
+```
+
+View data frequencies and summaries:
+```{r}
+#Plot countries
+ggplot(clean_data_uk, aes(x=Country)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+```
+
+We can see that an overwhelming amount of data comes from the UK which could skew the data during further analysis.
+In order to avoid this issue, we will create a separate data set that excludes the UK altogether, then we can compare results and see what differences there may be.
+
+Now we remove the UK records and view the frequencies again:
+```{r}
+#removing UK
+clean_data <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
+summary(clean_data)
+
+#Plot countries
+ggplot(clean_data, aes(x=Country)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+```
+
+With the geographic distributions looking a little better, we move to create some calculated fields and re-check data:
+```{r}
+#Create total sales column
+clean_data <- clean_data %>% mutate(total = clean_data$Quantity*clean_data$UnitPrice)
+
+#Create sales category breaks using quantiles
+xs=quantile(clean_data$total,c(0,1/3,2/3,1))
+
+#Label category breaks & Plot
+df1 <- clean_data %>% mutate(category=cut(total, breaks=xs, labels=c("low","middle","high"),include.lowest = TRUE))
+boxplot(df1$total~df1$category)
+
+#Extra cleaning/checking
+df1 <- na.omit(df1)
+summary(df1)
+sum(is.na(df1$InvoiceNo))
+sum(is.na(df1$StockCode))
+sum(is.na(df1$Description))
+sum(is.na(df1$Quantity))
+sum(is.na(df1$InvoiceDate))
+sum(is.na(df1$UnitPrice))
+sum(is.na(df1$CustomerID))
+sum(is.na(df1$Country))
+sum(is.na(df1$total))
+sum(is.na(df1$category))
+```
+
+The data is looking better, but there are some improvements that can be made to ensure we avoid as much bias as possible.
+```{r}
+#Creating some unique subsets for model testing
+df2 <- subset(df1, Quantity > 0)
+plot <- boxplot(total~category, data = df2)
+
+#
+df3 <- df2 %>% dplyr::select(Quantity,UnitPrice,CustomerID,InvoiceDate,total)
+customer_data <- df3 %>% group_by(CustomerID) %>% summarize(Sales=sum(total), Orders=length(unique(InvoiceDate))) %>% mutate(AvgSale=Sales/Orders)
+head(customer_data)
 
 
-This is our analysis chapter
+#Ranking and Normalization
+df3_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, ties.method = "first"), AvgSale=rank(AvgSale))
+df3_norm <- df3_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSale=scale(AvgSale))
+
+summary(df3_norm)
+sapply(df3_norm, sd)
+```
+
+Now we can set the seed (in order to make the results reproducible) and run our first model:
+```{r}
+set.seed(100)
+model1 <- kmeans(df3_norm[c("Sales", "Orders", "AvgSale")],4)
+
+model1
+
+df3_norm$Cluster <- model1$cluster
+```
+
+Plot and view cluster results:
+```{r}
+#Plotting Clustering Results
+options(repr.plot.width = 20, repr.plot.height = 15)
+ggplot(df3_norm, aes(x=AvgSale, y=Orders, color=Cluster)) + 
+  geom_point() + 
+  theme(legend.position = "right", legend.text=element_text(size=15), axis.title = element_text(size = 10))
+```

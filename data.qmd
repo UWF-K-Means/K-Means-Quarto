@@ -8,7 +8,7 @@ format:
 
 Addison's Code:
 Libraries:
-```{r}
+```{r, error=FALSE, warning=FALSE, message=FALSE}
 library(rlang)
 library(haven)
 library(dplyr)
@@ -56,13 +56,63 @@ ggplot(clean_data, aes(x=Country)) +
 #Create total sales column
 clean_data <- clean_data %>% mutate(total = clean_data$Quantity*clean_data$UnitPrice)
 
+#Set category breaks using quantiles
 xs=quantile(clean_data$total,c(0,1/3,2/3,1))
+
+#Label category breaks & Plot
 df1 <- clean_data %>% mutate(category=cut(total, breaks=xs, labels=c("low","middle","high"),include.lowest = TRUE))
 boxplot(df1$total~df1$category)
 
-df2 <- subset(df1, category == "high" & total < 80)
+#Extra cleaning/checking
+df1 <- na.omit(df1)
+summary(df1)
+sum(is.na(df1$InvoiceNo))
+sum(is.na(df1$StockCode))
+sum(is.na(df1$Description))
+sum(is.na(df1$Quantity))
+sum(is.na(df1$InvoiceDate))
+sum(is.na(df1$UnitPrice))
+sum(is.na(df1$CustomerID))
+sum(is.na(df1$Country))
+sum(is.na(df1$total))
+sum(is.na(df1$category))
 
+#Creating some unique subsets for model testing
+df2 <- subset(df1, Quantity > 0)
 plot <- boxplot(total~category, data = df2)
+
+#
+df3 <- df2 %>% dplyr::select(Quantity,UnitPrice,CustomerID,InvoiceDate,total)
+customer_data <- df3 %>% group_by(CustomerID) %>% summarize(Sales=sum(total), OrderCount=length(unique(InvoiceDate))) %>% mutate(AvgValue=Sales/OrderCount)
+head(customer_data)
+
+
+#Ranking and Normalization
+df3_ranked <- customer_data %>% mutate(Sales=rank(Sales), OrderCount=rank(OrderCount, ties.method = "first"), AvgValue=rank(AvgValue))
+df3_norm <- df3_ranked %>% mutate(Sales=scale(Sales), OrderCount=scale(OrderCount), AvgValue=scale(AvgValue))
+
+summary(df3_norm)
+sapply(df3_norm, sd)
+```
+
+
+```{r}
+set.seed(100)
+model1 <- kmeans(df3_norm[c("Sales", "OrderCount", "AvgValue")],4)
+
+model1
+
+df3_norm$Cluster <- model1$cluster
+```
+
+
+```{r}
+#Plotting Clustering Results
+
+options(repr.plot.width = 20, repr.plot.height = 15)
+ggplot(df3_norm, aes(x=AvgValue, y=OrderCount, color=Cluster)) + 
+  geom_point() + 
+  theme(legend.position = "right", legend.text=element_text(size=15), axis.title = element_text(size = 10))
 ```
 
 

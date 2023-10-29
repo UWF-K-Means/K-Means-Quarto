@@ -36,17 +36,17 @@ data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistica
 We know UK is the primary country associated. Making a data frame excluding UK to better see frequencies of other countries.
 
 ```{r}
-clean_data_uk <- na.omit(data)
+clean_data <- na.omit(data)
 
 #removing UK
-clean_data <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
+clean_data_trim <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
 ```
 
 Summary Stats:
 
 ```{r}
-summary(clean_data_uk)
 summary(clean_data)
+summary(clean_data_trim)
 
 #Plot countries
 ggplot(clean_data, aes(x=Country)) +
@@ -66,16 +66,6 @@ boxplot(df1$total~df1$category)
 #Extra cleaning/checking
 df1 <- na.omit(df1)
 summary(df1)
-sum(is.na(df1$InvoiceNo))
-sum(is.na(df1$StockCode))
-sum(is.na(df1$Description))
-sum(is.na(df1$Quantity))
-sum(is.na(df1$InvoiceDate))
-sum(is.na(df1$UnitPrice))
-sum(is.na(df1$CustomerID))
-sum(is.na(df1$Country))
-sum(is.na(df1$total))
-sum(is.na(df1$category))
 
 #Creating some unique subsets for model testing
 df2 <- subset(df1, Quantity > 0)

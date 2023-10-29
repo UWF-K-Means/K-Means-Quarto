@@ -103,6 +103,14 @@ options(repr.plot.width = 20, repr.plot.height = 15)
 ggplot(df3_norm, aes(x=AvgValue, y=OrderCount, color=Cluster)) + 
   geom_point() + 
   theme(legend.position = "right", legend.text=element_text(size=15), axis.title = element_text(size = 10))
+
+
+fviz_cluster(model1, data = df3_norm,
+             palette = c("blue","green","orange","red"),
+             geom = "point",
+             ellipse.type = "convex",
+             ggtheme = theme_bw()
+)
 ```
 
 

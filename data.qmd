@@ -34,7 +34,7 @@ Read data from CSV
 ```{r}
 data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
 
-data <-read_csv("~/STA6257Kmeans/data.csv")
+#data <-read_csv("~/STA6257Kmeans/data.csv")
 ```
 
 We know UK is the primary country associated. Making a data frame excluding UK to better see frequencies of other countries.
@@ -133,7 +133,6 @@ dataEcom<- na.omit(data)
 dataEcom <- dataEcom%>% filter(dataEcom$Country !="United Kingdom")
 #View(data)
 head(dataEcom, n=10)
-#str(dataEcom)
 
 #install.packages("gtsummary")
 #library(gtsummary)
@@ -185,9 +184,7 @@ p2
 
 #data manipulation, create a new column for total items purchased in a transaction.
 #Group by Quantity per InvoiceNo
-
-dfItemTot <- as.data.frame(dfEcom %>% group_by(InvoiceNo) %>%
-+   summarise(ItemTot = sum(Quantity)))
+#new try
 
 dfItemTot <- dfEcom %>% dplyr::select(StockCode,Quantity, InvoiceDate, CustomerID,InvoiceNo,Description,UnitPrice,Country) %>%
   group_by(InvoiceNo) %>%
@@ -201,19 +198,21 @@ df1 <- dfItemTot %>%
                                 ItemTot<1000~ "<1000",
                                 ItemTot>=1000~">=1000"))
 
+#df1<- df1[df1$totalItems == "<10", ] 
+
 longer <- df1 %>%
-  pivot_longer(
-     cols = c(-InvoiceNo),
-     values_to = "ItemTot")
+  pivot_wider(
+      names_from = totalItems,
+     values_from = ItemTot)
 
 #kmeans
 library(cluster)
 install.packages("factoextra")
 library(factoextra)
 
-df <- na.omit(dataEcom)
-
-km5<-kmeans(dataEcom,5,nstart=25)
+df <- na.omit(dfEcom)
+set.seed(100)
+km5<-kmeans(dfEcom,5,nstart=25)
 
 k3 <- kmeans(dfEcom, centers = 3, nstart = 25)
 str(k3)

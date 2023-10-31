@@ -38,7 +38,7 @@ data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistica
 We know UK is the primary country associated. Making a data frame excluding UK to better see frequencies of other countries.
 
 ```{r}
-clean_data_uk <- na.omit(data)
+clean_data <- na.omit(data)
 
 #removing UK
 clean_data_trim <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
@@ -85,6 +85,22 @@ df3_norm <- df3_ranked %>% mutate(Sales=scale(Sales), OrderCount=scale(OrderCoun
 
 summary(df3_norm)
 sapply(df3_norm, sd)
+
+# Create an empty vector to store WCSS values
+wcss <- vector("numeric", length = 10)
+
+# Iterate over a range of K values (e.g., from 1 to 10)
+for (i in 1:10) {
+  model <- kmeans(df3_norm[c("Sales", "OrderCount", "AvgValue")], centers = i, nstart = 10)
+  wcss[i] <- model$tot.withinss
+}
+
+# Plot the WCSS values against the number of clusters
+library(ggplot2)
+ggplot(data.frame(K = 1:10, WCSS = wcss), aes(x = K, y = WCSS)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Elbow Method to Find Optimal K", x = "Number of Clusters (K)", y = "Within-Cluster-Sum-of-Squares (WCSS)")
 ```
 
 ```{r}

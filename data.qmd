@@ -33,8 +33,6 @@ Read data from CSV
 
 ```{r}
 data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
-
-#data <-read_csv("~/STA6257Kmeans/data.csv")
 ```
 
 We know UK is the primary country associated. Making a data frame excluding UK to better see frequencies of other countries.

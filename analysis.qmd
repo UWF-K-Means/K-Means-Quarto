@@ -1,6 +1,7 @@
 ---
 title: "Analysis"
 ---
+
 ```{r, error=FALSE, warning=FALSE, message=FALSE}
 library(rlang)
 library(haven)
@@ -23,17 +24,20 @@ library(factoextra)
 ```
 
 First we read data from a local CSV file:
+
 ```{r}
 data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
 ```
 
 Remove any disruptive null values from the the base data and view summary statistics of each available field:
+
 ```{r}
 clean_data_uk <- na.omit(data)
 summary(clean_data_uk)
 ```
 
 View data frequencies and summaries:
+
 ```{r}
 #Plot countries
 ggplot(clean_data_uk, aes(x=Country)) +
@@ -41,10 +45,10 @@ ggplot(clean_data_uk, aes(x=Country)) +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
 
-We can see that an overwhelming amount of data comes from the UK which could skew the data during further analysis.
-In order to avoid this issue, we will create a separate data set that excludes the UK altogether, then we can compare results and see what differences there may be.
+We can see that an overwhelming amount of data comes from the UK which could skew the data during further analysis. In order to avoid this issue, we will create a separate data set that excludes the UK altogether, then we can compare results and see what differences there may be.
 
 Now we remove the UK records and view the frequencies again:
+
 ```{r}
 #removing UK
 clean_data <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
@@ -57,6 +61,7 @@ ggplot(clean_data, aes(x=Country)) +
 ```
 
 With the geographic distributions looking a little better, we move to create some calculated fields and re-check data:
+
 ```{r}
 #Create total sales column
 clean_data <- clean_data %>% mutate(total = clean_data$Quantity*clean_data$UnitPrice)
@@ -84,6 +89,7 @@ sum(is.na(df1$category))
 ```
 
 The data is looking better, but there are some improvements that can be made to ensure we avoid as much bias as possible.
+
 ```{r}
 #Creating some unique subsets for model testing
 df2 <- subset(df1, Quantity > 0)
@@ -104,6 +110,7 @@ sapply(df3_norm, sd)
 ```
 
 Now we can set the seed (in order to make the results reproducible) and run our first model:
+
 ```{r}
 set.seed(100)
 model1 <- kmeans(df3_norm[c("Sales", "Orders", "AvgSale")],4)
@@ -114,6 +121,7 @@ df3_norm$Cluster <- model1$cluster
 ```
 
 Plot and view cluster results:
+
 ```{r}
 #Plotting Clustering Results
 options(repr.plot.width = 20, repr.plot.height = 15)

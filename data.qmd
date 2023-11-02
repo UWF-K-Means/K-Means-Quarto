@@ -32,7 +32,9 @@ library(factoextra)
 Read data from CSV
 
 ```{r}
-data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
+#data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
+
+data <- read_csv("~/STA6257Kmeans/data.csv")
 ```
 
 We know UK is the primary country associated. Making a data frame excluding UK to better see frequencies of other countries.
@@ -135,118 +137,49 @@ Aleshas code: -Guys sorry it might be a mess I will be using this space for draf
 library(readr)
 library(tidyverse)
 library(ggplot2)
-#dataEcom <- read_csv("data.csv")
-#dataEcom <- dataEcom%>% filter(dataEcom$Country !="United Kingdom") %>% drop_na()
-
-#load data
-library(readr)
-data <- read_csv("~/STA6257Kmeans/data.csv")
-#remove missing values
-dataEcom<- na.omit(data)
-#select subset of data to avoid bias
-dataEcom <- dataEcom%>% filter(dataEcom$Country !="United Kingdom")
-#View(data)
-head(dataEcom, n=10)
-
 #install.packages("gtsummary")
 #library(gtsummary)
-#tbl_summary(dataEcom)
+
+data <- read_csv("~/STA6257Kmeans/data.csv")
+#remove missing values
+clean_data <- na.omit(data)
+#removing UK
+clean_data_trim <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
+#View(data)
+head(clean_data_trim, n=10)
+names(clean_data_trim)
+
+#tbl_summary(clean_data)
 
 #descriptive statistics, distribution, frequencies
-ggplot(dataEcom, aes(x=Country)) +
+
+ggplot(clean_data, aes(x=Country)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+#Create total sales column
+clean_data <- clean_data %>% mutate(total = clean_data$Quantity*clean_data$UnitPrice)
+
+#create a data table to show example of description
+clean_data %>% count(Description)
+
+clean_data %>%top_n(5, CustomerID)
+
+pricePlot<-ggplot(clean_data, aes(x=UnitPrice, fill=UnitPrice))+
+  geom_bar(stat="identity")+
+scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF")) 
+pricePlot
+
+quantPlot<-
+  ggplot(clean_data,aes(x=Quantity, color=CustomerID))+
   geom_bar()+
-  theme(axis.text.x =element_text(angle=45,vjust=1,hjust=1))
+  scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))
+quantPlot
 
-#Getting the amount of distinct CustomerID values and amount of distinct Descriptions
-n_distinct(dataEcom$CustomerID)
-n_distinct(dataEcom$Description)
-n_distinct(dataEcom$StockCode)
-#install.packages("naniar")
-library(naniar)
-# Plotting percentage of missing values per feature
-gg_miss_var(dataEcom, show_pct = TRUE)
-
-# create a df
-dfEcom <- as_tibble(dataEcom %>% dplyr::select(StockCode, InvoiceNo, Description,Quantity, InvoiceDate, UnitPrice, CustomerID, Country))
-summary(dfEcom)
-#look at distribution of data. We will need to consider what variable is of importance or create one. (total amount spent or quantity of items bought)
-quantile(dataEcom$Quantity, probs = c(0,0.25,0.5,0.75,1))
-#Do we need to worry about removing negative values for quantity? cannot have a negative quantity?
-df <- subset(dataEcom, Quantity > 0)
-quantile(df2$Quantity, probs = c(0,0.25,0.5,0.75,1))
-
-quantile(df2$UnitPrice, probs = c(0,0.25,0.5,0.75,1))
-
-#how often each customer visits
-countCustomerID <- dfEcom %>% mutate %>% count(as.factor(CustomerID))
-countCustomerID
-
-#transactions per country
-countCountry <- dfEcom %>% mutate %>% count(as.factor(Country))
-countCountry
-
-countStockCode <- dfEcom %>% mutate %>% count(as.factor(dfEcom$StockCode))
-countStockCode
-#visuals of distribution, has issues :(
-p1<- ggplot(top_n(dfEcom, 5), aes(x=StockCode)) +
-  geom_bar()
-p1
-
-p2<- ggplot(top_n(df2,5), aes(x=Quantity)) +
-  geom_bar()
-p2
-
-#data manipulation, create a new column for total items purchased in a transaction.
-#Group by Quantity per InvoiceNo
-#new try
-
-dfItemTot <- dfEcom %>% dplyr::select(StockCode,Quantity, InvoiceDate, CustomerID,InvoiceNo,Description,UnitPrice,Country) %>%
-  group_by(InvoiceNo) %>%
-  summarise(ItemTot = sum(Quantity))%>%drop_na()
-
-df1 <- dfItemTot %>%
-  mutate(totalItems = case_when(ItemTot <10 ~ "<10",
-                                ItemTot<50 ~ "<50",
-                                ItemTot<100~ "<100",
-                                ItemTot<400~ "<400",
-                                ItemTot<1000~ "<1000",
-                                ItemTot>=1000~">=1000"))
-
-#df1<- df1[df1$totalItems == "<10", ] 
-
-longer <- df1 %>%
-  pivot_wider(
-      names_from = totalItems,
-     values_from = ItemTot)
-
-#kmeans
-library(cluster)
-install.packages("factoextra")
-library(factoextra)
-
-df <- na.omit(dfEcom)
-set.seed(100)
-km5<-kmeans(dfEcom,5,nstart=25)
-
-k3 <- kmeans(dfEcom, centers = 3, nstart = 25)
-str(k3)
-
-k4 <- kmeans(dfEcom, centers = 4, nstart = 25)
-str(k4)
-
-k6 <- kmeans(dfEcom, centers = 6, nstart = 25)
-str(k6)
-
-#visualization of clusters
-fviz_cluster(k3, data = dfEcom)
-fviz_cluster(k4, data = dfEcom)
-fviz_cluster(k6, data = dfEcom)
-
+par(mfrow=c(2,2))
 ```
 
 Columns: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, Country
 
-There are 422 distinct CustomerID's and 2897 different Item descriptions.
 
 Goals of clustering: unsupervised clustering is more concerned with classification than deep insights. Yet shines a light on features of the data that can be further discovered with deeper analytics. Explorium 2023
 

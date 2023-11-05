@@ -8,9 +8,13 @@ book:
   date: "9/27/2023"
   chapters:
     - index.qmd
-    - intro.qmd
-    - Methods.qmd
-    - analysis.qmd
+    - part: "The Method"
+      chapters:
+        - Methods.qmd
+    - part: "E-commerce Analysis"
+      chapters:
+        - analysis.qmd
+  appendices:
     - references.qmd
 
 bibliography: references.bib

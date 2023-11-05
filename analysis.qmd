@@ -39,10 +39,12 @@ head(data_nulls_removed,10)
 ```
 
 The frequency of purchases by Country may help provide some context about the regional distribution of customers, as well as the possible variety of customers:  
-```{r}
-ggplot(data_nulls_removed, aes(x=Country, fill=Country)) +
-  geom_bar() +
-  ylab("Frequency") +
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+topCountries_all <- data_nulls_removed %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE)
+
+ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) + 
+  geom_bar(stat="identity") +
+  labs(title = "Top 10 Countries", y="Total Lifetime Transactions") +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
 It quickly becomes apparent that an overwhelming amount of data comes from the UK, as expected, which could skew the results during any analysis. In order to avoid this, a subset of data is generated which excludes data associated with the UK.  
@@ -50,11 +52,13 @@ It quickly becomes apparent that an overwhelming amount of data comes from the U
 data_no_uk <- data_nulls_removed[data_nulls_removed$Country != "United Kingdom",]
 ```
 
-With the UK data removed, the frequencies are viewed again:
+With the UK data removed, the top $10$ frequencies are examined:
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
-ggplot(data_no_uk, aes(x=Country, fill=Country)) +
-  geom_bar() +
-  ylab("Frequency") +
+topCountries <- data_no_uk %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE) 
+
+ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) + 
+  geom_bar(stat="identity") +
+  labs(title = "Top 10 Countries (excluding UK)", y="Total Lifetime Transactions") +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
 Now that the distribution of data does not primarily fall under a single country's customer base, the analysis can proceed.  
@@ -66,14 +70,17 @@ Here the Quantity and UnitPrice columns are multiplied together and assigned to 
 data_no_uk <- data_no_uk %>% mutate(total = data_no_uk$Quantity*data_no_uk$UnitPrice)
 ```
 
-The data looks better and gives a more robust view of the customers, but there are still some improvements that can be made to ensure bias is avoided. Since the interest lies in purchasing-customer clustering, any customers or invoices that include returns or negative values for Quantity can be excluded from the data.  
+The data is beginning to look usable and gives a more robust view of the customers, but there are still some improvements that can be made to ensure bias is avoided. Since the interest lies in purchasing-customer clustering, any customers or invoices that include returns or negative values for Quantity can be excluded from the data.  
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+data_no_uk <- data_no_uk %>% subset(Quantity > 0)
+```
 
-The columns of interest are assigned to a new data frame called "df1":
+For the remainder of the analysis, only the applicable columns of interest are retained and assigned to a new data frame called "df1":
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 df1 <- data_no_uk %>% dplyr::select(Quantity,UnitPrice,CustomerID,InvoiceDate,total)
 ```
 
-Next, a sum total of sales from the previously derived column "total" is created as "Sales", along with a unique count of InvoiceDate to provide the number of orders made called "Orders", and the difference of those two variables called "AvgSale". The data is then grouped by CustomerID to decrease the granularity and provide a more complete view of each customer and their previous history and habits.  
+Next, a sum total of sales from the previously derived column "total" is created as "Sales", along with a unique count of InvoiceDate to provide the number of orders made called "Orders", and the difference of those two variables called "AvgSale". The data is then grouped by CustomerID to decrease the granularity and provide a more complete view of each customer and their purchasing history and habits. This new set of data will be labeled "customer_data":
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 customer_data <- df1 %>% group_by(CustomerID) %>% summarize(Sales=sum(total), Orders=length(unique(InvoiceDate))) %>% mutate(AvgSale=Sales/Orders)
 ```
@@ -85,7 +92,7 @@ head(customer_data,10)
 
 
 #Modeling:
-```{r}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 df_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, ties.method = "first"), AvgSale=rank(AvgSale))
 df_norm <- df_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSale=scale(AvgSale))
 

@@ -32,18 +32,17 @@ library(factoextra)
 Read data from CSV
 
 ```{r}
-#data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
+data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
 
-data <- read_csv("~/STA6257Kmeans/data.csv")
 ```
 
 We know UK is the primary country associated. Making a data frame excluding UK to better see frequencies of other countries.
 
 ```{r}
-clean_data <- na.omit(data)
+clean_data_uk <- na.omit(data)
 
 #removing UK
-clean_data_trim <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
+clean_data <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
 ```
 
 Summary Stats:
@@ -137,49 +136,60 @@ Aleshas code: -Guys sorry it might be a mess I will be using this space for draf
 library(readr)
 library(tidyverse)
 library(ggplot2)
+theme_set(theme_minimal())
 #install.packages("gtsummary")
 #library(gtsummary)
 
 data <- read_csv("~/STA6257Kmeans/data.csv")
 #remove missing values
-clean_data <- na.omit(data)
+clean_data_uk<- na.omit(data)
 #removing UK
-clean_data_trim <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
-#View(data)
-head(clean_data_trim, n=10)
-names(clean_data_trim)
+clean_data <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
 
-#tbl_summary(clean_data)
+#Top Countries based on InvoiceNo (count of occurrences per country)
+topCountries<-clean_data %>%
+  count(Country) %>%slice_max(n, n = 5, with_ties = FALSE) %>% 
+  ggplot(aes(Country, n)) + 
+  geom_col(fill = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))+ 
+labs(title = "Top Countries", y="Total Lifetime Transactions")
+topCountries
 
-#descriptive statistics, distribution, frequencies
-
-ggplot(clean_data, aes(x=Country)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 #Create total sales column
 clean_data <- clean_data %>% mutate(total = clean_data$Quantity*clean_data$UnitPrice)
 
-#create a data table to show example of description
-clean_data %>% count(Description)
+#set up data frame in descending order by total sales per Customer ID selecting top 5 values
+data_new2<- df3%>%arrange(desc(total))%>%group_by(CustomerID)%>%slice(1:5)
 
-clean_data %>%top_n(5, CustomerID)
+#plot histogram of top 5 transactions based on maximum total spent in a transaction
+topSales<- ggplot(data_new2, aes(CustomerID)) + 
+  geom_histogram(bins=5, fill =c("#9900C6","#E7B800","#3399CC","#00CC66","#FF99FF"))+
+labs(title = "Top 5 Customers by Sales", x= "CustomerID",y="Lifetime Sales Total")+
+ theme(plot.title = element_text(color = "#0099f9", size = 20))
+topSales
+#attempt 2
+topSales<-ggplot(data=data_new2,aes(x=CustomerID,y=total,fill=total))+
+ geom_bar(stat='identity') +
+ scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))+
+ labs(title = "Top 5 CustomersID's by Sales", x= "CustomerID",y="Lifetime Sales Total")+
+ theme(plot.title = element_text(color = "#0099f9", size = 20))
+topSales
 
-pricePlot<-ggplot(clean_data, aes(x=UnitPrice, fill=UnitPrice))+
-  geom_bar(stat="identity")+
-scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF")) 
-pricePlot
-
-quantPlot<-
-  ggplot(clean_data,aes(x=Quantity, color=CustomerID))+
-  geom_bar()+
-  scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))
+#Plot to show who's CustomerID's account for the top 5 greatest Quantity of items in a transaction. Not correct, data_new2 should be selecting top 5 in descending order
+quantPlot<-ggplot(data=data_new2, aes(x=CustomerID, y=Quantity, fill=(CustomerID)))+
+  geom_bar(stat='identity')+
+  ylim(0,1000)
+quantPlot
+#attempt 2
+quantPlot<-df3 %>% slice_max(n, n = 5, with_ties = FALSE) %>%
+  ggplot(aes(Quantity, n)) + 
+  scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))+ 
+  labs(title = "Top Quantity", y="Count")
 quantPlot
 
 par(mfrow=c(2,2))
 ```
 
-Columns: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, Country
-
+Columns: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, Country, total
 
 Goals of clustering: unsupervised clustering is more concerned with classification than deep insights. Yet shines a light on features of the data that can be further discovered with deeper analytics. Explorium 2023
 

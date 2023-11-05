@@ -33,50 +33,52 @@ To begin, an appropriate data source is identified. The data used in this analys
 data_nulls_removed <- na.omit(data)
 summary(data_nulls_removed)
 ```  
-The descriptions show that the data, excluding observations with null values, consists of 406,829 total observations. This specific data set originates from an online retailer located in the United Kingdom, but provides retail service to many different countries and regions. From the summary of the chosen data set, eight variables are identified: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, and Country.  
+The descriptions show that the data, excluding observations with null values, consists of $406,829$ total observations. This specific data set originates from an online retailer located in the United Kingdom, but provides retail service to many different countries and regions. From the summary of the chosen data set, $8$ variables are identified: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, and Country.  
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 head(data_nulls_removed,10)
 ```
 
 The frequency of purchases by Country may help provide some context about the regional distribution of customers, as well as the possible variety of customers:  
 ```{r}
-ggplot(data_nulls_removed, aes(x=Country)) +
+ggplot(data_nulls_removed, aes(x=Country, fill=Country)) +
   geom_bar() +
+  ylab("Frequency") +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+It quickly becomes apparent that an overwhelming amount of data comes from the UK, as expected, which could skew the results during any analysis. In order to avoid this, a subset of data is generated which excludes data associated with the UK.  
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 data_no_uk <- data_nulls_removed[data_nulls_removed$Country != "United Kingdom",]
 ```
-It quickly becomes apparent that an overwhelming amount of data comes from the UK, as expected, which could skew the results during any analysis. In order to avoid this, a subset of data is generated which excludes data associated with the UK.  
 
 With the UK data removed, the frequencies are viewed again:
-```{r}
-ggplot(data_no_uk, aes(x=Country)) +
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+ggplot(data_no_uk, aes(x=Country, fill=Country)) +
   geom_bar() +
+  ylab("Frequency") +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
 Now that the distribution of data does not primarily fall under a single country's customer base, the analysis can proceed.  
 
-Referring back to the view of the data table, above, there is more than 1 row per InvoiceNo. This means that the data is not grouped by any particular category, product, or location. In order to create a better view of each customer and their spending habits, some simple calculated fields are derived and assigned back to the data in use.  
+Referring back to the view of the data table, there appears to be more than $1$ observation per InvoiceNo. This means that the data is not grouped by any particular category, product, or location. In order to create a better view of each customer and their spending habits, some simple calculated fields are created and assigned back to the data in use.  
 
-Here the Quantity and UnitPrice columns are multiplied together and assigned to a new variable called "total" in order to see the total cost of the number of items purchased per observation:  
-```{r}
+Here the Quantity and UnitPrice columns are multiplied together and assigned to a new variable called "total" in order to obtain the total cost based on the number of items purchased per observation:  
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 data_no_uk <- data_no_uk %>% mutate(total = data_no_uk$Quantity*data_no_uk$UnitPrice)
 ```
 
 The data looks better and gives a more robust view of the customers, but there are still some improvements that can be made to ensure bias is avoided. Since the interest lies in purchasing-customer clustering, any customers or invoices that include returns or negative values for Quantity can be excluded from the data.  
 
 The columns of interest are assigned to a new data frame called "df1":
-```{r}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 df1 <- data_no_uk %>% dplyr::select(Quantity,UnitPrice,CustomerID,InvoiceDate,total)
 ```
 
-Next, a sum total of sales from the previously derived column "total" is created as "Sales", a unique count of InvoiceDate to provide the number of orders made called "Orders", and the difference of those two variables called "AvgSale". The data is also grouped by CustomerID to decrease the granularity and provide a more distinct view of each customer and their previous history and habits.  
-```{r}
+Next, a sum total of sales from the previously derived column "total" is created as "Sales", along with a unique count of InvoiceDate to provide the number of orders made called "Orders", and the difference of those two variables called "AvgSale". The data is then grouped by CustomerID to decrease the granularity and provide a more complete view of each customer and their previous history and habits.  
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 customer_data <- df1 %>% group_by(CustomerID) %>% summarize(Sales=sum(total), Orders=length(unique(InvoiceDate))) %>% mutate(AvgSale=Sales/Orders)
 ```
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-head(customer_data)
+head(customer_data,10)
 ```
 
 #Alesha's visuals:
@@ -84,7 +86,7 @@ head(customer_data)
 
 #Modeling:
 ```{r}
-df3_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, ties.method = "first"), AvgSale=rank(AvgSale))
+df_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, ties.method = "first"), AvgSale=rank(AvgSale))
 df3_norm <- df3_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSale=scale(AvgSale))
 
 summary(df3_norm)

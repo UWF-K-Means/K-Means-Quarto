@@ -32,7 +32,7 @@ library(factoextra)
 Read data from CSV
 
 ```{r}
-data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
+data <- read_csv("C:/Users/sowmy/Desktop/STA_6257/Project_Data/data.csv")
 
 ```
 
@@ -93,7 +93,7 @@ wcss <- vector("numeric", length = 10)
 # Iterate over a range of K values (e.g., from 1 to 10)
 for (i in 1:10) {
   model <- kmeans(df3_norm[c("Sales", "OrderCount", "AvgValue")], centers = i, nstart = 10)
-  wcss[i] <- model$tot.withinss
+  wcss[i] <- ceiling(model$tot.withinss)
 }
 
 # Plot the WCSS values against the number of clusters
@@ -101,7 +101,8 @@ library(ggplot2)
 ggplot(data.frame(K = 1:10, WCSS = wcss), aes(x = K, y = WCSS)) +
   geom_line() +
   geom_point() +
-  labs(title = "Elbow Method to Find Optimal K", x = "Number of Clusters (K)", y = "Within-Cluster-Sum-of-Squares (WCSS)")
+   labs(title = "Elbow Method to Find Optimal K", x = "Number of Clusters (K)", y = "Within-Cluster-Sum-of-Squares (WCSS)") +
+  scale_x_continuous(breaks = seq(0, 10, by = 2))
 ```
 
 ```{r}
@@ -182,7 +183,6 @@ par(mfrow=c(3,3))
 
 
 ```
-
 
 ```{r}
 # Temporary notes and additional code for Alesha, will remove Sunday.

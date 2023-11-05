@@ -136,9 +136,8 @@ Aleshas code: -Guys sorry it might be a mess I will be using this space for draf
 library(readr)
 library(tidyverse)
 library(ggplot2)
+library(RColorBrewer)
 theme_set(theme_minimal())
-#install.packages("gtsummary")
-#library(gtsummary)
 
 data <- read_csv("~/STA6257Kmeans/data.csv")
 #remove missing values
@@ -147,46 +146,95 @@ clean_data_uk<- na.omit(data)
 clean_data <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
 
 #Top Countries based on InvoiceNo (count of occurrences per country)
-topCountries<-clean_data %>%
+topCountries<-clean_data_trim %>%
   count(Country) %>%slice_max(n, n = 5, with_ties = FALSE) %>% 
   ggplot(aes(Country, n)) + 
   geom_col(fill = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))+ 
 labs(title = "Top Countries", y="Total Lifetime Transactions")
 topCountries
 
-#Create total sales column
-clean_data <- clean_data %>% mutate(total = clean_data$Quantity*clean_data$UnitPrice)
+#Lets create a new df with only top 5 customer IDs for Sales, OrderCount, and AvgValue, they may not be all be the same
+top5AvgValues <-top_n(customer_data, 5, AvgValue)  
+top5Sales <-top_n(customer_data, 5, Sales)
+top5OrderCount<-top_n(customer_data,5,OrderCount)
+#histogram of average value by CustomerID
+p.Avg<-ggplot(top5AvgValues, aes(x=as.factor(CustomerID),y=AvgValue, fill=CustomerID))+ 
+  geom_bar(stat="identity")+
+  labs(title = "Top 5 Customers by Average Value", x= "CustomerID",y="Total Average Sales")+
+  theme(plot.title = element_text(color = "#0099f9", size = 20))
+  #scale_color_brewer(palette="dark2")
+p.Avg
+#histogram of top sales by CustomerID
+p.Sales<-ggplot(top5Sales, aes(x=as.factor(CustomerID),y=Sales, fill=CustomerID))+ 
+  geom_bar(stat="identity")+
+  labs(title = "Top 5 Customers by Lifetime Sales", x= "CustomerID",y="Lifetime Customer Sales")+
+  theme(plot.title = element_text(color = "#0099f9", size = 20))
+  #scale_color_brewer(palette="dark2")
+p.Sales
+#histogram of top OrderCount by CustomerID
+p.Orders<-ggplot(top5OrderCount, aes(x=as.factor(CustomerID),y=OrderCount, fill=CustomerID))+ 
+  geom_bar(stat="identity")+
+  labs(title = "Top 5 Customers by OrderCount", x= "CustomerID",y="Lifetime Order Totals")+
+  theme(plot.title = element_text(color = "#0099f9", size = 20))
+  #scale_color_brewer(palette="dark2")
+p.Orders
+par(mfrow=c(3,3))
 
+
+```
+
+
+```{r}
+# Temporary notes and additional code for Alesha, will remove Sunday.
 #set up data frame in descending order by total sales per Customer ID selecting top 5 values
 data_new2<- df3%>%arrange(desc(total))%>%group_by(CustomerID)%>%slice(1:5)
+data_new3<- customer_data%>%arrange(desc(AvgValue))%>%group_by(CustomerID)%>%slice(1:5)
 
-#plot histogram of top 5 transactions based on maximum total spent in a transaction
-topSales<- ggplot(data_new2, aes(CustomerID)) + 
+#histogram of top 5 transactions based on total spent in a transaction.
+topSales<- ggplot(data_new2, aes(CustomerID), group=CustomerID) + 
   geom_histogram(bins=5, fill =c("#9900C6","#E7B800","#3399CC","#00CC66","#FF99FF"))+
 labs(title = "Top 5 Customers by Sales", x= "CustomerID",y="Lifetime Sales Total")+
  theme(plot.title = element_text(color = "#0099f9", size = 20))
 topSales
-#attempt 2
-topSales<-ggplot(data=data_new2,aes(x=CustomerID,y=total,fill=total))+
- geom_bar(stat='identity') +
- scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))+
- labs(title = "Top 5 CustomersID's by Sales", x= "CustomerID",y="Lifetime Sales Total")+
- theme(plot.title = element_text(color = "#0099f9", size = 20))
+
+#histogram of top 5 AvgValue by CustomerID
+topSales<-ggplot(data=data_new3,aes(x=CustomerID,y=AvgValue,fill=CustomerID))+
+ geom_bar() +
+ scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))
 topSales
 
+#AvgSales
+avgSalePlot<- ggplot(customer_data, aes(CustomerID))+
+geom_histogram( fill =c("#9900C6","#E7B800","#3399CC","#00CC66","#FF99FF"))+
+theme(plot.title = element_text(color = "#0099f9", size = 20))
+topSales
 #Plot to show who's CustomerID's account for the top 5 greatest Quantity of items in a transaction. Not correct, data_new2 should be selecting top 5 in descending order
-quantPlot<-ggplot(data=data_new2, aes(x=CustomerID, y=Quantity, fill=(CustomerID)))+
-  geom_bar(stat='identity')+
-  ylim(0,1000)
+quantPlot<-ggplot(data=data_new2, aes(x=CustomerID, y=Quantity, fill=(CustomerID), group=CustomerID))+
+  geom_bar(stat='identity')
 quantPlot
-#attempt 2
-quantPlot<-df3 %>% slice_max(n, n = 5, with_ties = FALSE) %>%
-  ggplot(aes(Quantity, n)) + 
-  scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))+ 
-  labs(title = "Top Quantity", y="Count")
-quantPlot
+#histogram of orderCount top 5
+topOrderCount<-customer_data %>% slice_max(CustomerID, n = 5, with_ties = FALSE) %>%
+  ggplot(aes(OrderCount, n)) + 
+  scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))
+topOrderCount
 
-par(mfrow=c(2,2))
+#histogram of Sales
+topSales<-
+  ggplot(top5AvgSales, 
+  aes(x=Sales, group=CustomerID, fill=CustomerID))+
+  geom_histogram()+
+  labs(title = "Top 5 Sales", x= "Sales",y="Count")
+top5AvgSales
+
+top5Sales<-
+  ggplot(data_new3, 
+  aes(x=CustomerID, group=CustomerID, fill=CustomerID))+
+  geom_histogram(bins=5)+
+  labs(title = "Top 5 CustomersID's by Average Sales", x= "CustomerID",y="Average Sales")
+top5AvgSales
+
+ggplot(df, aes(x = values, y = freq)) +
+       geom_bar(stat="identity")
 ```
 
 Columns: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, Country, total

@@ -87,21 +87,21 @@ head(customer_data,10)
 #Modeling:
 ```{r}
 df_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, ties.method = "first"), AvgSale=rank(AvgSale))
-df3_norm <- df3_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSale=scale(AvgSale))
+df_norm <- df_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSale=scale(AvgSale))
 
-summary(df3_norm)
-sapply(df3_norm, sd)
+summary(df_norm)
+sapply(df_norm, sd)
 ```
 
 Now we can set the seed (in order to make the results reproducible) and run our first model:
 
 ```{r}
 set.seed(100)
-model1 <- kmeans(df3_norm[c("Sales", "Orders", "AvgSale")],4)
+model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
 
 model1
 
-df3_norm$Cluster <- model1$cluster
+df_norm$Cluster <- model1$cluster
 ```
 
 Plot and view cluster results:
@@ -109,7 +109,7 @@ Plot and view cluster results:
 ```{r}
 #Plotting Clustering Results
 options(repr.plot.width = 20, repr.plot.height = 15)
-ggplot(df3_norm, aes(x=AvgSale, y=Orders, color=Cluster)) + 
+ggplot(df_norm, aes(x=AvgSale, y=Orders, color=Cluster)) + 
   geom_point() + 
   theme(legend.position = "right", legend.text=element_text(size=15), axis.title = element_text(size = 10))
 ```

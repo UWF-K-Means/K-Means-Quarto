@@ -7,8 +7,7 @@ format:
 ---
 #Modeling:
 Now we can set the seed (in order to make the results reproducible) and run our first model:
-
-```{r}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 set.seed(100)
 model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
 
@@ -18,7 +17,6 @@ df_norm$Cluster <- model1$cluster
 ```
 
 Plot and view cluster results:
-
 ```{r}
 #Plotting Clustering Results
 options(repr.plot.width = 20, repr.plot.height = 15)

@@ -93,6 +93,7 @@ head(customer_data,10)
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 df_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, ties.method = "first"), AvgSale=rank(AvgSale))
+
 df_norm <- df_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSale=scale(AvgSale))
 
 summary(df_norm)

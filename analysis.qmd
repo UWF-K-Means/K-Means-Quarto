@@ -188,13 +188,36 @@ fviz_cluster(model1, data = df_norm,
              ggtheme = theme_bw()
 )
 ```
-Since the model utilizes more than $2$ variables, the axis of the graph are based on principle components instead of each variable. 
+Since the model utilizes more than $2$ variables, the axis of the graph, above, are based on principle components instead of the individual model variables.  
 
-```{r}
-df_norm$Cluster2 <- as.factor(model1$cluster)
+The graph below shows the customers in relation to all three model variables.
 
-plot_ly(df_norm, x=~Orders, y=~Sales, z=~AvgSale, color=~Cluster2) %>% 
-  add_markers(size=2)
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+customer_data$Cluster2 <- as.factor(model1$cluster)
+
+axx <- list(
+  nticks = 5,
+  range = c(0,50)
+)
+
+axy <- list(
+  nticks = 5,
+  range = c(0,40000)
+)
+
+axz <- list(
+  nticks = 4,
+  range = c(0,4000)
+)
+```
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+#| label: model-charts
+#| fig-cap: "Interactive graph (left click to rotate / right click to move)"
+plot_ly(customer_data, x=~Orders, y=~Sales, z=~AvgSale,
+        color=~Cluster2,
+        colors=c("red","green","blue","violet")) %>% 
+  add_markers(size=2) %>% 
+  layout(scene = list(xaxis=axx,yaxis=axy,zaxis=axz))
 ```
 * **Cluster Explanation**
     + **Cluster 1** - Customers in this cluster have lower total sales, low number of orders, and relatively average per-order sales. These customers could potentially be newer customers and would benefit from some targeted marketing in order to drive engagement and increase total sales.

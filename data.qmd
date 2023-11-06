@@ -131,13 +131,14 @@ fviz_cluster(model1, data = df3_norm,
 )
 ```
 
-Aleshas code: -Guys sorry it might be a mess I will be using this space for draft work while figuring this out, and at the end ill cut out what is not needed.
+Aleshas code:
 
 ```{r}
 library(readr)
 library(tidyverse)
 library(ggplot2)
-library(RColorBrewer)
+#install.packages("patchwork")
+library(patchwork)
 theme_set(theme_minimal())
 
 data <- read_csv("~/STA6257Kmeans/data.csv")
@@ -145,100 +146,67 @@ data <- read_csv("~/STA6257Kmeans/data.csv")
 clean_data_uk<- na.omit(data)
 #removing UK
 clean_data <- clean_data_uk[clean_data_uk$Country != "United Kingdom",]
+#pull in Country into df for Country plot
+countryCount <- df2 %>% dplyr::select(Quantity,UnitPrice,CustomerID,InvoiceDate,total,Country)
+customer_data.Country<- countryCount %>% group_by(Country) %>% summarize(Sales=sum(total))
 
-#Top Countries based on InvoiceNo (count of occurrences per country)
-topCountries<-clean_data_trim %>%
-  count(Country) %>%slice_max(n, n = 5, with_ties = FALSE) %>% 
-  ggplot(aes(Country, n)) + 
-  geom_col(fill = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))+ 
-labs(title = "Top Countries", y="Total Lifetime Transactions")
-topCountries
+#Lets create a new df's with top 5 and bottom 5 customer IDs for Country, Sales, OrderCount, and AvgValue, they may not be all be the same
 
-#Lets create a new df with only top 5 customer IDs for Sales, OrderCount, and AvgValue, they may not be all be the same
-top5AvgValues <-top_n(customer_data, 5, AvgValue)  
+top5AvgValues <-top_n(customer_data, 5, AvgValue)
 top5Sales <-top_n(customer_data, 5, Sales)
 top5OrderCount<-top_n(customer_data,5,OrderCount)
+bottom5AvgValues <-top_n(customer_data, -5, AvgValue)
+bottom5Sales <-top_n(customer_data, -5, Sales)
+#Top 5 Countries based on Lifetime Sales
+top5Country <-top_n(customer_data.Country, 5,Sales)
+
+options(scipen = 999) #removes scientific notation
+top5Countries<-ggplot(top5Country, aes(x=reorder(Country,-Sales), y=Sales)) + 
+  geom_bar(stat='identity', fill = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))+
+  labs(title = "Top 5 Countries by Sales", y="Total Sales", x="Country")
+top5Countries
+
 #histogram of average value by CustomerID
-p.Avg<-ggplot(top5AvgValues, aes(x=as.factor(CustomerID),y=AvgValue, fill=CustomerID))+ 
-  geom_bar(stat="identity")+
-  labs(title = "Top 5 Customers by Average Value", x= "CustomerID",y="Total Average Sales")+
+top5.Avg<-ggplot(top5AvgValues, aes(x=reorder(CustomerID,-AvgValue),y=AvgValue, fill=CustomerID))+ 
+  geom_bar(stat="identity", fill =c("#9900C6","#E7B800","#3399CC","#00CC66","#FF99FF"))+
+  labs(title = "Top 5 Customers by Average Value", y="Lifetime Average", x="CustomerID")+
   theme(plot.title = element_text(color = "#0099f9", size = 20))
-  #scale_color_brewer(palette="dark2")
-p.Avg
-#histogram of top sales by CustomerID
-p.Sales<-ggplot(top5Sales, aes(x=as.factor(CustomerID),y=Sales, fill=CustomerID))+ 
-  geom_bar(stat="identity")+
+
+bottom5.Avg<-ggplot(bottom5AvgValues, aes(x=reorder(CustomerID,-AvgValue),y=AvgValue, fill=CustomerID))+ 
+  geom_bar(stat="identity",fill =c("#9900C6","#E7B800","#3399CC","#00CC66","#FF99FF"))+
+  labs(title = "Bottom 5 Customers by Average Value", x= "CustomerID",y="Average Total Value Spent")+
+  theme(plot.title = element_text(color = "#0099f9", size = 20))
+
+#display both plots
+top5.Avg + bottom5.Avg
+
+#histograms of Sales by CustomerID
+top5.Sales<-ggplot(top5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=CustomerID))+ 
+  geom_bar(stat="identity",fill =c("#9900C6","#E7B800","#3399CC","#00CC66","#FF99FF"))+
   labs(title = "Top 5 Customers by Lifetime Sales", x= "CustomerID",y="Lifetime Customer Sales")+
   theme(plot.title = element_text(color = "#0099f9", size = 20))
-  #scale_color_brewer(palette="dark2")
-p.Sales
+
+bottom5.Sales<-ggplot(bottom5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=CustomerID))+
+  geom_bar(stat="identity",fill =c("#9900C6","#E7B800","#3399CC","#00CC66","#FF99FF"))+
+  labs(title = "Bottom 5 Customers by Lifetime Sales",x= "CustomerID",y="Total Sales")+
+  theme(plot.title = element_text(color = "#0099f9", size = 20))
+
+#display both plots 
+top5.Sales + bottom5.Sales
+
 #histogram of top OrderCount by CustomerID
-p.Orders<-ggplot(top5OrderCount, aes(x=as.factor(CustomerID),y=OrderCount, fill=CustomerID))+ 
+top5.Orders<-ggplot(top5OrderCount, aes(x=reorder(CustomerID,-OrderCount),y=OrderCount, fill=CustomerID))+ 
   geom_bar(stat="identity")+
   labs(title = "Top 5 Customers by OrderCount", x= "CustomerID",y="Lifetime Order Totals")+
   theme(plot.title = element_text(color = "#0099f9", size = 20))
-  #scale_color_brewer(palette="dark2")
-p.Orders
-par(mfrow=c(3,3))
+top5.Orders
 
-
-```
-
-```{r}
-# Temporary notes and additional code for Alesha, will remove Sunday.
-#set up data frame in descending order by total sales per Customer ID selecting top 5 values
-data_new2<- df3%>%arrange(desc(total))%>%group_by(CustomerID)%>%slice(1:5)
-data_new3<- customer_data%>%arrange(desc(AvgValue))%>%group_by(CustomerID)%>%slice(1:5)
-
-#histogram of top 5 transactions based on total spent in a transaction.
-topSales<- ggplot(data_new2, aes(CustomerID), group=CustomerID) + 
-  geom_histogram(bins=5, fill =c("#9900C6","#E7B800","#3399CC","#00CC66","#FF99FF"))+
-labs(title = "Top 5 Customers by Sales", x= "CustomerID",y="Lifetime Sales Total")+
- theme(plot.title = element_text(color = "#0099f9", size = 20))
-topSales
-
-#histogram of top 5 AvgValue by CustomerID
-topSales<-ggplot(data=data_new3,aes(x=CustomerID,y=AvgValue,fill=CustomerID))+
- geom_bar() +
- scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))
-topSales
-
-#AvgSales
-avgSalePlot<- ggplot(customer_data, aes(CustomerID))+
-geom_histogram( fill =c("#9900C6","#E7B800","#3399CC","#00CC66","#FF99FF"))+
-theme(plot.title = element_text(color = "#0099f9", size = 20))
-topSales
-#Plot to show who's CustomerID's account for the top 5 greatest Quantity of items in a transaction. Not correct, data_new2 should be selecting top 5 in descending order
-quantPlot<-ggplot(data=data_new2, aes(x=CustomerID, y=Quantity, fill=(CustomerID), group=CustomerID))+
-  geom_bar(stat='identity')
-quantPlot
-#histogram of orderCount top 5
-topOrderCount<-customer_data %>% slice_max(CustomerID, n = 5, with_ties = FALSE) %>%
-  ggplot(aes(OrderCount, n)) + 
-  scale_fill_manual(values = c("#9900C6", "#E7B800","#3399CC","#00CC66","#FF99FF"))
-topOrderCount
-
-#histogram of Sales
-topSales<-
-  ggplot(top5AvgSales, 
-  aes(x=Sales, group=CustomerID, fill=CustomerID))+
-  geom_histogram()+
-  labs(title = "Top 5 Sales", x= "Sales",y="Count")
-top5AvgSales
-
-top5Sales<-
-  ggplot(data_new3, 
-  aes(x=CustomerID, group=CustomerID, fill=CustomerID))+
-  geom_histogram(bins=5)+
-  labs(title = "Top 5 CustomersID's by Average Sales", x= "CustomerID",y="Average Sales")
-top5AvgSales
-
-ggplot(df, aes(x = values, y = freq)) +
-       geom_bar(stat="identity")
 ```
 
 Columns: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, Country, total
 
-Goals of clustering: unsupervised clustering is more concerned with classification than deep insights. Yet shines a light on features of the data that can be further discovered with deeper analytics. Explorium 2023
+The top 5 greatest sales for a customers are between \$100,000-\$200,000 while the least in sales range from \$50-\$100.
 
-The goal of our analysis is to use unsupervised learning reveal patterns and relationships within this ecommerce data. This will create a deeper understanding for the entire customer-ecommerce interaction and improve customer access and experiences. While K-Means clustering creates organization where there are large amounts of unlabeled data, this analysis is just a stepping stone for clarity and deeper investigations.
+The top 5 greatest average value based on purchases and quantity of items is between \$4,000 and \$6,000 and the lowest 5 customers range from an average value of \$50-\$80.
+
+Unsupervised clustering is more concerned with classification than deep insights. Yet shines a light on features of the data that can be further discovered with deeper analytics. We can see the relationship between sales and order totals based on customerID, however the goal of our analysis with k means clustering is to use unsupervised learning reveal patterns and relationships within this ecommerce data past what we can see in these plots. This will create a deeper understanding for the entire customer-ecommerce interaction and improve customer access and experiences. While K-Means clustering creates organization where there are large amounts of unlabeled data, this analysis is just a stepping stone for clarity and deeper investigations. 

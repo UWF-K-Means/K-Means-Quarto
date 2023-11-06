@@ -22,6 +22,25 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -32,7 +51,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./intro.html" rel="next">
+<link href="./Methods.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -96,29 +115,64 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Cover</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">The Method</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./Methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods</span></a>
+  <a href="./Methods2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Euclidean Distance &amp; Finding K</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis</span></a>
+  <a href="./Methods3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Step-By-Step</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">E-commerce Analysis</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data, Preprocessing, &amp; Modeling</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -156,8 +210,26 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>Platforms for e-commerce gather gigabytes, terabytes, and even petabytes, of information about consumer interactions, product preferences, and transactional histories. There is a heightened demand for more robust analytical processes as we see data growing at an unprecedented rate. The use of unsupervised machine learning and efficient clustering algorithms is crucial to the marketing and e-commerce industry when it comes to delivering meaningful and accurate communications to consumers. If properly tapped into, this abundance of data has the potential to fundamentally alter how internet businesses personalize and enhance their services and growth strategies. In this setting, K-Means clustering, a cornerstone of data science, emerges as a guiding light, promising to uncover the hidden structures in e-commerce information and offer a deeper comprehension of consumer behavior. The volume of data will continue to grow as more people have access to an ever expanding internet for social media, online shopping, and even remote working opportunities, and so will the need for efficient and effective consumer marketing methods continue to grow.</p>
+<p>“Clustering has proven efficient in discovering subtle but tactical patterns or relationships buried within a repository of unlabeled data sets” <span class="citation" data-cites="Huda2017">(<a href="references.html#ref-Huda2017" role="doc-biblioref">Ali and Kadhum 2017</a>)</span>.The k-means clustering method takes care of the disadvantages seen in most other clustering classifications and has the ability to handle large amounts of data efficiently while considering many different attributes. Clustering techniques are mostly useful in exploratory data analysis and data mining however the k-means clustering is particularly known for its simplicity, and low computational complexity and seen as the most popular algorithm suitable in various applications.</p>
+<p>Unsupervised machine learning methods are powerful statistical modeling techniques that allow for data to be categorized or grouped without the assistance of historical results or human intervention. One of the longer-standing methods of autonomous data categorization comes in the form of the K-Means Clustering algorithm, and is generally selected for its simplicity and speed <span class="citation" data-cites="Zalik2008">(<a href="references.html#ref-Zalik2008" role="doc-biblioref">Žalik 2008</a>)</span>. The K-means method is considered unsupervised machine learning because the outcome is rather data driven , which is preferred as the formulation can be adjusted based on any changing dimensions in data.</p>
+<p>The basic method of the k-means algorithm is to randomly identify a centroid for every cluster as k, and use it as a reference point to assign all data points that retain the greatest similarity to that center, creating a cluster. The Euclidean distance considers the maximum distance between cluster means and each data object; it is used to identify the cluster each object best belongs to. This is a unique application because the centroid is updated every iteration by calculating the new mean with those new cluster members, nearly perfecting the requirement for within cluster similarities. “The k-means clustering method is considered a variance minimization technique. It represents the data as a mixture of distributions (Gaussian, Poisson, etc.), where each distribution represents a sub-population (or cluster) of the data”<span class="citation" data-cites="Morissette2013">(<a href="references.html#ref-Morissette2013" role="doc-biblioref">Morissette 2013</a>)</span>. Our examination provides a thorough comprehension of its mathematical foundations and clustering concepts. We will show how K-Means may be used to classify consumer bases into discrete clusters based on shared characteristics in e-commerce data sets. Additionally, we will discuss what can be considered drawbacks of the k-means clustering method such as needing to predetermine the cluster number prior to analysis.</p>
+<p>K-Means Clustering helps organizations better target their marketing efforts and increase return on investment by defining client segments in the context of marketing. For space-efficient picture compression, image processing uses K-Means, which is important for web graphics and mobile applications. K-Means excels in anomaly detection in fraud detection, protecting financial systems and networks. Additionally, it is used by recommendation engines to customize the distribution of content, increasing user happiness and engagement. K-Means promotes patient profiling in the healthcare industry, advancing individualized treatments and medication development. Natural language processing uses its strength to group text data, improving content categorization and information retrieval. K-Means is a tool for geographic data analysis that provides regional understanding for urban planning and environmental studies.</p>
+<p>This paper will explore how K-Means clustering is used in real-world e-commerce scenarios. This paper also highlights the practical advantages that e-commerce enterprises can gain from applying K-Means clustering techniques using real-world data.</p>
+<p>This study examines K-Means clustering’s promise as well as the complexities and limitations of doing so on e-commerce data sets. Managing large and noisy data sets, guaranteeing robustness against outliers, and determining an appropriate value for the “K” parameter are a few of these difficulties that may need to be overcome. Our investigation will include methods for resolving these issues and enhancing the robustness and dependability of K-Means clustering as a tool for e-commerce analytics.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-Huda2017" class="csl-entry" role="doc-biblioentry">
+Ali, Huda H., and Lubna Emad Kadhum. 2017. <span>“K- Means Clustering Algorithm Applications in Data Mining and Pattern Recognition.”</span> In. <a href="https://api.semanticscholar.org/CorpusID:36213323">https://api.semanticscholar.org/CorpusID:36213323</a>.
+</div>
+<div id="ref-Morissette2013" class="csl-entry" role="doc-biblioentry">
+Morissette, Sylvain, Laurence AND Chartier. 2013. <span>“The k-Means Clustering Technique: General Considerations and Implementation in Mathematica.”</span> <em>Tutorials in Quantitative Methods for Psychology</em> 9 (1): 15–24. <a href="https://doi.org/10.20982/tqmp.09.1.p015">https://doi.org/10.20982/tqmp.09.1.p015</a>.
+</div>
+<div id="ref-Zalik2008" class="csl-entry" role="doc-biblioentry">
+Žalik, Krista Rizman. 2008. <span>“An Efficient k′-Means Clustering Algorithm.”</span> <em>Pattern Recognition Letters</em> 29 (9): 1385–91. https://doi.org/<a href="https://doi.org/10.1016/j.patrec.2008.02.014">https://doi.org/10.1016/j.patrec.2008.02.014</a>.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -297,8 +369,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Methods.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

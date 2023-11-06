@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>K-Means Clustering And Its Place in Ecommerce - 2&nbsp; Overview</title>
+<title>K-Means Clustering And Its Place in Ecommerce - 3&nbsp; Euclidean Distance &amp; Finding K</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,25 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
 </style>
 
 
@@ -49,8 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Methods2.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./Methods3.html" rel="next">
+<link href="./Methods.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -90,7 +71,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Euclidean Distance &amp; Finding K</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -128,12 +109,12 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Methods.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview</span></a>
+  <a href="./Methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Methods2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Euclidean Distance &amp; Finding K</span></a>
+  <a href="./Methods2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Euclidean Distance &amp; Finding K</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -185,7 +166,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Euclidean Distance &amp; Finding K</span></h1>
 </div>
 
 
@@ -200,16 +181,22 @@ div.csl-indent {
 
 </header>
 
-<p>The K-Means method, as described by Steinley, is designed to partition data that is <span class="math inline">\(N\)</span> objects having measurements on <span class="math inline">\(P\)</span> variables, into <span class="math inline">\(K\)</span> classes (<span class="math inline">\(C_1\)</span>,<span class="math inline">\(C_2\)</span>,<span class="math inline">\(C_3\)</span>,…,<span class="math inline">\(C_k\)</span>), where <span class="math inline">\(C_k\)</span> is the set of <span class="math inline">\(n_k\)</span> objects in cluster <span class="math inline">\(k\)</span>, where <span class="math inline">\(K\)</span> is given <span class="citation" data-cites="Steinley2006">(<a href="references.html#ref-Steinley2006" role="doc-biblioref">Steinley 2006</a>)</span>. The method computes seed points, which are randomly assigned reference points called centroids. Taking note that a centroid is not considered a physically observed data point, but rather a location in the center of a three dimensional space that is used as a reference point for a cluster. The distance between the centroids and the surrounding data points is then calculated using a distance formula. Data points are measured and assigned to the closest centroid. Then the mean is derived for each newly created cluster which becomes the new centroid of each cluster. The process is then repeated until there are no changes in the distance and mean of data points to the assigned cluster centroids. While there are different distance calculations to choose from, like the Manhattan Distance or Chebyshev Distance, the most commonly used is the Euclidean Distance.</p>
-<p>The k-means algorithm relies on Euclidean distance as a measure of similarity between data objects. Euclidean distance is a powerful tool for measuring similarity in various applications, including image processing, pattern recognition, and clustering, such as in the k-means algorithm, where it helps partition data into well-defined clusters based on their spatial relationships in the feature space. Euclidean distance can be employed as a key metric to measure the dissimilarity between data points, facilitating the grouping of similar data instances into clusters using the k-means clustering algorithm. This allows us to uncover patterns and relationships within the defined set of data, which is critical for achieving the research objectives.</p>
-<p>In this context, similarity is inversely related to the Euclidean distance; in other words, the smaller the distance, the greater the similarity between objects. To initiate the algorithm, you must specify the initial number of clusters <span class="math inline">\((K)\)</span> and their initial centers. The algorithm then iteratively adjusts these cluster centers based on the similarity between data objects and cluster centers. Clustering continues until the objective function converges, signaling the end of the process and yielding the final result.</p>
+<p>The formula for calculating the Euclidean distance between a data object and a cluster center can be expressed as follows:<br>
+<span class="math display">\[
+d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)
+\]</span><br>
+Objective Function: The K-means clustering objective is to minimize the within-cluster variance. It is formulated as:<br>
+<span class="math display">\[
+d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2)
+\]</span></p>
+<p>Where:<br>
+<span class="math inline">\(k\)</span> is the number of clusters.</p>
+<p><span class="math inline">\(C_i\)</span> represents the number of points in the cluster <span class="math inline">\(i\)</span></p>
+<p><span class="math inline">\(\mu_i\)</span> represents the centroid mean of cluster <span class="math inline">\(i\)</span></p>
+<p>The objective function is the sum of squared Euclidean distances from each point in a cluster to its centroid. The goal is to find cluster assignments and centroids that minimize this objective.</p>
+<p>To determine k, the number of clusters to initially set, we can use the empirical method or the elbow method. The empirical method assigns the number of clusters <span class="math inline">\(\approx \frac{n^{\frac{1}{2}}}{2}\)</span> for a data set of <span class="math inline">\(n\)</span> observations. The elbow method is based on the idea that increasing the number of clusters, <span class="math inline">\(k\)</span>, will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters <span class="math inline">\(K\)</span>, the inflection point is determined using the turning point in the curve.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
-<div id="ref-Steinley2006" class="csl-entry" role="doc-biblioentry">
-Steinley, Douglas. 2006. <span>“K-Means Clustering: A Half-Century Synthesis.”</span> <em>British Journal of Mathematical &amp; Statistical Psychology</em> 59 (May): 1–34. <a href="https://login.ezproxy.lib.uwf.edu/login?url=https://www.proquest.com/scholarly-journals/k-means-clustering-half-century-synthesis/docview/216465055/se-2">https://login.ezproxy.lib.uwf.edu/login?url=https://www.proquest.com/scholarly-journals/k-means-clustering-half-century-synthesis/docview/216465055/se-2</a>.
-</div>
-</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -347,13 +334,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="./Methods.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Methods2.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Euclidean Distance &amp; Finding K</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Methods3.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Step-By-Step</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

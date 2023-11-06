@@ -1,23 +1,23 @@
 ---
-title: "The Euclidean Distance & Finding K"
+title: "Euclidean Distance & Finding K"
 output: html_document
 ---
 
-The formula for calculating the Euclidean distance between a data object and a cluster center can be expressed as follows:  
+The formula for calculating the Euclidean distance between a data object and a cluster center can be expressed as follows:\
 $$
 d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)
 $$\
-Objective Function: The K-means clustering objective is to minimize the within-cluster variance. It is formulated as:  
+Objective Function: The K-means clustering objective is to minimize the within-cluster variance. It is formulated as:\
 $$
 d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2)
-$$  
+$$
 
-Where:  
-$k$ is the number of clusters.  
+Where:\
+$k$ is the number of clusters.
 
-$C_i$ represents the number of points in the cluster $i$  
+$C_i$ represents the number of points in the cluster $i$
 
-$\mu_i$ represents the centroid mean of cluster $i$  
+$\mu_i$ represents the centroid mean of cluster $i$
 
 The objective function is the sum of squared Euclidean distances from each point in a cluster to its centroid. The goal is to find cluster assignments and centroids that minimize this objective.
 

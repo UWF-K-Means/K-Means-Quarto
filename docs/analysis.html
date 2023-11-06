@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>K-Means Clustering And Its Place in Ecommerce - 4&nbsp; Analysis</title>
+<title>K-Means Clustering And Its Place in Ecommerce - 5&nbsp; Data, Preprocessing, &amp; Modeling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -83,6 +83,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -94,7 +113,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
-<link href="./Methods.html" rel="prev">
+<link href="./Methods3.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -124,6 +143,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.3/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -133,7 +164,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data, Preprocessing, &amp; Modeling</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -158,29 +189,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Cover</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">The Method</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./Methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods</span></a>
+  <a href="./Methods2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Euclidean Distance &amp; Finding K</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./analysis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis</span></a>
+  <a href="./Methods3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Step-By-Step</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">E-commerce Analysis</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data, Preprocessing, &amp; Modeling</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -193,7 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data, Preprocessing, &amp; Modeling</span></h1>
 </div>
 
 
@@ -209,43 +275,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rlang)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fastDummies)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(equatiomatic)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gmodels)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjmisc)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjlabelled)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>First we read data from a local CSV file:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 541909 Columns: 8
--- Column specification --------------------------------------------------------
-Delimiter: ","
-chr (5): InvoiceNo, StockCode, Description, InvoiceDate, Country
-dbl (3): Quantity, UnitPrice, CustomerID
 
-i Use `spec()` to retrieve the full column specification for this data.
-i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-</div>
-<p>Remove any disruptive null values from the the base data and view summary statistics of each available field:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>clean_data_uk <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(clean_data_uk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<p>To begin, an appropriate data source is identified. The data used in this analysis comes from UC Irvine’s Machine Learning Repository, titled “Online Retail” <span class="citation" data-cites="data">(<a href="references.html#ref-data" role="doc-biblioref"><span>“<span>Online Retail</span>”</span> 2015</a>)</span>. In order to maintain a healthy set of usable data, disruptive null values from the the base data are removed and a subsequent view of data descriptions are explored.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_nulls_removed <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_nulls_removed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  InvoiceNo          StockCode         Description           Quantity        
  Length:406829      Length:406829      Length:406829      Min.   :-80995.00  
@@ -263,176 +304,201 @@ i Specify the column types or set `show_col_types = FALSE` to quiet this message
                     Max.   :38970.00   Max.   :18287                     </code></pre>
 </div>
 </div>
-<p>View data frequencies and summaries:</p>
+<p>The descriptions show that the data, excluding observations with null values, consists of <span class="math inline">\(406,829\)</span> total observations. This specific data set originates from an online retailer located in the United Kingdom, but provides retail service to many different countries and regions. From the summary of the chosen data set, <span class="math inline">\(8\)</span> variables are identified: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, and Country.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot countries</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clean_data_uk, <span class="fu">aes</span>(<span class="at">x=</span>Country)) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>, <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_nulls_removed,<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["InvoiceNo"],"name":[1],"type":["chr"],"align":["left"]},{"label":["StockCode"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Description"],"name":[3],"type":["chr"],"align":["left"]},{"label":["Quantity"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["InvoiceDate"],"name":[5],"type":["chr"],"align":["left"]},{"label":["UnitPrice"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["CustomerID"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Country"],"name":[8],"type":["chr"],"align":["left"]}],"data":[{"1":"536365","2":"85123A","3":"WHITE HANGING HEART T-LIGHT HOLDER","4":"6","5":"12/1/2010 8:26","6":"2.55","7":"17850","8":"United Kingdom"},{"1":"536365","2":"71053","3":"WHITE METAL LANTERN","4":"6","5":"12/1/2010 8:26","6":"3.39","7":"17850","8":"United Kingdom"},{"1":"536365","2":"84406B","3":"CREAM CUPID HEARTS COAT HANGER","4":"8","5":"12/1/2010 8:26","6":"2.75","7":"17850","8":"United Kingdom"},{"1":"536365","2":"84029G","3":"KNITTED UNION FLAG HOT WATER BOTTLE","4":"6","5":"12/1/2010 8:26","6":"3.39","7":"17850","8":"United Kingdom"},{"1":"536365","2":"84029E","3":"RED WOOLLY HOTTIE WHITE HEART.","4":"6","5":"12/1/2010 8:26","6":"3.39","7":"17850","8":"United Kingdom"},{"1":"536365","2":"22752","3":"SET 7 BABUSHKA NESTING BOXES","4":"2","5":"12/1/2010 8:26","6":"7.65","7":"17850","8":"United Kingdom"},{"1":"536365","2":"21730","3":"GLASS STAR FROSTED T-LIGHT HOLDER","4":"6","5":"12/1/2010 8:26","6":"4.25","7":"17850","8":"United Kingdom"},{"1":"536366","2":"22633","3":"HAND WARMER UNION JACK","4":"6","5":"12/1/2010 8:28","6":"1.85","7":"17850","8":"United Kingdom"},{"1":"536366","2":"22632","3":"HAND WARMER RED POLKA DOT","4":"6","5":"12/1/2010 8:28","6":"1.85","7":"17850","8":"United Kingdom"},{"1":"536367","2":"84879","3":"ASSORTED COLOUR BIRD ORNAMENT","4":"32","5":"12/1/2010 8:34","6":"1.69","7":"13047","8":"United Kingdom"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
 </div>
-<p>We can see that an overwhelming amount of data comes from the UK which could skew the data during further analysis. In order to avoid this issue, we will create a separate data set that excludes the UK altogether, then we can compare results and see what differences there may be.</p>
-<p>Now we remove the UK records and view the frequencies again:</p>
+</div>
+<p>The frequency of purchases by Country may help provide some context about the regional distribution of customers, as well as the possible variety of customers:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#removing UK</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>clean_data <span class="ot">&lt;-</span> clean_data_uk[clean_data_uk<span class="sc">$</span>Country <span class="sc">!=</span> <span class="st">"United Kingdom"</span>,]</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(clean_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  InvoiceNo          StockCode         Description           Quantity      
- Length:44951       Length:44951       Length:44951       Min.   :-624.00  
- Class :character   Class :character   Class :character   1st Qu.:   4.00  
- Mode  :character   Mode  :character   Mode  :character   Median :  10.00  
-                                                          Mean   :  19.99  
-                                                          3rd Qu.:  16.00  
-                                                          Max.   :2400.00  
- InvoiceDate          UnitPrice          CustomerID      Country         
- Length:44951       Min.   :   0.000   Min.   :12347   Length:44951      
- Class :character   1st Qu.:   1.250   1st Qu.:12484   Class :character  
- Mode  :character   Median :   1.950   Median :12658   Mode  :character  
-                    Mean   :   5.107   Mean   :13193                     
-                    3rd Qu.:   3.750   3rd Qu.:14156                     
-                    Max.   :4161.060   Max.   :17844                     </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot countries</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clean_data, <span class="fu">aes</span>(<span class="at">x=</span>Country)) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>, <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>topCountries_all <span class="ot">&lt;-</span> data_nulls_removed <span class="sc">%&gt;%</span> <span class="fu">count</span>(Country) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> topCountries_all, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Country, <span class="at">y=</span>n, <span class="at">fill=</span>Country)) <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top 10 Countries"</span>, <span class="at">y=</span><span class="st">"Total Lifetime Transactions"</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>, <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>With the geographic distributions looking a little better, we move to create some calculated fields and re-check data:</p>
+<p>It quickly becomes apparent that an overwhelming amount of data comes from the UK, as expected, which could skew the results during any analysis. In order to avoid this, a subset of data is generated which excludes data associated with the UK.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create total sales column</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>clean_data <span class="ot">&lt;-</span> clean_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">total =</span> clean_data<span class="sc">$</span>Quantity<span class="sc">*</span>clean_data<span class="sc">$</span>UnitPrice)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Create sales category breaks using quantiles</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>xs<span class="ot">=</span><span class="fu">quantile</span>(clean_data<span class="sc">$</span>total,<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>,<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,<span class="dv">1</span>))</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Label category breaks &amp; Plot</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> clean_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">category=</span><span class="fu">cut</span>(total, <span class="at">breaks=</span>xs, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"low"</span>,<span class="st">"middle"</span>,<span class="st">"high"</span>),<span class="at">include.lowest =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(df1<span class="sc">$</span>total<span class="sc">~</span>df1<span class="sc">$</span>category)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data_no_uk <span class="ot">&lt;-</span> data_nulls_removed[data_nulls_removed<span class="sc">$</span>Country <span class="sc">!=</span> <span class="st">"United Kingdom"</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Extra cleaning/checking</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(df1)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  InvoiceNo          StockCode         Description           Quantity      
- Length:44951       Length:44951       Length:44951       Min.   :-624.00  
- Class :character   Class :character   Class :character   1st Qu.:   4.00  
- Mode  :character   Mode  :character   Mode  :character   Median :  10.00  
-                                                          Mean   :  19.99  
-                                                          3rd Qu.:  16.00  
-                                                          Max.   :2400.00  
- InvoiceDate          UnitPrice          CustomerID      Country         
- Length:44951       Min.   :   0.000   Min.   :12347   Length:44951      
- Class :character   1st Qu.:   1.250   1st Qu.:12484   Class :character  
- Mode  :character   Median :   1.950   Median :12658   Mode  :character  
-                    Mean   :   5.107   Mean   :13193                     
-                    3rd Qu.:   3.750   3rd Qu.:14156                     
-                    Max.   :4161.060   Max.   :17844                     
-     total            category    
- Min.   :-8322.12   low   :17339  
- 1st Qu.:   12.60   middle:12892  
- Median :   17.40   high  :14720  
- Mean   :   34.09                 
- 3rd Qu.:   30.00                 
- Max.   : 4992.00                 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(df1<span class="sc">$</span>InvoiceNo))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(df1<span class="sc">$</span>StockCode))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(df1<span class="sc">$</span>Description))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(df1<span class="sc">$</span>Quantity))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(df1<span class="sc">$</span>InvoiceDate))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(df1<span class="sc">$</span>UnitPrice))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(df1<span class="sc">$</span>CustomerID))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(df1<span class="sc">$</span>Country))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(df1<span class="sc">$</span>total))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(df1<span class="sc">$</span>category))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-</div>
-<p>The data is looking better, but there are some improvements that can be made to ensure we avoid as much bias as possible.</p>
+<p>With the UK data removed, the top <span class="math inline">\(10\)</span> frequencies are examined:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating some unique subsets for model testing</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">subset</span>(df1, Quantity <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">boxplot</span>(total<span class="sc">~</span>category, <span class="at">data =</span> df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>topCountries <span class="ot">&lt;-</span> data_no_uk <span class="sc">%&gt;%</span> <span class="fu">count</span>(Country) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> topCountries, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Country, <span class="at">y=</span>n, <span class="at">fill=</span>Country)) <span class="sc">+</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top 10 Countries (excluding UK)"</span>, <span class="at">y=</span><span class="st">"Total Lifetime Transactions"</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>, <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> df2 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Quantity,UnitPrice,CustomerID,InvoiceDate,total)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>customer_data <span class="ot">&lt;-</span> df3 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(CustomerID) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">Sales=</span><span class="fu">sum</span>(total), <span class="at">Orders=</span><span class="fu">length</span>(<span class="fu">unique</span>(InvoiceDate))) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">AvgSale=</span>Sales<span class="sc">/</span>Orders)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(customer_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 x 4
-  CustomerID Sales Orders AvgSale
-       &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt;   &lt;dbl&gt;
-1      12347 4310       7    616.
-2      12348 1797.      4    449.
-3      12349 1758.      1   1758.
-4      12350  334.      1    334.
-5      12352 2506.      8    313.
-6      12353   89       1     89 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Ranking and Normalization</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>df3_ranked <span class="ot">&lt;-</span> customer_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Sales=</span><span class="fu">rank</span>(Sales), <span class="at">Orders=</span><span class="fu">rank</span>(Orders, <span class="at">ties.method =</span> <span class="st">"first"</span>), <span class="at">AvgSale=</span><span class="fu">rank</span>(AvgSale))</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>df3_norm <span class="ot">&lt;-</span> df3_ranked <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Sales=</span><span class="fu">scale</span>(Sales), <span class="at">Orders=</span><span class="fu">scale</span>(Orders), <span class="at">AvgSale=</span><span class="fu">scale</span>(AvgSale))</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df3_norm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   CustomerID         Sales.V1            Orders.V1          AvgSale.V1     
- Min.   :12347   Min.   :-1.725844   Min.   :-1.725844   Min.   :-1.725844  
- 1st Qu.:12476   1st Qu.:-0.862922   1st Qu.:-0.862922   1st Qu.:-0.862922  
- Median :12606   Median : 0.000000   Median : 0.000000   Median : 0.000000  
- Mean   :12847   Mean   : 0.000000   Mean   : 0.000000   Mean   : 0.000000  
- 3rd Qu.:12730   3rd Qu.: 0.862922   3rd Qu.: 0.862922   3rd Qu.: 0.862922  
- Max.   :17844   Max.   : 1.725844   Max.   : 1.725844   Max.   : 1.725844  </code></pre>
+<p>Now that the distribution of data does not primarily fall under a single country’s customer base, the analysis can proceed.</p>
+<p>Referring back to the view of the data table, there appears to be more than <span class="math inline">\(1\)</span> observation per InvoiceNo. This means that the data is not grouped by any particular category, product, or location. In order to create a better view of each customer and their spending habits, some simple calculated fields are created and assigned back to the data in use.</p>
+<p>Here the Quantity and UnitPrice columns are multiplied together and assigned to a new variable called “total” in order to obtain the total cost based on the number of items purchased per observation:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_no_uk <span class="ot">&lt;-</span> data_no_uk <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">total =</span> data_no_uk<span class="sc">$</span>Quantity<span class="sc">*</span>data_no_uk<span class="sc">$</span>UnitPrice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(df3_norm, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The data is beginning to look usable and gives a more robust view of the customers, but there are still some improvements that can be made to ensure bias is avoided. Since the interest lies in purchasing-customer clustering, any customers or invoices that include returns or negative values for Quantity can be excluded from the data.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_no_uk <span class="ot">&lt;-</span> data_no_uk <span class="sc">%&gt;%</span> <span class="fu">subset</span>(Quantity <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>For the remainder of the analysis, only the applicable columns of interest are retained and assigned to a new data frame called “df1”:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> data_no_uk <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Quantity,UnitPrice,CustomerID,InvoiceDate,total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Next, a sum total of sales from the previously derived column “total” is created as “Sales”, along with a unique count of InvoiceDate to provide the number of orders made called “Orders”, and the difference of those two variables called “AvgSale”. The data is then grouped by CustomerID to decrease the granularity and provide a more complete view of each customer and their purchasing history and habits. This new set of data will be labeled “customer_data”:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>customer_data <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(CustomerID) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">Sales=</span><span class="fu">sum</span>(total), <span class="at">Orders=</span><span class="fu">length</span>(<span class="fu">unique</span>(InvoiceDate))) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">AvgSale=</span>Sales<span class="sc">/</span>Orders)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["CustomerID"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Sales"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Orders"],"name":[3],"type":["int"],"align":["right"]},{"label":["AvgSale"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"12347","2":"4310.00","3":"7","4":"615.7143"},{"1":"12348","2":"1797.24","3":"4","4":"449.3100"},{"1":"12349","2":"1757.55","3":"1","4":"1757.5500"},{"1":"12350","2":"334.40","3":"1","4":"334.4000"},{"1":"12352","2":"2506.04","3":"8","4":"313.2550"},{"1":"12353","2":"89.00","3":"1","4":"89.0000"},{"1":"12354","2":"1079.40","3":"1","4":"1079.4000"},{"1":"12355","2":"459.40","3":"1","4":"459.4000"},{"1":"12356","2":"2811.43","3":"3","4":"937.1433"},{"1":"12357","2":"6207.67","3":"1","4":"6207.6700"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="cell">
+
+</div>
+<p>Based on the newly compressed data, customers’ behaviors can be visualized and used in a meaningful clustering exercise:</p>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-charts-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="analysis_files/figure-html/fig-charts-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5.1: Top 5 Avg Sales</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-charts-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="analysis_files/figure-html/fig-charts-2.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5.2: Bottom 5 Avg Sales</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-charts-3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="analysis_files/figure-html/fig-charts-3.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5.3: Top 5 Sales</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-charts-4" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="analysis_files/figure-html/fig-charts-4.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5.4: Bottom 5 Sales</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-charts-5" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="analysis_files/figure-html/fig-charts-5.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5.5: Top 5 Order Frequencies</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Having a better view and understanding of the data format and structure, the next step is to normalize the data in order to produce a normal distribution across the different variables. This is done by ranking the Sales, Orders, and Average Sales. Once these values have been ranked, they can be scaled for the final output. This final output is called “df_norm”.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_ranked <span class="ot">&lt;-</span> customer_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Sales=</span><span class="fu">rank</span>(Sales), <span class="at">Orders=</span><span class="fu">rank</span>(Orders, <span class="at">ties.method =</span> <span class="st">"first"</span>), <span class="at">AvgSale=</span><span class="fu">rank</span>(AvgSale))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df_norm <span class="ot">&lt;-</span> df_ranked <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Sales=</span><span class="fu">scale</span>(Sales), <span class="at">Orders=</span><span class="fu">scale</span>(Orders), <span class="at">AvgSale=</span><span class="fu">scale</span>(AvgSale))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The resulting data is verified as normal by checking the standard deviation of each variable. CustomerID will not be normalized since it is an identifier for each record:</p>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>CustomerID      Sales     Orders    AvgSale 
   891.1709     1.0000     1.0000     1.0000 </code></pre>
 </div>
 </div>
-<p>Now we can set the seed (in order to make the results reproducible) and run our first model:</p>
+<p>Now that the data is normalized, a value is determined for <span class="math inline">\(k\)</span> using the Elbow Method:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(df3_norm[<span class="fu">c</span>(<span class="st">"Sales"</span>, <span class="st">"Orders"</span>, <span class="st">"AvgSale"</span>)],<span class="dv">4</span>)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>model1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an empty vector to store WCSS values</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>wcss <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="at">length =</span> <span class="dv">10</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over a range of K values (e.g., from 1 to 10)</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(df_norm[<span class="fu">c</span>(<span class="st">"Sales"</span>, <span class="st">"Orders"</span>, <span class="st">"AvgSale"</span>)], <span class="at">centers =</span> i, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  wcss[i] <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(model<span class="sc">$</span>tot.withinss)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the WCSS values against the number of clusters</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">K=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">WCSS=</span>wcss), <span class="fu">aes</span>(<span class="at">x=</span>K, <span class="at">y=</span>WCSS)) <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Elbow Method to Find Optimal K"</span>, <span class="at">x=</span><span class="st">"Number of Clusters (K)"</span>, <span class="at">y=</span><span class="st">"Within-Cluster-Sum-of-Squares (WCSS)"</span>) <span class="sc">+</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Based on the results of the Elbow Method, above, the total WCSS appears to decrease less and less starting at <span class="math inline">\(4\)</span>. This gives us the ideal starting value for the initial number of clusters in the k-means model.</p>
+<p>To build the model, a seed is set (in order to make the results reproducible) and the model function is initialized:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(df_norm[<span class="fu">c</span>(<span class="st">"Sales"</span>, <span class="st">"Orders"</span>, <span class="st">"AvgSale"</span>)],<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The raw model results are presented here:</p>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>K-means clustering with 4 clusters of sizes 75, 73, 145, 125
 
@@ -466,21 +532,52 @@ Available components:
 [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"
 [6] "betweenss"    "size"         "iter"         "ifault"      </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>df3_norm<span class="sc">$</span>Cluster <span class="ot">&lt;-</span> model1<span class="sc">$</span>cluster</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>While the raw output is useful, the best tool is to visualize the observations based on their resulting clusters.</p>
 <p>Plot and view cluster results:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting Clustering Results</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width =</span> <span class="dv">20</span>, <span class="at">repr.plot.height =</span> <span class="dv">15</span>)</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df3_norm, <span class="fu">aes</span>(<span class="at">x=</span>AvgSale, <span class="at">y=</span>Orders, <span class="at">color=</span>Cluster)) <span class="sc">+</span> </span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>, <span class="at">legend.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">15</span>), <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(model1, <span class="at">data =</span> df_norm,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">geom =</span> <span class="st">"point"</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">ellipse.type =</span> <span class="st">"convex"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">ggtheme =</span> <span class="fu">theme_bw</span>()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Since the model utilizes more than <span class="math inline">\(2\)</span> variables, the axis of the graph are based on principle components instead of each variable.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_norm<span class="sc">$</span>Cluster2 <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(model1<span class="sc">$</span>cluster)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(df_norm, <span class="at">x=</span><span class="sc">~</span>Orders, <span class="at">y=</span><span class="sc">~</span>Sales, <span class="at">z=</span><span class="sc">~</span>AvgSale, <span class="at">color=</span><span class="sc">~</span>Cluster2) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_markers</span>(<span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-eb96ffd5c50336456186" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-eb96ffd5c50336456186">{"x":{"visdat":{"4564296a1388":["function () ","plotlyVisDat"]},"cur_data":"4564296a1388","attrs":{"4564296a1388":{"x":{},"y":{},"z":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d","mode":"markers","size":2,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Orders"},"yaxis":{"title":"Sales"},"zaxis":{"title":"AvgSale"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[1.1795336498618567,0.54217160748036219,-1.7258439719031378,-1.7175665427813001,1.2871402284457454,-1.7092891136594626,-1.7010116845376249,-1.6927342554157874,0.1945195843631834,-1.6844568262939497,-0.5338941783585246,0.55044903660219979,0.20279701348502097,-1.6761793971721122,1.4361339526388219,-0.525616749236687,0.55872646572403739,-0.5173393201148494,-1.6679019680502745,0.56700389484587499,-0.5090618909930118,0.21107444260685856,-1.659624538928437,-1.6513471098065993,-0.5007844618711742,-0.49250703274933666,-1.6430696806847618,-0.48422960362749906,0.57528132396771259,0.84843648498835311,0.8567139141101906,-0.47595217450566146,-0.46767474538382386,1.0636496421561303,-1.6347922515629243,-1.6265148224410866,0.58355875308955019,-0.45939731626198627,1.5354631021008731,-0.45111988714014872,-1.6182373933192491,0.59183618221138778,-1.6099599641974114,-1.6016825350755739,-1.5934051059537362,-1.5851276768318987,-0.44284245801831112,0.8649913432320282,0.8732687723538658,0.21935187172869616,-0.43456502889647353,0.22762930085053376,0.23590672997237133,0.24418415909420893,1.6513471098065993,1.3699145196641214,-1.576850247710061,-1.5685728185882235,0.60011361133322538,0.25246158821604653,1.2954176575675829,-1.5602953894663858,-1.5520179603445483,-1.5437405312227106,0.26073901733788413,1.3781919487859589,0.60839104045506298,-1.5354631021008731,1.5851276768318987,0.88154620147570339,1.1878110789836942,-0.42628759977463593,-0.41801017065279833,-1.5271856729790354,1.6347922515629243],"y":[1.2374756537147198,0.55044903660219979,0.5090618909930118,-1.2043659372273694,0.79877191025732752,-1.6927342554157874,0.053803289291944341,-0.8732687723538658,0.91465591796305379,1.4113016652733092,0.12002272226664507,1.4195790943951467,0.84843648498835311,-1.4609662400043348,1.3616370905422837,-0.68288790255160126,0.26073901733788413,-0.48422960362749906,-1.5189082438571979,1.0470947839124551,0.59183618221138778,0.21935187172869616,-1.1215916460089936,-0.3352358794344224,-0.88154620147570339,0.43456502889647353,1.1795336498618567,-0.20279701348502097,0.8732687723538658,0.56700389484587499,0.57528132396771259,-0.60011361133322538,-1.0305399256687802,0.88982363059754099,-0.69116533167343885,-0.8567139141101906,0.40973274153096073,0.21107444260685856,0.97259792181591698,0.76566219376997713,0.44284245801831112,0.070358147535619517,-1.7010116845376249,-1.3781919487859589,-0.98087535093775446,0.5007844618711742,1.0305399256687802,0.49250703274933666,0.93121077620672899,1.576850247710061,-0.41801017065279833,0.16140986787583303,-0.32695845031258486,-0.65805561518608846,1.7092891136594626,1.071927071277968,-0.45111988714014872,-0.58355875308955019,-0.26901644645972173,-0.28557130470339687,0.58355875308955019,0.5173393201148494,-0.31868102119074726,-0.60839104045506298,-0.24418415909420893,1.5189082438571979,1.1050367877653184,-1.2954176575675829,1.4278565235169844,1.3533596614204462,1.6182373933192491,-0.27729387558155927,1.5023533856135227,-0.77393962289181473,1.336804803176771],"z":[0.65805561518608846,0.15313243875399543,1.5189082438571979,-0.46767474538382386,-0.60011361133322538,-1.6761793971721122,1.2871402284457454,0.20279701348502097,1.0967593586434807,1.7175665427813001,0.58355875308955019,1.47752109824801,1.0470947839124551,-1.2457530828365575,0.40145531240912313,-0.75738476464813953,-0.48422960362749906,-0.55044903660219979,-1.3450822322986085,1.0388173547906177,1.1381465042526688,0.070358147535619517,-0.31040359206890966,0.88982363059754099,-1.0470947839124551,0.99743020918142966,1.6761793971721122,0.0041387145609187957,0.80704933937916512,-0.29384873382523446,-0.27729387558155927,-0.67461047342976366,-1.1878110789836942,0.22762930085053376,0.49250703274933666,0.21935187172869616,-0.15313243875399543,0.70772018991711405,-0.93121077620672899,1.3533596614204462,1.4857985273698475,-0.74910733552630193,-1.6844568262939497,-1.0636496421561303,0.028971001926431567,1.5106308147353604,1.5023533856135227,-0.40973274153096073,0.55872646572403739,1.6513471098065993,-0.39317788328728559,-0.095190434901132298,-0.92293334708489139,-1.254030511958395,1.7258439719031378,-0.10346786402296988,0.75738476464813953,0.61666846957690047,-1.1795336498618567,-0.83188162674467792,-1.0222624965469425,1.5271856729790354,0.93121077620672899,0.57528132396771259,-0.77393962289181473,1.0305399256687802,1.1050367877653184,-0.89810105971937859,0.062080718413781932,1.2291982245928823,1.5602953894663858,-0.12002272226664507,1.6679019680502745,0.3600681667999352,-0.78221705201365233],"type":"scatter3d","mode":"markers","name":"1","marker":{"color":"rgba(102,194,165,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)","size":55},"error_y":{"color":"rgba(102,194,165,1)","width":55},"error_x":{"color":"rgba(102,194,165,1)","width":55},"line":{"color":"rgba(102,194,165,1)","width":55},"frame":null},{"x":[-0.40973274153096073,-1.5189082438571979,-1.5106308147353604,0.88982363059754099,-1.5023533856135227,-1.4940759564916852,-1.4857985273698475,-1.47752109824801,0.61666846957690047,-0.40145531240912313,0.89810105971937859,-0.39317788328728559,-1.4692436691261723,-1.4609662400043348,1.071927071277968,0.26901644645972173,1.1960885081055319,-0.38490045416544799,-0.37662302504361039,-0.36834559592177279,0.62494589869873807,1.3036950866894206,-0.3600681667999352,-0.3517907376780976,1.6844568262939497,1.2043659372273694,0.90637848884121619,1.6430696806847618,-1.4526888108824971,1.5023533856135227,1.0802045003998055,-1.4444113817606596,-1.4361339526388219,0.63322332782057567,1.4444113817606596,1.3119725158112581,1.0884819295216432,0.27729387558155927,-1.4278565235169844,1.4526888108824971,-1.4195790943951467,-0.34351330855626,-0.3352358794344224,1.2126433663492071,-1.4113016652733092,0.28557130470339687,1.5106308147353604,-1.4030242361514715,0.91465591796305379,-0.32695845031258486,-1.3947468070296341,0.29384873382523446,-0.31868102119074726,-1.3864693779077966,-0.31040359206890966,-0.30212616294707206,-1.3781919487859589,-1.3699145196641214,-1.3616370905422837,-0.29384873382523446,0.92293334708489139,0.93121077620672899,-1.3533596614204462,0.93948820532856658,-1.3450822322986085,-0.28557130470339687,1.5189082438571979,1.3202499449330958,0.30212616294707206,0.31040359206890966,1.0967593586434807,0.64150075694241326,-1.336804803176771],"y":[0.93948820532856658,-1.5023533856135227,-1.5106308147353604,1.3450822322986085,-1.6099599641974114,-0.053803289291944341,-0.83188162674467792,-0.91465591796305379,1.2043659372273694,-1.4195790943951467,1.5437405312227106,-0.95604306357224178,-0.40145531240912313,1.0388173547906177,0.77393962289181473,0.98915278005959206,0.74910733552630193,-0.12002272226664507,-0.22762930085053376,0.13657758051032026,0.31040359206890966,0.15313243875399543,-0.34351330855626,-0.3600681667999352,1.6679019680502745,1.4361339526388219,1.154701362496344,1.4940759564916852,-0.37662302504361039,1.4526888108824971,1.6099599641974114,-0.43456502889647353,-0.74082990640446433,0.99743020918142966,1.3864693779077966,0.78221705201365233,1.2954176575675829,0.22762930085053376,-1.1960885081055319,1.3699145196641214,-0.8649913432320282,-1.2871402284457454,-0.94776563445040418,0.1696872969976706,0.028971001926431567,-1.0222624965469425,1.2291982245928823,0.67461047342976366,1.0967593586434807,-0.81532676850100272,-1.7092891136594626,0.24418415909420893,-1.0470947839124551,-1.4940759564916852,-0.078635576657457115,-1.6016825350755739,-0.54217160748036219,-0.028971001926431567,-1.0884819295216432,0.25246158821604653,0.79049448113548992,0.64150075694241326,-1.1878110789836942,0.82360419762284032,-0.59183618221138778,-1.4444113817606596,0.54217160748036219,1.2871402284457454,0.27729387558155927,-1.1795336498618567,0.61666846957690047,0.46767474538382386,-1.6265148224410866],"z":[1.4361339526388219,-1.3119725158112581,-1.3285273740549333,1.2043659372273694,-1.5189082438571979,1.2126433663492071,0.25246158821604653,0.16140986787583303,1.2374756537147198,-1.6265148224410866,1.5437405312227106,-1.1381465042526688,0.84015905586651551,1.6347922515629243,-0.070358147535619517,1.2788627993239079,-0.44284245801831112,0.24418415909420893,-0.045525860170106749,0.59183618221138778,-0.45111988714014872,-1.4278565235169844,-0.26073901733788413,-0.30212616294707206,0.74910733552630193,1.1133142168871559,0.94776563445040418,-0.0869130057792947,0.8649913432320282,0.66633304430792606,1.5934051059537362,0.79877191025732752,0.42628759977463593,1.0057076383032673,0.5173393201148494,-0.61666846957690047,0.91465591796305379,0.078635576657457115,-0.45939731626198627,0.47595217450566146,0.21107444260685856,-1.5271856729790354,-1.1215916460089936,-1.2871402284457454,1.2705853702020702,-1.5106308147353604,-0.1945195843631834,1.576850247710061,0.89810105971937859,-0.97259792181591698,-1.7010116845376249,0.10346786402296988,-1.1960885081055319,-1.3036950866894206,0.30212616294707206,-1.7092891136594626,0.64977818606425086,1.254030511958395,-0.21107444260685856,0.74082990640446433,0.34351330855626,-0.062080718413781932,-0.41801017065279833,0.41801017065279833,0.60839104045506298,-1.6347922515629243,-1.3699145196641214,0.525616749236687,0.11174529314480748,-1.576850247710061,-0.54217160748036219,-0.028971001926431567,-1.5520179603445483],"type":"scatter3d","mode":"markers","name":"2","marker":{"color":"rgba(252,141,98,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)","size":55},"error_y":{"color":"rgba(252,141,98,1)","width":55},"error_x":{"color":"rgba(252,141,98,1)","width":55},"line":{"color":"rgba(252,141,98,1)","width":55},"frame":null},{"x":[-1.3285273740549333,-1.3202499449330958,-0.27729387558155927,0.31868102119074726,-1.3119725158112581,0.64977818606425086,1.6265148224410866,0.32695845031258486,-1.3036950866894206,-0.26901644645972173,-0.26073901733788413,-0.25246158821604653,-1.2954176575675829,-1.2871402284457454,-1.2788627993239079,-0.24418415909420893,1.4609662400043348,-0.23590672997237133,0.94776563445040418,-1.2705853702020702,-0.22762930085053376,0.3352358794344224,-1.2623079410802327,1.2209207954710446,-1.254030511958395,-1.2457530828365575,-1.2374756537147198,1.4692436691261723,1.6927342554157874,-0.21935187172869616,-0.21107444260685856,-1.2291982245928823,-1.2209207954710446,0.95604306357224178,0.34351330855626,-0.20279701348502097,-1.2126433663492071,-1.2043659372273694,-1.1960885081055319,-0.1945195843631834,1.5934051059537362,1.3864693779077966,-0.1862421552413458,-1.1878110789836942,-1.1795336498618567,-1.171256220740019,-0.1779647261195082,-0.1696872969976706,-1.1629787916181815,-0.16140986787583303,0.3517907376780976,1.47752109824801,-0.15313243875399543,0.65805561518608846,1.3285273740549333,1.2291982245928823,1.4857985273698475,0.96432049269407938,-1.154701362496344,-1.1464239333745063,-0.14485500963215783,-1.1381465042526688,0.3600681667999352,0.97259792181591698,-1.1298690751308311,-1.1215916460089936,0.98087535093775446,-1.1133142168871559,0.66633304430792606,-0.13657758051032026,-1.1050367877653184,-1.0967593586434807,1.3947468070296341,0.36834559592177279,1.659624538928437,-1.0884819295216432,-1.0802045003998055,-0.12830015138848266,-0.12002272226664507,1.4030242361514715,1.2374756537147198,0.37662302504361039,-0.11174529314480748,-1.071927071277968,0.67461047342976366,-0.10346786402296988,1.4113016652733092,-1.0636496421561303,-1.0553722130342928,0.38490045416544799,-1.0470947839124551,0.39317788328728559,1.1050367877653184,-1.0388173547906177,0.68288790255160126,-0.095190434901132298,1.5437405312227106,-1.0305399256687802,0.40145531240912313,-1.0222624965469425,-1.013985067425105,-1.0057076383032673,-0.0869130057792947,0.98915278005959206,0.99743020918142966,0.69116533167343885,-0.99743020918142966,-0.98915278005959206,-0.98087535093775446,1.5271856729790354,1.4195790943951467,-0.97259792181591698,-0.96432049269407938,0.69944276079527645,0.40973274153096073,1.0057076383032673,-0.95604306357224178,-0.078635576657457115,0.70772018991711405,1.1133142168871559,1.5520179603445483,0.71599761903895165,0.72427504816078925,1.6679019680502745,1.7010116845376249,1.6016825350755739,1.2457530828365575,1.1215916460089936,-0.94776563445040418,-0.93948820532856658,-0.070358147535619517,-0.93121077620672899,1.1298690751308311,0.73255247728262674,-0.062080718413781932,0.74082990640446433,0.41801017065279833,0.74910733552630193,-0.053803289291944341,-0.92293334708489139,-0.91465591796305379,1.336804803176771,1.4278565235169844,-0.90637848884121619,1.4940759564916852],"y":[-1.171256220740019,0.062080718413781932,-0.38490045416544799,1.6016825350755739,-1.1298690751308311,1.3781919487859589,1.6265148224410866,-0.0869130057792947,-1.1133142168871559,-0.062080718413781932,0.11174529314480748,-1.4113016652733092,-1.659624538928437,-0.095190434901132298,-1.5271856729790354,-0.93121077620672899,1.0802045003998055,-0.55872646572403739,1.5851276768318987,-1.2788627993239079,-0.66633304430792606,0.65805561518608846,-1.3285273740549333,1.1133142168871559,-0.88982363059754099,-1.576850247710061,-1.1629787916181815,1.5520179603445483,1.2126433663492071,-0.74910733552630193,-0.020693572804593979,-1.5437405312227106,-1.3947468070296341,0.26901644645972173,-0.45939731626198627,0.90637848884121619,-0.92293334708489139,-1.013985067425105,-1.4278565235169844,-0.76566219376997713,1.4857985273698475,0.73255247728262674,0.63322332782057567,-1.4361339526388219,-1.5851276768318987,-1.4030242361514715,-0.46767474538382386,1.5685728185882235,-0.90637848884121619,-0.93948820532856658,-1.0057076383032673,1.0057076383032673,-0.5338941783585246,1.1298690751308311,0.98087535093775446,0.0041387145609187957,0.80704933937916512,-0.62494589869873807,-1.5685728185882235,-0.3517907376780976,-1.3036950866894206,0.40145531240912313,0.0869130057792947,0.64977818606425086,0.14485500963215783,-0.40973274153096073,1.013985067425105,-1.2291982245928823,0.71599761903895165,-0.39317788328728559,-1.1464239333745063,-1.4857985273698475,1.0636496421561303,0.29384873382523446,1.6347922515629243,-1.47752109824801,-1.254030511958395,-0.49250703274933666,0.8567139141101906,1.4444113817606596,1.2788627993239079,-0.30212616294707206,0.20279701348502097,-0.5007844618711742,0.66633304430792606,0.47595217450566146,1.4030242361514715,-0.44284245801831112,-0.79877191025732752,0.12830015138848266,-1.4692436691261723,-0.037248431048269158,1.0222624965469425,-0.82360419762284032,0.525616749236687,0.31868102119074726,1.0884819295216432,-1.2209207954710446,-0.5090618909930118,-1.2374756537147198,-1.6347922515629243,-0.12830015138848266,0.68288790255160126,-0.57528132396771259,1.1960885081055319,0.45111988714014872,-0.42628759977463593,-1.6761793971721122,-1.3202499449330958,1.1464239333745063,1.3202499449330958,-1.7175665427813001,-0.5173393201148494,1.1215916460089936,0.88154620147570339,0.95604306357224178,-1.3699145196641214,-0.55044903660219979,0.62494589869873807,0.28557130470339687,1.6513471098065993,0.078635576657457115,-0.1779647261195082,1.6430696806847618,1.5934051059537362,1.5354631021008731,0.70772018991711405,0.92293334708489139,-1.6844568262939497,1.3119725158112581,0.1779647261195082,-1.0553722130342928,0.012416143682756385,-0.1945195843631834,-0.16140986787583303,-0.61666846957690047,-0.10346786402296988,1.3285273740549333,-0.29384873382523446,-1.3864693779077966,-1.2623079410802327,0.74082990640446433,1.4609662400043348,-0.56700389484587499,0.8649913432320282],"z":[-0.38490045416544799,1.3036950866894206,-0.3352358794344224,1.6844568262939497,-0.31868102119074726,1.3947468070296341,0.95604306357224178,-0.49250703274933666,-0.25246158821604653,0.3352358794344224,0.56700389484587499,-1.6182373933192491,-1.6430696806847618,1.1795336498618567,-1.3533596614204462,-1.0967593586434807,-0.28557130470339687,-0.66633304430792606,1.6099599641974114,-0.82360419762284032,-0.72427504816078925,0.84843648498835311,-0.98087535093775446,0.45111988714014872,0.1945195843631834,-1.4444113817606596,-0.36834559592177279,1.1215916460089936,-1.4940759564916852,-0.8732687723538658,0.36834559592177279,-1.3864693779077966,-1.1133142168871559,-0.84843648498835311,-1.0802045003998055,1.4113016652733092,0.12002272226664507,-0.020693572804593979,-1.2043659372273694,-0.90637848884121619,0.27729387558155927,-0.88154620147570339,1.2623079410802327,-1.2126433663492071,-1.4692436691261723,-1.1464239333745063,-0.525616749236687,1.7092891136594626,0.1696872969976706,-1.1050367877653184,-1.4857985273698475,-0.47595217450566146,-0.64150075694241326,1.171256220740019,-0.22762930085053376,-1.4361339526388219,-0.8649913432320282,-1.5851276768318987,-1.4195790943951467,0.88154620147570339,-1.5354631021008731,1.4692436691261723,-0.23590672997237133,-0.012416143682756385,1.3450822322986085,0.83188162674467792,0.76566219376997713,-0.58355875308955019,0.55044903660219979,-0.34351330855626,-0.3517907376780976,-1.2954176575675829,-0.11174529314480748,0.14485500963215783,0.81532676850100272,-1.2705853702020702,-0.65805561518608846,-0.55872646572403739,1.3781919487859589,0.8732687723538658,0.71599761903895165,-0.8567139141101906,0.69944276079527645,0.72427504816078925,0.46767474538382386,1.013985067425105,0.77393962289181473,0.78221705201365233,0.28557130470339687,-0.16140986787583303,-1.2623079410802327,-0.43456502889647353,0.5007844618711742,0.26901644645972173,0.13657758051032026,0.79049448113548992,-0.62494589869873807,-0.57528132396771259,-1.171256220740019,-0.59183618221138778,-1.5934051059537362,1.0884819295216432,1.3202499449330958,-1.5602953894663858,0.98915278005959206,-0.078635576657457115,0.82360419762284032,-1.659624538928437,-0.96432049269407938,-0.37662302504361039,0.48422960362749906,-1.7175665427813001,0.67461047342976366,1.1629787916181815,1.0802045003998055,0.60011361133322538,-1.0553722130342928,-0.64977818606425086,0.31040359206890966,-1.071927071277968,1.4444113817606596,-0.73255247728262674,-1.1298690751308311,0.69116533167343885,-0.14485500963215783,0.5338941783585246,-0.5007844618711742,0.26073901733788413,-1.6679019680502745,1.7010116845376249,0.68288790255160126,-0.1779647261195082,-1.3202499449330958,-1.154701362496344,0.095190434901132298,-1.4526888108824971,-0.56700389484587499,1.3616370905422837,-0.13657758051032026,-1.0884819295216432,-0.71599761903895165,-0.68288790255160126,0.92293334708489139,0.62494589869873807,-0.81532676850100272],"type":"scatter3d","mode":"markers","name":"3","marker":{"color":"rgba(141,160,203,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)","size":55},"error_y":{"color":"rgba(141,160,203,1)","width":55},"error_x":{"color":"rgba(141,160,203,1)","width":55},"line":{"color":"rgba(141,160,203,1)","width":55},"frame":null},{"x":[1.6099599641974114,0.42628759977463593,1.5685728185882235,-0.89810105971937859,1.013985067425105,-0.88982363059754099,-0.045525860170106749,-0.037248431048269158,-0.88154620147570339,-0.028971001926431567,1.6761793971721122,1.1381465042526688,0.75738476464813953,1.0222624965469425,0.76566219376997713,-0.8732687723538658,1.254030511958395,1.2623079410802327,0.77393962289181473,-0.8649913432320282,1.5602953894663858,-0.8567139141101906,-0.84843648498835311,-0.84015905586651551,-0.020693572804593979,-0.83188162674467792,-0.82360419762284032,-0.012416143682756385,-0.81532676850100272,-0.0041387145609187957,1.2705853702020702,-0.80704933937916512,-0.79877191025732752,1.1464239333745063,0.78221705201365233,0.0041387145609187957,-0.79049448113548992,1.576850247710061,0.012416143682756385,0.43456502889647353,0.020693572804593979,0.028971001926431567,-0.78221705201365233,1.2788627993239079,-0.77393962289181473,-0.76566219376997713,-0.75738476464813953,1.0305399256687802,1.154701362496344,1.3450822322986085,0.037248431048269158,1.0388173547906177,1.1629787916181815,0.045525860170106749,-0.74910733552630193,0.44284245801831112,-0.74082990640446433,-0.73255247728262674,-0.72427504816078925,-0.71599761903895165,0.053803289291944341,0.062080718413781932,-0.70772018991711405,-0.69944276079527645,0.45111988714014872,-0.69116533167343885,0.45939731626198627,-0.68288790255160126,0.46767474538382386,-0.67461047342976366,-0.66633304430792606,0.070358147535619517,0.078635576657457115,-0.65805561518608846,-0.64977818606425086,0.0869130057792947,-0.64150075694241326,0.095190434901132298,0.47595217450566146,0.10346786402296988,-0.63322332782057567,0.79049448113548992,1.171256220740019,-0.62494589869873807,0.48422960362749906,0.49250703274933666,0.5007844618711742,0.79877191025732752,0.11174529314480748,0.80704933937916512,0.12002272226664507,0.12830015138848266,0.13657758051032026,0.81532676850100272,1.7092891136594626,0.14485500963215783,0.5090618909930118,0.15313243875399543,-0.61666846957690047,0.16140986787583303,-0.60839104045506298,1.7175665427813001,1.7258439719031378,0.1696872969976706,0.5173393201148494,1.0470947839124551,-0.60011361133322538,0.1779647261195082,-0.59183618221138778,1.3533596614204462,0.525616749236687,0.82360419762284032,0.83188162674467792,-0.58355875308955019,-0.57528132396771259,0.1862421552413458,1.0553722130342928,1.3616370905422837,1.6182373933192491,-0.56700389484587499,0.5338941783585246,-0.55872646572403739,0.84015905586651551,-0.55044903660219979,-0.54217160748036219],"y":[1.5602953894663858,0.10346786402296988,1.2705853702020702,-0.21107444260685856,1.3036950866894206,-1.154701362496344,0.037248431048269158,-0.012416143682756385,-1.336804803176771,-0.47595217450566146,1.3947468070296341,0.83188162674467792,-0.070358147535619517,-0.36834559592177279,-0.0041387145609187957,-0.97259792181591698,0.81532676850100272,1.1629787916181815,-0.21935187172869616,-0.89810105971937859,1.659624538928437,-1.3450822322986085,-1.0802045003998055,-1.6513471098065993,-0.31040359206890966,-1.3533596614204462,-1.5520179603445483,-0.045525860170106749,-0.98915278005959206,-0.69944276079527645,1.6761793971721122,-1.2705853702020702,1.254030511958395,1.6844568262939497,0.96432049269407938,1.1381465042526688,-1.6430696806847618,1.5106308147353604,0.89810105971937859,0.36834559592177279,0.60839104045506298,-0.78221705201365233,0.48422960362749906,1.47752109824801,0.095190434901132298,0.32695845031258486,-0.14485500963215783,0.34351330855626,-0.25246158821604653,1.171256220740019,-0.23590672997237133,0.72427504816078925,0.69944276079527645,-0.63322332782057567,-1.2457530828365575,-0.84843648498835311,-1.6679019680502745,-1.2126433663492071,-1.4526888108824971,-1.0388173547906177,-0.70772018991711405,-0.1862421552413458,-0.96432049269407938,-1.3119725158112581,1.4692436691261723,-0.99743020918142966,-0.80704933937916512,-0.79049448113548992,-0.75738476464813953,-1.3616370905422837,-1.6182373933192491,0.045525860170106749,-0.64150075694241326,-1.5354631021008731,0.37662302504361039,0.38490045416544799,-0.67461047342976366,0.69116533167343885,0.1945195843631834,-0.525616749236687,0.30212616294707206,1.2623079410802327,1.0553722130342928,-1.5602953894663858,0.3600681667999352,-0.26073901733788413,-0.71599761903895165,0.3352358794344224,0.39317788328728559,1.1878110789836942,-0.64977818606425086,-1.0967593586434807,-1.071927071277968,1.2457530828365575,1.7010116845376249,-0.73255247728262674,1.2209207954710446,-0.84015905586651551,0.84015905586651551,0.41801017065279833,0.3517907376780976,1.7258439719031378,1.7175665427813001,-0.1696872969976706,0.75738476464813953,0.1862421552413458,-1.1381465042526688,0.60011361133322538,0.5338941783585246,1.5271856729790354,0.42628759977463593,0.23590672997237133,0.45939731626198627,-1.5934051059537362,-0.13657758051032026,0.020693572804593979,-1.1050367877653184,-0.11174529314480748,1.6927342554157874,-0.72427504816078925,0.94776563445040418,-1.0636496421561303,0.55872646572403739,-0.15313243875399543,-1.7258439719031378],"z":[0.73255247728262674,-0.21935187172869616,-0.42628759977463593,1.0222624965469425,1.1298690751308311,-0.3600681667999352,0.40973274153096073,0.38490045416544799,-0.98915278005959206,-0.5338941783585246,-1.0305399256687802,0.12830015138848266,-0.94776563445040418,-1.4609662400043348,-0.88982363059754099,0.037248431048269158,-0.24418415909420893,0.54217160748036219,-1.1629787916181815,0.1779647261195082,1.4609662400043348,-0.99743020918142966,-0.20279701348502097,-1.6099599641974114,-0.1696872969976706,-1.013985067425105,-1.3947468070296341,0.3517907376780976,0.020693572804593979,-0.79049448113548992,1.6265148224410866,-0.76566219376997713,1.6927342554157874,1.6430696806847618,0.90637848884121619,1.5520179603445483,-1.6016825350755739,0.64150075694241326,1.4030242361514715,0.37662302504361039,1.154701362496344,-0.95604306357224178,1.4940759564916852,1.1960885081055319,1.336804803176771,1.3864693779077966,1.0636496421561303,-0.74082990640446433,-1.5023533856135227,0.31868102119074726,-0.053803289291944341,0.23590672997237133,-0.26901644645972173,-0.69116533167343885,-0.60839104045506298,-1.4113016652733092,-1.6513471098065993,-0.5173393201148494,-1.2209207954710446,-0.12830015138848266,-0.79877191025732752,0.045525860170106749,0.053803289291944341,-0.91465591796305379,1.6016825350755739,0.012416143682756385,-1.3781919487859589,0.29384873382523446,-1.336804803176771,-1.0388173547906177,-1.5437405312227106,0.43456502889647353,-0.69944276079527645,-1.3616370905422837,1.4526888108824971,0.93948820532856658,0.5090618909930118,1.3285273740549333,-0.0041387145609187957,-0.63322332782057567,1.3699145196641214,1.3119725158112581,0.63322332782057567,-1.4030242361514715,0.32695845031258486,-0.80704933937916512,-1.2788627993239079,-0.40145531240912313,0.96432049269407938,1.2209207954710446,-0.70772018991711405,-1.2374756537147198,-1.2291982245928823,1.2954176575675829,1.5851276768318987,-0.84015905586651551,1.4195790943951467,-1.0057076383032673,1.6182373933192491,0.98087535093775446,1.4278565235169844,1.659624538928437,0.8567139141101906,0.0869130057792947,0.97259792181591698,-0.93948820532856658,-0.32695845031258486,1.1464239333745063,1.5354631021008731,1.2457530828365575,0.45939731626198627,-0.5090618909930118,-0.037248431048269158,-1.47752109824801,1.071927071277968,0.39317788328728559,-1.6927342554157874,-1.5685728185882235,1.5685728185882235,0.44284245801831112,1.1878110789836942,-0.1862421552413458,0.1862421552413458,1.0553722130342928,-1.7258439719031378],"type":"scatter3d","mode":"markers","name":"4","marker":{"color":"rgba(231,138,195,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)","size":55},"error_y":{"color":"rgba(231,138,195,1)","width":55},"error_x":{"color":"rgba(231,138,195,1)","width":55},"line":{"color":"rgba(231,138,195,1)","width":55},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<ul>
+<li><strong>Cluster Explanation</strong>
+<ul>
+<li><strong>Cluster 1</strong> - Customers in this cluster have lower total sales, low number of orders, and relatively average per-order sales. These customers could potentially be newer customers and would benefit from some targeted marketing in order to drive engagement and increase total sales.</li>
+<li><strong>Cluster 2</strong> - The customers in this cluster have average total sales with slightly below average number of orders and very high average sales. These customers buy expensive items but not very frequently. The business would benefit from marketing their more expensive items to this customer group.</li>
+<li><strong>Cluster 3</strong> - Customers in cluster three have higher total sales and number of orders, but average order value is not very high. They most likely purchase frequently and would benefit from low-mid priced item recommendations to increase or maintain these customers’ engagement.</li>
+<li><strong>Cluster 4</strong> - These customers have the lowest total sales, lower number of orders, and low average sales amounts.</li>
+</ul></li>
+</ul>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-data" class="csl-entry" role="doc-biblioentry">
+<span>“<span>Online Retail</span>.”</span> 2015. UCI Machine Learning Repository.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -618,8 +715,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Methods.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods</span></span>
+      <a href="./Methods3.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Step-By-Step</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>K-Means Clustering And Its Place in Ecommerce - 4&nbsp; Step-By-Step</title>
+<title>K-Means Clustering And Its Place in Ecommerce - Step by Step</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Step-By-Step</span></h1>
+      <h1 class="quarto-secondary-nav-title">Step by Step</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -96,7 +96,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Introduction</a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -109,17 +109,17 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview</span></a>
+  <a href="./Methods.html" class="sidebar-item-text sidebar-link">Overview</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Methods2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Euclidean Distance &amp; Finding K</span></a>
+  <a href="./Methods2.html" class="sidebar-item-text sidebar-link">Euclidean Distance &amp; Finding K</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Methods3.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Step-By-Step</span></a>
+  <a href="./Methods3.html" class="sidebar-item-text sidebar-link active">Step-By-Step</a>
   </div>
 </li>
       </ul>
@@ -134,7 +134,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data, Preprocessing, &amp; Modeling</span></a>
+  <a href="./analysis.html" class="sidebar-item-text sidebar-link">Data, Preprocessing, &amp; Modeling</a>
   </div>
 </li>
       </ul>
@@ -166,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Step-By-Step</span></h1>
+<h1 class="title d-none d-lg-block">Step by Step</h1>
 </div>
 
 
@@ -184,23 +184,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The k-means algorithm for partitioning can be executed in 5 main steps.</p>
 <ol type="1">
 <li><p>Partition <span class="math inline">\(N\)</span> objects, or observations, into <span class="math inline">\(K\)</span> nonempty subsets. Each cluster must not be empty and will have a different classification. This is <span class="math inline">\(K\)</span>, if <span class="math inline">\(k=4\)</span> that means there will be four clusters.</p></li>
-<li><p>Then compute seed points, which are randomly assigned reference points called centroids. In <a href="#fig-centroids">Figure&nbsp;<span>4.1</span></a> <span class="math inline">\(k=4\)</span> and are highlighted in green.</p></li>
-<li><p>Assign each object to the cluster with the nearest assigned centroid. <a href="#fig-centroids">Figure&nbsp;<span>4.1</span></a> shows the Euclidean distance calculation as a line connecting each observation to one of the 4 centroids.</p></li>
+<li><p>Then compute seed points, which are randomly assigned reference points called centroids. In <a href="#fig-centroids">Figure&nbsp;<span>1</span></a> <span class="math inline">\(k=4\)</span> and are highlighted in green.</p></li>
+<li><p>Assign each object to the cluster with the nearest assigned centroid. <a href="#fig-centroids">Figure&nbsp;<span>1</span></a> shows the Euclidean distance calculation as a line connecting each observation to one of the 4 centroids.</p></li>
 </ol>
 <div id="fig-centroids" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="centroids.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;4.1: centroids</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: centroids</figcaption><p></p>
 </figure>
 </div>
 <ol start="4" type="1">
-<li><p>Adjust the centroid location using the Euclidean distance formula to minimize the distance of each data observation to its assigned centroid. <a href="#fig-clusters">Figure&nbsp;<span>4.2</span></a> shows how the Euclidean distance drives some cluster members to reassign to a new cluster, influencing the centroids positions. This updates the cluster mean, <span class="math inline">\(\mu_i\)</span>, in turn relocating the centroids from where they were seen in <a href="#fig-centroids">Figure&nbsp;<span>4.1</span></a>.</p></li>
+<li><p>Adjust the centroid location using the Euclidean distance formula to minimize the distance of each data observation to its assigned centroid. <a href="#fig-clusters">Figure&nbsp;<span>2</span></a> shows how the Euclidean distance drives some cluster members to reassign to a new cluster, influencing the centroids positions. This updates the cluster mean, <span class="math inline">\(\mu_i\)</span>, in turn relocating the centroids from where they were seen in <a href="#fig-centroids">Figure&nbsp;<span>1</span></a>.</p></li>
 <li><p>The final step is to repeat steps 2-4 until there is no change in distance between the observations and the centroids.</p></li>
 </ol>
 <div id="fig-clusters" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="clusters.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;4.2: clusters</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: clusters</figcaption><p></p>
 </figure>
 </div>
 <p>The result uncovers 4 distinct clusters containing the most similar observations within groups.</p>
@@ -344,12 +344,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./Methods2.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Euclidean Distance &amp; Finding K</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Euclidean Distance &amp; Finding K</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./analysis.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data, Preprocessing, &amp; Modeling</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">Data, Preprocessing, &amp; Modeling</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

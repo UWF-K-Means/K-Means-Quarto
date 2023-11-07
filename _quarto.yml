@@ -17,6 +17,8 @@ book:
     - part: "E-commerce Analysis"
       chapters:
         - analysis.qmd
+        - Conclusion.qmd
+        - FutureWorks.qmd
   appendices:
     - references.qmd
 

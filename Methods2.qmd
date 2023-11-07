@@ -1,3 +1,4 @@
+# Euclidean Distance & Finding K {.unnumbered}
 ---
 title: "Euclidean Distance & Finding K"
 output: html_document

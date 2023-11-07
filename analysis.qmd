@@ -1,3 +1,4 @@
+# Analysis {.unnumbered}
 ---
 title: "Data, Preprocessing, & Modeling"
 format: 
@@ -5,7 +6,6 @@ format:
     df-print: paged
     code-fold: true
 ---
-# Analysis {.unnumbered}
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 library(rlang)
 library(haven)

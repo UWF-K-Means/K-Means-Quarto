@@ -4,35 +4,60 @@ format: revealjs
   incremental: true 
 ---
 
-# Slide 1
 ##An Introduction to K-Means Clustering
-::: {.incremental}
 
-Finding meaningful patterns within data has become unobtrusive as data collection and management continues to grow.
-. . . 
-K-Means Clustering caters to such volumous data, utilizing
+::: incremental
+Finding meaningful patterns within data has become unobtrusive as data collection and management continues to grow
 
-- unsupervised learning
-- clustering
-- variance minimizagtion technique
+. . .
+
+K-Means Clustering caters to such voluminous data, utilizing
+
+-   unsupervised learning
+-   clustering
+-   variance minimization techniques
+
+. . .
+
+We will explain the K-Means Clustering method by analyzing customer segmentation of an eCommerce data set.
+
+We will show how K-Means may be used to classify consumer bases into discrete clusters based on shared characteristics in e-commerce data sets.
+
+We will begin by introducing the components of K-Means Clustering, including the 5 main steps to execute the method.
 
 ##Unsupervised learning
 
-Data to be categorized or grouped without the assistance of historical results or human intervention
+-The K-means method is considered unsupervised machine learning because the outcome is rather data driven , which is preferred as the formulation can be adjusted based on any changing dimensions in data.
 
+-Used when data is to be categorized or grouped without the assistance of historical results or human intervention.
+
+-One of the longer-standing methods of autonomous data categorization comes in the form of the K-Means Clustering algorithm, and is generally selected for its simplicity and speed (Žalik 2008).
 
 ## Clustering
 
+The goal of clustering is to create partitions in the data that are meaningful.
+There are many methods to choose from to evaluate metrics for clustering.
+
+
 ## Euclidean Distance and Finding K
-:::: {.columns}
-:::{.column width ="50%" .fragment}
-Left column
+
+::: columns
+:::{.column width ="50%" .fragment} Left column
+
+This analysis uses Euclidean Distance
+
+- Euclidean distance can be employed as a key metric to measure the dissimilarity between data points, facilitating the grouping of similar data instances into clusters using the k-means clustering algorithm. 
+
+- In this context, similarity is inversely related to the Euclidean distance; in other words, the smaller the distance, the greater the similarity between objects. T
 
 :::
-::: {.column width ="50%" .fragment}
-Right column
+
+::: {.column width ="50%" .fragment} Right column :::
 :::
 
-::::
+##Method Steps
 
----
+To initiate the algorithm, you must specify the initial number of clusters 
+ and their initial centers.
+ 
+-Centroids are

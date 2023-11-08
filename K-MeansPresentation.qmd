@@ -1,0 +1,38 @@
+---
+title: "K-MeansPresentation"
+format: revealjs
+  incremental: true 
+---
+
+# Slide 1
+##An Introduction to K-Means Clustering
+::: {.incremental}
+
+Finding meaningful patterns within data has become unobtrusive as data collection and management continues to grow.
+. . . 
+K-Means Clustering caters to such volumous data, utilizing
+
+- unsupervised learning
+- clustering
+- variance minimizagtion technique
+
+##Unsupervised learning
+
+Data to be categorized or grouped without the assistance of historical results or human intervention
+
+
+## Clustering
+
+## Euclidean Distance and Finding K
+:::: {.columns}
+:::{.column width ="50%" .fragment}
+Left column
+
+:::
+::: {.column width ="50%" .fragment}
+Right column
+:::
+
+::::
+
+---

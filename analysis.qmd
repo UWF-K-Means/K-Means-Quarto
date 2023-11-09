@@ -262,9 +262,3 @@ plot_ly(customer_data, x=~Orders, y=~Sales, z=~AvgSale,
   add_markers(size=2) %>% 
   layout(scene = list(xaxis=axx,yaxis=axy,zaxis=axz))
 ```
-
--   **Cluster Explanation**
-    -   **Cluster 1** - Customers in this cluster have lower total sales, low number of orders, and relatively average per-order sales. These customers could potentially be newer customers and would benefit from some targeted marketing in order to drive engagement and increase total sales.
-    -   **Cluster 2** - The customers in this cluster have average total sales with slightly below average number of orders and very high average sales. These customers buy expensive items but not very frequently. The business would benefit from marketing their more expensive items to this customer group.
-    -   **Cluster 3** - Customers in cluster three have higher total sales and number of orders, but average order value is not very high. They most likely purchase frequently and would benefit from low-mid priced item recommendations to increase or maintain these customers' engagement.
-    -   **Cluster 4** - These customers have the lowest total sales, lower number of orders, and low average sales amounts.

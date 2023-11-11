@@ -137,6 +137,16 @@ ul.task-list li input[type="checkbox"] {
   <a href="./analysis.html" class="sidebar-item-text sidebar-link">Data, Preprocessing, &amp; Modeling</a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Conclusion.html" class="sidebar-item-text sidebar-link">Conclusion</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./FutureWorks.html" class="sidebar-item-text sidebar-link">Future Works</a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -185,7 +195,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="math display">\[
 d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)
 \]</span><br>
-Objective Function: The K-means clustering objective is to minimize the within-cluster variance. It is formulated as:<br>
+Objective Function: The k-means clustering objective is to minimize the within-cluster variance. It is formulated as:<br>
 <span class="math display">\[
 d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2)
 \]</span></p>
@@ -194,7 +204,7 @@ d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2)
 <p><span class="math inline">\(C_i\)</span> represents the number of points in the cluster <span class="math inline">\(i\)</span></p>
 <p><span class="math inline">\(\mu_i\)</span> represents the centroid mean of cluster <span class="math inline">\(i\)</span></p>
 <p>The objective function is the sum of squared Euclidean distances from each point in a cluster to its centroid. The goal is to find cluster assignments and centroids that minimize this objective.</p>
-<p>To determine k, the number of clusters to initially set, we can use the empirical method or the elbow method. The empirical method assigns the number of clusters <span class="math inline">\(\approx \frac{n^{\frac{1}{2}}}{2}\)</span> for a data set of <span class="math inline">\(n\)</span> observations. The elbow method is based on the idea that increasing the number of clusters, <span class="math inline">\(k\)</span>, will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters <span class="math inline">\(K\)</span>, the inflection point is determined using the turning point in the curve.</p>
+<p>To determine <span class="math inline">\(k\)</span>, the number of clusters to initially set, there are a few approaches such as the empirical, elbow, and Silhouette methods. The empirical method assigns the number of clusters <span class="math inline">\(\approx \frac{n^{\frac{1}{2}}}{2}\)</span> for a data set of <span class="math inline">\(n\)</span> observations. The elbow method is based on the idea that increasing the number of clusters, <span class="math inline">\(k\)</span>, will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters <span class="math inline">\(K\)</span>, the inflection point is determined using the turning point in the curve.</p>
 
 
 

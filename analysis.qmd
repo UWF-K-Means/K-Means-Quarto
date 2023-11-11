@@ -36,6 +36,7 @@ data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistica
 ```
 
 To begin, an appropriate data source is identified. The data used in this analysis comes from UC Irvine's Machine Learning Repository, titled "Online Retail" [@data]. In order to maintain a healthy set of usable data, disruptive null values from the the base data are removed and a subsequent view of data descriptions are explored.
+
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 InvoiceNo <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
 StockCode <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
@@ -46,16 +47,18 @@ UnitPrice <- c("Min.: 0.00","1st Qu.: 1.25","Median: 1.95","Mean: 3.46","3rd Qu.
 CustomerID <- c("Min.: 12346","1st Qu.: 13953","Median: 15152","Mean: 15288","3rd Qu.: 16791","Max.: 18287")
 Country <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
 ```
+
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 data_nulls_removed <- na.omit(data)
 data_summary <- data.frame(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
 data_summary
 ```
+
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 rm(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
 ```
 
-The descriptions show that the data, excluding observations with null values, consists of $406,829$ total observations. This specific data set originates from an online retailer located in the United Kingdom, but provides retail service to many different countries and regions. From the summary of the chosen data set, $8$ variables are identified: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, and Country.
+The descriptions show that the data, excluding observations with null values, consists of $406,829$ total observations. This specific data set originates from an online retailer located in the United Kingdom, but provides retail service to many different countries and regions. From the summary of the chosen data set, $8$ variables are identified: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, and Country. The data types can be ignored in this particular description table, as they will be correct in the data view below:
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 head(data_nulls_removed,10)
@@ -225,6 +228,7 @@ df_norm$Cluster <- model1$cluster
 While the model output is useful, the best tool is to visualize the observations based on their resulting clusters.
 
 Plot and view cluster results:
+
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 fviz_cluster(model1, data = df_norm,
              geom = "point",
@@ -232,9 +236,11 @@ fviz_cluster(model1, data = df_norm,
              ggtheme = theme_bw()
 )
 ```
+
 Since the model utilizes more than $2$ variables, the axis of the graph, above, are based on principle components instead of the individual model variables.
 
 The graph below shows the customers in relation to all three model variables.
+
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 customer_data$Cluster2 <- as.factor(model1$cluster)
 
@@ -253,6 +259,7 @@ axz <- list(
   range = c(0,4000)
 )
 ```
+
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 #| label: model-charts
 #| fig-cap: "*Interactive graph (left click to rotate / right click to move)*"

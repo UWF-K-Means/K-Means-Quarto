@@ -1,10 +1,5 @@
 # Euclidean Distance & Finding K {.unnumbered}
 
----
-title: "Euclidean Distance & Finding K"
-output: html_document
----
-
 The formula for calculating the Euclidean distance between a data object and a cluster center can be expressed as follows:\
 $$
 d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)

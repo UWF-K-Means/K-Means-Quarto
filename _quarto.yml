@@ -3,8 +3,17 @@ project:
   output-dir: docs
 
 book:
-  title: "K-Means Clustering And Its Place in Ecommerce"
-  author: "Addison Armstrong, Alesha Bolin, Chandan Reddy Yapala"
+  title: "K-Means Clustering and Its Place In Ecommerce"
+  author:
+    - name: Addison Armstrong
+      affiliations:
+        - name: University of West Florida
+    - name: Alesha Bolin
+      affiliations:
+        - name: University of West Florida
+    - name: Chandan Reddy Yapala
+      affiliations:
+        - name: University of West Florida
   date: "9/27/2023"
   page-navigation: true
   chapters:
@@ -25,7 +34,9 @@ book:
 bibliography: references.bib
 
 format:
-  html: 
+  html:
     theme: cosmo
+    df-print: paged
+    code-fold: true
 
 editor: visual

@@ -1,10 +1,5 @@
 # Step by Step {.unnumbered}
 
----
-title: "Step-By-Step"
-output: html_document
----
-
 The k-means algorithm for partitioning can be executed in 5 main steps.
 
 1.  Partition $N$ objects, or observations, into $K$ nonempty subsets. Each cluster must not be empty and will have a different classification. This is $K$, if $k=4$ that means there will be four clusters.

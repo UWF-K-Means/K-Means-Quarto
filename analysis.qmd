@@ -1,13 +1,5 @@
 # Analysis {.unnumbered}
 
----
-title: "Data, Preprocessing, & Modeling"
-format: 
-  html:
-    df-print: paged
-    code-fold: true
----
-
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 library(rlang)
 library(haven)
@@ -35,7 +27,7 @@ library(broom)
 data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
 ```
 
-To begin, an appropriate data source is identified. The data used in this analysis comes from UC Irvine's Machine Learning Repository, titled "Online Retail" [@data]. In order to maintain a healthy set of usable data, disruptive null values from the the base data are removed and a subsequent view of data descriptions are explored.
+To begin, an appropriate data source is identified. The data used in this analysis comes from UC Irvine's Machine Learning Repository, [@data]. In order to maintain a healthy set of usable data, disruptive null values from the the base data are removed and a subsequent view of data descriptions are explored.
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 InvoiceNo <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")

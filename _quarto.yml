@@ -14,7 +14,7 @@ book:
     - name: Chandan Reddy Yapala
       affiliations:
         - name: University of West Florida
-  date: "9/27/2023"
+  date: "12/1/2023"
   page-navigation: true
   chapters:
     - index.qmd

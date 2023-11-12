@@ -201,7 +201,7 @@ ggplot(data.frame(K=1:10, WCSS=wcss), aes(x=K, y=WCSS)) +
   scale_x_continuous(breaks = seq(0, 10, by = 1))
 ```
 
-Based on the results of the Elbow Method, above, the total WCSS appears to decrease less and less starting at $4$. This gives us the ideal starting value for the initial number of clusters in the k-means model.
+Based on the results of the Elbow Method, above, the total WCSS appears to decrease less and less starting at $4$. This gives us the ideal starting value for the initial number of clusters in the K-Means model.
 
 To build the model, a seed is set (in order to make the results reproducible) and the model function is initialized:
 

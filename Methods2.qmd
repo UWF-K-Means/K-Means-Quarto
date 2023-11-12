@@ -4,7 +4,7 @@ The formula for calculating the Euclidean distance between a data object and a c
 $$
 d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)
 $$\
-Objective Function: The k-means clustering objective is to minimize the within-cluster variance. It is formulated as:\
+Objective Function: The K-Means Clustering objective is to minimize the within-cluster variance. It is formulated as:\
 $$
 d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2)
 $$

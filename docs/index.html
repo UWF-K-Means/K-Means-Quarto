@@ -6,10 +6,12 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Addison Armstrong, Alesha Bolin, Chandan Reddy Yapala">
-<meta name="dcterms.date" content="2023-09-27">
+<meta name="author" content="Addison Armstrong">
+<meta name="author" content="Alesha Bolin">
+<meta name="author" content="Chandan Reddy Yapala">
+<meta name="dcterms.date" content="2023-12-01">
 
-<title>K-Means Clustering And Its Place in Ecommerce</title>
+<title>K-Means Clustering and Its Place In Ecommerce</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -90,7 +92,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Introduction</h1>
+      <h1 class="quarto-secondary-nav-title">K-Means Clustering and Its Place In Ecommerce</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -103,7 +105,7 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">K-Means Clustering And Its Place in Ecommerce</a> 
+      <a href="./">K-Means Clustering and Its Place In Ecommerce</a> 
     </div>
       </div>
       <div class="mt-2 flex-shrink-0 align-items-center">
@@ -138,7 +140,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Methods3.html" class="sidebar-item-text sidebar-link">Step-By-Step</a>
+  <a href="./Methods3.html" class="sidebar-item-text sidebar-link">Step by Step</a>
   </div>
 </li>
       </ul>
@@ -153,7 +155,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./analysis.html" class="sidebar-item-text sidebar-link">Data, Preprocessing, &amp; Modeling</a>
+  <a href="./analysis.html" class="sidebar-item-text sidebar-link">Analysis</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -201,24 +203,47 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Introduction</h1>
+<h1 class="title d-none d-lg-block">K-Means Clustering and Its Place In Ecommerce</h1>
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    Addison Armstrong 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of West Florida
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    Alesha Bolin 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of West Florida
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    Chandan Reddy Yapala 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of West Florida
+          </p>
+      </div>
+    </div>
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Addison Armstrong, Alesha Bolin, Chandan Reddy Yapala </p>
-          </div>
-  </div>
-    
+      
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 27, 2023</p>
+      <p class="date">December 1, 2023</p>
     </div>
   </div>
   
@@ -230,13 +255,12 @@ div.csl-indent {
 
 <section id="introduction" class="level1 unnumbered">
 <h1 class="unnumbered">Introduction</h1>
-<p>Platforms for e-commerce gather gigabytes, terabytes, and even petabytes, of information about consumer interactions, product preferences, and transactional histories. There is a heightened demand for more robust analytical processes as we see data growing at an unprecedented rate. The use of unsupervised machine learning and efficient clustering algorithms is crucial to the marketing and e-commerce industry when it comes to delivering meaningful and accurate communications to consumers. If properly tapped into, this abundance of data has the potential to fundamentally alter how internet businesses personalize and enhance their services and growth strategies. In this setting, k-means clustering, a cornerstone of data science, emerges as a guiding light, promising to uncover the hidden structures in e-commerce information and offer a deeper comprehension of consumer behavior. The volume of data will continue to grow as more people have access to an ever expanding internet for social media, online shopping, and even remote working opportunities, and so will the need for efficient and effective consumer marketing methods continue to grow.</p>
+<p>Platforms for e-commerce gather gigabytes, terabytes, and even petabytes of information about consumer interactions, product preferences, and transactional histories. There is a heightened demand for more robust analytical processes as data continues growing at an unprecedented rate. The use of unsupervised machine learning and efficient clustering algorithms is crucial to the marketing and e-commerce industry when it comes to delivering meaningful and accurate communications to consumers. If properly tapped into, this abundance of data has the potential to fundamentally alter how internet businesses personalize and enhance their services and growth strategies. In this setting, k-means clustering, a cornerstone of data science, emerges as a guiding light, promising to uncover the hidden structures in e-commerce information and offer a deeper comprehension of consumer behavior. The volume of data will continue to grow as more people have access to an ever expanding internet for social media, online shopping, and even remote working opportunities, and so will the need for efficient and effective consumer marketing methods continue to grow.</p>
 <p>“Clustering has proven efficient in discovering subtle but tactical patterns or relationships buried within a repository of unlabeled data sets” <span class="citation" data-cites="Huda2017">(<a href="references.html#ref-Huda2017" role="doc-biblioref">Ali and Kadhum 2017</a>)</span>. The k-means clustering method takes care of the disadvantages seen in most other clustering classifications and has the ability to handle large amounts of data efficiently while considering many different attributes. Clustering techniques are mostly useful in exploratory data analysis and data mining however the k-means clustering is particularly known for its simplicity, and low computational complexity and seen as the most popular algorithm suitable in various applications.</p>
 <p>Unsupervised machine learning methods are powerful statistical modeling techniques that allow for data to be categorized or grouped without the assistance of historical results or human intervention. One of the longer-standing methods of autonomous data categorization comes in the form of the k-means clustering algorithm, and is generally selected for its simplicity and speed <span class="citation" data-cites="Zalik2008">(<a href="references.html#ref-Zalik2008" role="doc-biblioref">Žalik 2008</a>)</span>. The K-means method is considered unsupervised machine learning because the outcome is rather data driven , which is preferred as the formulation can be adjusted based on any changing dimensions in data.</p>
-<p>The basic method of the k-means algorithm is to randomly identify a centroid for every cluster as k, and use it as a reference point to assign all data points that retain the greatest similarity to that center, creating a cluster. The Euclidean distance considers the maximum distance between cluster means and each data object; it is used to identify the cluster each object best belongs to. This is a unique application because the centroid is updated every iteration by calculating the new mean with those new cluster members, nearly perfecting the requirement for within cluster similarities. “The k-means clustering method is considered a variance minimization technique. It represents the data as a mixture of distributions (Gaussian, Poisson, etc.), where each distribution represents a sub-population (or cluster) of the data”<span class="citation" data-cites="Morissette2013">(<a href="references.html#ref-Morissette2013" role="doc-biblioref">Morissette 2013</a>)</span>. Our examination provides a thorough comprehension of its mathematical foundations and clustering concepts. We will show how k-means may be used to classify consumer bases into discrete clusters based on shared characteristics in e-commerce data sets. Additionally, we will discuss what can be considered drawbacks of the k-means clustering method such as needing to predetermine the cluster number prior to analysis.</p>
+<p>The basic method of the k-means algorithm is to randomly identify a centroid for every cluster as k, and use it as a reference point to assign all data points that retain the greatest similarity to that center, creating a cluster. The Euclidean distance considers the maximum distance between cluster means and each data object; it is used to identify the cluster each object best belongs to. This is a unique application because the centroid is updated every iteration by calculating the new mean with those new cluster members, nearly perfecting the requirement for within cluster similarities. “The k-means clustering method is considered a variance minimization technique. It represents the data as a mixture of distributions (Gaussian, Poisson, etc.), where each distribution represents a sub-population (or cluster) of the data”<span class="citation" data-cites="Morissette2013">(<a href="references.html#ref-Morissette2013" role="doc-biblioref">Morissette 2013</a>)</span>. Our examination provides a thorough comprehension of its mathematical foundations and clustering concepts. This study will show how k-means may be used to classify consumer bases into discrete clusters based on shared characteristics in e-commerce data sets.</p>
 <p>K-means clustering helps organizations better target their marketing efforts and increase return on investment by defining client segments in the context of marketing. For space-efficient picture compression, image processing uses k-means, which is important for web graphics and mobile applications. K-means excels in anomaly detection in fraud detection, protecting financial systems and networks. Additionally, it is used by recommendation engines to customize the distribution of content, increasing user happiness and engagement. K-means promotes patient profiling in the healthcare industry, advancing individualized treatments and medication development. Natural language processing uses its strength to group text data, improving content categorization and information retrieval. K-means is a tool for geographic data analysis that provides regional understanding for urban planning and environmental studies.</p>
-<p>This paper will explore how k-means clustering is used in real-world e-commerce scenarios. This paper also highlights the practical advantages that e-commerce enterprises can gain from applying k-means clustering techniques using real-world data.</p>
-<p>This study examines k-means clustering’s promise as well as the complexities and limitations of doing so on e-commerce data sets. Managing large and noisy data sets, guaranteeing robustness against outliers, and determining an appropriate value for the “K” parameter are a few of these difficulties that may need to be overcome. Our investigation will include methods for resolving these issues and enhancing the robustness and dependability of k-means clustering as a tool for e-commerce analytics.</p>
+<p>This objective of the study is to explore how k-means clustering is used in a real-world e-commerce scenario. It will also highlight the practical advantages that e-commerce businesses can gain from applying k-means clustering techniques using real data. This study examines k-means clustering’s promise as well as the complexities and limitations of doing so on e-commerce data. Managing large and noisy data sets, guaranteeing robustness against outliers, and determining an appropriate value for the “K” parameter are a few of the difficulties that are addressed in during the process.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">

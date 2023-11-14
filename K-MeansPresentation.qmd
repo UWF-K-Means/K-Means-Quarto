@@ -1,92 +1,80 @@
 ---
 title: "K-Means Presentation"
-format: revealjs
-  incremental: true 
-
+format: 
+  revealjs:
+    incremental: true
+embed-resources: true
 ---
 
-##An Introduction to K-Means  Clustering
+## An Introduction to K-Means Clustering
+:::{.incremental}
+-Finding meaningful patterns within data has become unobtrusive as data collection and management continues to grow.
 
-::: {.nonincremental}
-
-Finding meaningful patterns within data has become unobtrusive as data collection and management continues to grow.
-
-. . .
-
-K-Means  Clustering caters to such voluminous & unlabeled data, utilizing
-
-::: {.fragment .fade-up}
--   Unsupervised learning
--   Clustering
--   Variance minimization techniques: distance calculations
+-K-Means Clustering caters to such voluminous & unlabeled data, utilizing
 :::
 
----
-::: {.nonincremental}
+:::{.fragment .fade-up}
+-Unsupervised learning
+-Clustering
+-Variance minimization techniques: distance calculations
+:::
 
+## An Introduction to K-Means Clustering
+:::{.nonincremental}
 There are 5 main steps to execute the K-Means  Clustering method.
-
-::: {.fragment .fade-up}
-1. Assign all data points to a cluster noted as 'K'.
-2. Set 'K' random seed points.
-3. Reassign all data points to a cluster using distance to seed point.
-4. Compute the mean center of each new cluster noted as a centroid.
-5. Loop the re-assignment step of all data points to a new centroid based on its minimized relocation, until the centroid does not change.
 :::
-. . .
 
+:::{.fragment .fade-up}
+1.Assign all data points to a cluster noted as 'K'.
+2.Set 'K' random seed points.
+3.Reassign all data points to a cluster using distance to seed point.
+4.Compute the mean center of each new cluster noted as a centroid.
+5.Loop the re-assignment step of all data points to a new centroid based on its minimized relocation, until the centroid does not change.
+...
 We will employ the K-Means  clustering algorithm to gain insights on customer segmentation in eCommerce data for a retail store based in the UK.
-
+:::
 
 :::{.notes}
-
 We will discuss the 5 main steps of the method and apply it to an eCommerce data set but first it is necessary to introduce some components needed to set up the K-Means  Clustering analysis.
 
-K-Means   Clustering will be used to classify consumer bases into discrete clusters based on shared characteristics. These clusters will be interpreted and discussed at the end of the analysis.
+K-Means Clustering will be used to classify consumer bases into discrete clusters based on shared characteristics. These clusters will be interpreted and discussed at the end of the analysis.
 :::
 
 ## What is Unsupervised learning 
-::: {.incremental}
-
-- autonomous data categorization
-- data driven outcome
+:::{.incremental}
+-autonomous data categorization
+-data driven outcome
 -Used to categorize or group data without the assistance of historical results or human intervention.
+:::
 
 :::{.notes}
 The autonomous reassignment of data to a centroid is the act that makes this method a form of unsupervised learning. 
 
 This is rather a data driven outcome as the data fall into different clusters, new centroids are calculated based on those members.
-
 :::
 
 ## Clustering
-::: {.incremental}
-- Clustering is the act of partitioning data into meaningful groups based on similarity in attributes.
+:::{.incremental}
+-Clustering is the act of partitioning data into meaningful groups based on similarity in attributes.
 
 -The goal of clustering is to create insightful clusters to better understand connections in the data.
 
 -These data are clustered based on randomly set seed centers, designated here as k=4.
 
-- Once the initial assignemnt of centroids is made the Euclidean distance is used to establish cluster members by minimal distance noted as the red lines in the figure.
+-Once the initial assignemnt of centroids is made the Euclidean distance is used to establish cluster members by minimal distance noted as the red lines in the figure.
+:::
+
 :::{.absolute bottom=100 right=100 .fragment}
-
 ![centroids](centroids.png){fig-alt=" k=4, the seed point are green, forming 4 respective clusters"}
-
 :::
 
 ## Euclidean Distance 
-::: {.nonincremental}
-
-:::: {.columns}
-
-:::{.column width ="50%" .fragment} Left column
-
--   Euclidean distance can be employed as a key metric to measure the dissimilarity between data points, facilitating the grouping of similar data instances into clusters using the K-Means  clustering algorithm.
-
+::::{.columns}
+:::{.column width="50%"}
+-Euclidean distance can be employed as a key metric to measure the dissimilarity between data points, facilitating the grouping of similar data instances into clusters using the K-Means  clustering algorithm.
 :::
 
-::: {.column width ="50%" .fragment} Right column
-
+:::{.column width="50%"}
 $$
 d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)
 $$
@@ -100,47 +88,46 @@ d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2)
 $$
 :::
 ::::
----
+## Euclidean Distance
+:::{.nonincremental}
+
+-$k$ is the number of clusters.
+
+-$C_i$ represents the number of points in the cluster $i$
+
+-$\mu_i$ represents the centroid mean of cluster $i$
+
+-In this context, similarity is inversely related to the Euclidean distance
+
+-The smaller the distance, the greater the similarity between objects
+:::
+## Steps
 
 :::{.nonincremental}
 
--   $k$ is the number of clusters.
+-K-Means Clustering reassigns the data points to each cluster based on the Euclidean Distance calculation.
 
--   $C_i$ represents the number of points in the cluster $i$
-
--   $\mu_i$ represents the centroid mean of cluster $i$
-
--   In this context, similarity is inversely related to the Euclidean distance
-
--   The smaller the distance, the greater the similarity between objects.
-
----
-
-::: {.nonincremental}
-
--   K-Means  Clustering reassigns the data points to each cluster based on the Euclidean Distance calculation.
-
-- Each centroid location is updated by taking the position at each clusters mean center.
+-Each centroid location is updated by taking the position at each clusters mean center.
 
 ![clusters](clusters.png){fig-alt="data points reassigned to centroids"}
+:::
 
-##Determine K
-::: {.incremental}
+## Determine K 
+:::{.incremental}
 
 -The elbow method increases the number of clusters, $k$, which finds a reduced sum of within-cluster variance.
 
-- After plotting the sum of within-cluster variances as a function of the number of clusters $K$, the inflection point is determined using the turning point in the curve.
+-After plotting the sum of within-cluster variances as a function of the number of clusters $K$, the inflection point is determined using the turning point in the curve.
 
-- This method determined k= $4$ will be used for starting number of clusters in the K-Means  model.
-
-:::{.notes}
--wcss notates the within cluster sums of squares total.]
+-This method determined k= $4$ will be used for starting number of clusters in the K-Means model.
+:::
+:::notes
+-wcss notates the within cluster sums of squares total.\]
 
 -While cluster numbers are selected before the analysis, the cluster location in the data is randomly generated, however there are alternative methods to influence the inital location of the centroids in other k means clustering methods.
 :::
 
-
-```{r code-line-numbers="129-134"}
+```{.r code-line-numbers="140-145"}
 # Create an empty vector to store WCSS values
 wcss <- vector("numeric", length = 10)
 
@@ -158,13 +145,12 @@ ggplot(data.frame(K=1:10, WCSS=wcss), aes(x=K, y=WCSS)) +
   scale_x_continuous(breaks = seq(0, 10, by = 1))
 ```
 
-
 ## Data & Distribution
 
 ## Analysis
 
-## Cluster Interpretation 
+## Cluster Interpretation
 
 ## Conclusion
 
--There are many methods to choose from to evaluate metrics for clustering. K-Means  Clustering is often used in tandem with other clustering techniques..
+-There are many methods to choose from to evaluate metrics for clustering. K-Means Clustering is often used in tandem with other clustering techniques..

@@ -4,7 +4,9 @@ format:
   revealjs:
     incremental: true
 embed-resources: true
+
 ---
+
 ## An Introduction to K-Means Clustering
 
 ::: incremental
@@ -64,37 +66,49 @@ Initial centroids are generated randomly in this generic model for K-means clust
 
 -   The goal of clustering is to create insightful clusters to better understand connections in the data.
 
--   These data are clustered based on randomly set seed centers, designated here as k=4.
-
--   Once the initial assignemnt of centroids is made the Euclidean distance is used to establish cluster members by minimal distance noted as the red lines in the figure.
 :::
 
-::: {.absolute .fragment bottom="100" right="100"}
-![centroids](centroids.png){fig-alt=" k=4, the seed point are green, forming 4 respective clusters"} {.absolute top="170" left="30" width="400" height="400"}
+---
+
+::: {.absolute bottom="130" left="30" width="400" height="400"}
+![centroids](centroids.png)
+:::
+::: fragment
+::: incrimental
+
+-   k=4, the seed point are green, forming 4 respective clusters
+
+-   Once the initial assignemnt of centroids is made the Euclidean distance is used to establish cluster members by minimal distance noted as the red lines in the figure.
+
+:::
+:::
+
+::: notes
+This example the data are clustered based on 4 randomly set seed centers, k=4.
 :::
 
 ## Euclidean Distance
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
+::: fragment
 -   Euclidean distance can be employed as a key metric to measure the dissimilarity between data points, facilitating the grouping of similar data instances into clusters using the K-Means clustering algorithm.
 :::
-
+::: fragment
+$$d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)$$
+:::
+::::
 ::: {.column width="50%"}
-$$
-d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)
-$$
-
-Objective Function: The K-Means clustering objective is to minimize the within-cluster variance.
-
+::: fragment
+-   Objective Function: The K-Means clustering objective is to minimize the within-cluster variance.
+:::
+::: fragment
 It is formulated as:
 
-$$
-d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2)
-$$
+$$ d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2) $$
 :::
 :::
-
+::::
 ## Euclidean Distance
 
 ::: nonincremental
@@ -116,7 +130,7 @@ $$
 
 -   Each centroid location is updated by taking the position at each clusters mean center.
 
-![clusters](clusters.png){fig-alt="data points reassigned to centroids"}{.absolute top="170" left="30" width="400" height="400"}
+![clusters](clusters.png){fig-alt="data points reassigned to centroids"}{.absolute top="170" left="30" width="200" height="200"}
 :::
 
 ## Determine K
@@ -124,18 +138,18 @@ $$
 ::: incremental
 -   The elbow method increases the number of clusters, $k$, which finds a reduced sum of within-cluster variance.
 :::
-
-``` {.r code-line-numbers="138"}
+::: fragment
+``` {.r code-line-numbers="5-9"}
+#| echo: fenced
 # Create an empty vector to store WCSS values
 wcss <- vector("numeric", length = 10)
-
 # Iterate over a range of K values (e.g., from 1 to 10)
 for (i in 1:10) {
   model <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")], centers = i, nstart = 10)
   wcss[i] <- ceiling(model$tot.withinss)
 }
 ```
-
+:::
 ::: notes
 -wcss notates the within cluster sums of squares total.
 
@@ -144,16 +158,17 @@ for (i in 1:10) {
 
 ---
 
+::: incremental
 -   After plotting the sum of within-cluster variances as a function of the number of clusters $K$, the inflection point is determined using the turning point in the curve.
 
 -   This method determined k= $4$ will be used for starting number of clusters in the K-Means model.
-
-``` {.r code-line-numbers="6-11"}
+:::
+::: fragment
+```{.r code-line-numbers="6-11"}
 #| echo: true
 #| fig-width: 10
 #| fig-height: 4.5
 library(ggplot2)
-
 # Plot the WCSS values against the number of clusters
 ggplot(data.frame(K=1:10, WCSS=wcss), aes(x=K, y=WCSS)) +
   geom_line() +
@@ -161,47 +176,31 @@ ggplot(data.frame(K=1:10, WCSS=wcss), aes(x=K, y=WCSS)) +
   labs(title="Elbow Method to Find Optimal K", x="Number of Clusters (K)", y="Within-Cluster-Sum-of-Squares (WCSS)") +
   scale_x_continuous(breaks = seq(0, 10, by = 1))
 ```
-
-::: notes
+:::
+:::notes
 Based on the results of the Elbow Method, above, the total WCSS appears to decrease less and less starting at 4. This gives us the ideal starting value for the initial number of clusters in the K-Means model.
 :::
 
-## Data & Distribution
+## Data Prepration
 
-::::{.columns} 
-:::{.column width="50%"}
-``` r
-topCountries_all <- data_nulls_removed %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE)
-
-ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) + 
-  geom_bar(stat="identity") +
-  labs(title = "Top 10 Countries", y="Total Lifetime Transactions") +
-  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
-```
+::: incrimental
+-   Grouped by "CustomerID"
+-   "Quantity" and "UnitPrice" columns are multiplied together and assigned to a new variable called “total” 
+-   Exclude returns or negative values for "Quantity"
+-   “Sales” is created as sum total of sales from the previously derived column “total”
+-   “Orders” is the count of InvoiceDate to provide the number of orders made.
+-   “AvgSale” is the calculated difference of "Sales" and "Orders".
 :::
-
-::: {.column width="50%"}
-``` r
-topCountries <- data_no_uk %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE) 
-
-ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) + 
-  geom_bar(stat="identity") +
-  labs(title = "Top 10 Countries (excluding UK)", y="Total Lifetime Transactions") +
-  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
-```
-:::
-::::
-
-::: notes
+:::{.notes}
 Regular data cleaning was done, missing values removed
 
 A subset of data is generated which excludes data associated with the UK to avoid all of the data being frpm one Country.
 :::
-
 ## Analysis
 
 ## Cluster Interpretation
 
 ## Conclusion
 
--   There are many methods to choose from to evaluate metrics for clustering. K-Means Clustering is often used in tandem with other clustering techniques..
+-   There are many methods to choose from to evaluate metrics for clustering. K-Means Clustering is often used in tandem with other clustering techniques.
+

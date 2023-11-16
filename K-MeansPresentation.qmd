@@ -137,6 +137,10 @@ $$ d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2) $$
 ::::
 :::
 
+
+The YAML parse error occurs in the steps below. Address these lines to resolve error:
+
+<!-- 
 ## Determine K
 
 ::: incremental
@@ -174,7 +178,7 @@ for (i in 1:10) {
 
 ::: {.panel-tabset}
 
-### Code
+## Code
 ```{.r code-line-numbers="6-11"}
 #| echo: true
 #| fig-width: 10
@@ -201,7 +205,7 @@ Based on the results of the Elbow Method, above, the total WCSS appears to decre
 
 ::: {.panel-tabset}
 
-### Raw 
+### Raw
 ![Raw data](rawdata.png)
 
 ### Prepped
@@ -229,7 +233,7 @@ Based on the results of the Elbow Method, above, the total WCSS appears to decre
 ---
 ::: incrimental
 -   Grouped by "CustomerID"
--   "Quantity" and "UnitPrice" columns are multiplied together and assigned to a new variable called “total” 
+-   "Quantity" and "UnitPrice" columns are multiplied together and assigned to a new variable called “total”
 -   Exclude returns or negative values for "Quantity"
 -   “Sales” is created as sum total of sales from the previously derived column “total”
 -   “Orders” is the count of InvoiceDate to provide the number of orders made.
@@ -248,4 +252,6 @@ A subset of data is generated which excludes data associated with the UK to avoi
 ## Conclusion
 
 -   There are many methods to choose from to evaluate metrics for clustering. K-Means Clustering is often used in tandem with other clustering techniques.
+
+-->
 

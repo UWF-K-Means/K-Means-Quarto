@@ -1,7 +1,4 @@
----
-title: "R Packages & Code"
-embed-resources: true
----
+# R Code & Packages {.unnumbered}
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 library(rlang)

@@ -3,7 +3,7 @@ title: "R Packages & Code"
 embed-resources: true
 ---
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 library(rlang)
 library(haven)
 library(dplyr)
@@ -24,11 +24,11 @@ library(plotly)
 library(broom)
 ```
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 data <- read_csv("data.csv")
 ```
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 InvoiceNo <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
 StockCode <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
 Description <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
@@ -39,21 +39,21 @@ CustomerID <- c("Min.: 12346","1st Qu.: 13953","Median: 15152","Mean: 15288","3r
 Country <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 data_nulls_removed <- na.omit(data)
 data_summary <- data.frame(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
 data_summary
 ```
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 rm(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 head(data_nulls_removed,10)
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 topCountries_all <- data_nulls_removed %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE)
 
 ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) + 
@@ -62,11 +62,11 @@ ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 data_no_uk <- data_nulls_removed[data_nulls_removed$Country != "United Kingdom",]
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 topCountries <- data_no_uk %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE) 
 
 ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) + 
@@ -75,27 +75,27 @@ ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 data_no_uk <- data_no_uk %>% mutate(total = data_no_uk$Quantity*data_no_uk$UnitPrice)
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 data_no_uk <- data_no_uk %>% subset(Quantity > 0)
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 df1 <- data_no_uk %>% dplyr::select(Quantity,UnitPrice,CustomerID,InvoiceDate,total)
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 customer_data <- df1 %>% group_by(CustomerID) %>% summarize(Sales=sum(total), Orders=length(unique(InvoiceDate))) %>% mutate(AvgSale=Sales/Orders)
 ```
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 head(customer_data,10)
 ```
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 top5AvgValues <- top_n(customer_data, 5, AvgSale)
 top5Sales <- top_n(customer_data, 5, Sales)
 top5OrderCount<- top_n(customer_data,5,Orders)
@@ -104,7 +104,7 @@ bottom5Sales <- top_n(customer_data, -5, Sales)
 options(scipen = 999)
 ```
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 #| label: fig-charts
 #| layout-ncol: 2
 #| fig-cap: 
@@ -144,17 +144,17 @@ ggplot(top5OrderCount, aes(x=reorder(CustomerID,-Orders),y=Orders, fill=as.facto
   guides(fill=guide_legend(title="CustomerID"))
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 df_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, ties.method = "first"), AvgSale=rank(AvgSale))
 
 df_norm <- df_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSale=scale(AvgSale))
 ```
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 data.frame(sapply(df_norm, sd))
 ```
 
-```{r}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 # Create an empty vector to store WCSS values
 wcss <- vector("numeric", length = 10)
 
@@ -172,17 +172,17 @@ ggplot(data.frame(K=1:10, WCSS=wcss), aes(x=K, y=WCSS)) +
   scale_x_continuous(breaks = seq(0, 10, by = 1))
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 set.seed(100)
 model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
 ```
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 tidy(model1)
 df_norm$Cluster <- model1$cluster
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 fviz_cluster(model1, data = df_norm,
              geom = "point",
              ellipse.type = "convex",
@@ -190,7 +190,7 @@ fviz_cluster(model1, data = df_norm,
 )
 ```
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 customer_data$Cluster2 <- as.factor(model1$cluster)
 
 axx <- list(
@@ -209,7 +209,7 @@ axz <- list(
 )
 ```
 
-```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 #| label: model-charts
 #| fig-cap: "*Interactive graph (left-click to rotate / right-click to move)*"
 plot_ly(customer_data, x=~Orders, y=~Sales, z=~AvgSale,

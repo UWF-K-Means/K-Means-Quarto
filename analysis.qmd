@@ -22,7 +22,7 @@ library(broom)
 ```
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
+data <- read_csv("data.csv")
 ```
 
 To begin, an appropriate data source is identified. The data used in this analysis comes from UC Irvine's Machine Learning Repository, [@data]. In order to maintain a healthy set of usable data, disruptive null values from the base data are removed and a subsequent view of data descriptions are explored.
@@ -218,6 +218,7 @@ df_norm$Cluster <- model1$cluster
 While the model output is useful, the best visual representation of the clusters is through scatter plot.
 
 Plot and view cluster results:
+
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 fviz_cluster(model1, data = df_norm,
              geom = "point",
@@ -229,6 +230,7 @@ fviz_cluster(model1, data = df_norm,
 Since the model utilizes more than $2$ variables and the plot plane is two-dimensional, the axis of the graph, above, are based on principle components instead of the individual model variables.
 
 The graph below shows the customers in relation to all three model variables in a three-dimensional scatter plot:
+
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 customer_data$Cluster2 <- as.factor(model1$cluster)
 

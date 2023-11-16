@@ -25,7 +25,7 @@ library(broom)
 data <- read_csv("C:/Users/Addison/OneDrive/Documents/SCHOOL/Advanced Statistical Modeling/data.csv")
 ```
 
-To begin, an appropriate data source is identified. The data used in this analysis comes from UC Irvine's Machine Learning Repository, [@data]. In order to maintain a healthy set of usable data, disruptive null values from the the base data are removed and a subsequent view of data descriptions are explored.
+To begin, an appropriate data source is identified. The data used in this analysis comes from UC Irvine's Machine Learning Repository, [@data]. In order to maintain a healthy set of usable data, disruptive null values from the base data are removed and a subsequent view of data descriptions are explored.
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 InvoiceNo <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
@@ -48,13 +48,13 @@ data_summary
 rm(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
 ```
 
-The descriptions show that the data, excluding observations with null values, consists of $406,829$ total observations. This specific data set originates from an online retailer located in the United Kingdom, but provides retail service to many different countries and regions. From the summary of the chosen data set, $8$ variables are identified: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, and Country. The data types can be ignored in this particular description table, as they will be correct in the data view below:
+The descriptions show that the data, excluding observations with null values, consists of $406,829$ total observations. This specific data set originates from an online retailer located in the United Kingdom, but provides retail service to many different countries and regions. From the summary of the chosen data set, $8$ variables are identified: *InvoiceNo*, *StockCode*, *Description*, *Quantity*, *InvoiceDate*, *UnitPrice*, *CustomerID*, and *Country*. The data types can be ignored in this particular description table, as they will be corrected in the data view below:
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 head(data_nulls_removed,10)
 ```
 
-The frequency of purchases by Country may help provide some context about the regional distribution of customers, as well as the possible variety of customers:
+The frequency of purchases by *Country* may help provide some context about the regional distribution of customers, as well as the possible variety of customers:
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 topCountries_all <- data_nulls_removed %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE)
@@ -84,27 +84,27 @@ ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) +
 
 Now that the distribution of data does not primarily fall under a single country's customer base, the analysis can proceed.
 
-Referring back to the view of the data table, there appears to be more than $1$ observation per InvoiceNo. This means that the data is not grouped by any particular category, product, or location. In order to create a better view of each customer and their spending habits, some simple calculated fields are created and assigned back to the data in use.
+Referring back to the view of the data table, there appears to be more than $1$ observation per *InvoiceNo*. This means that the data is only grouped by *StockCode* (product) and *InvoiceNo*. In order to create a better view of each customer and their overall spending habits, some simple calculated fields are created and assigned back to the data source.
 
-Here the Quantity and UnitPrice columns are multiplied together and assigned to a new variable called "total" in order to obtain the total cost based on the number of items purchased per observation:
+Here the *Quantity* and *UnitPrice* columns are multiplied together and assigned to a new variable called "total" in order to obtain the total cost of the items purchased per observation:
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 data_no_uk <- data_no_uk %>% mutate(total = data_no_uk$Quantity*data_no_uk$UnitPrice)
 ```
 
-The data is beginning to look usable and gives a more robust view of the customers, but there are still some improvements that can be made to ensure bias is avoided. Since the interest lies in purchasing-customer clustering, any customers or invoices that include returns or negative values for Quantity can be excluded from the data.
+The data is beginning to look usable and gives a more wholistic view of the customers, but there are still some improvements that can be made to ensure bias is avoided. Since the interest lies in purchasing-customer clustering, any customers or invoices that include returns or negative values for *Quantity* can be excluded from the data.
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 data_no_uk <- data_no_uk %>% subset(Quantity > 0)
 ```
 
-For the remainder of the analysis, only the applicable columns of interest are retained and assigned to a new data frame called "df1":
+For the remainder of the analysis, only the applicable columns of interest are retained and assigned to a new data frame called *df1*.
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 df1 <- data_no_uk %>% dplyr::select(Quantity,UnitPrice,CustomerID,InvoiceDate,total)
 ```
 
-Next, a sum total of sales from the previously derived column "total" is created as "Sales", along with a unique count of InvoiceDate to provide the number of orders made called "Orders", and the difference of those two variables called "AvgSale". The data is then grouped by CustomerID to decrease the granularity and provide a more complete view of each customer and their purchasing history and habits. This new set of data will be labeled "customer_data":
+Next, a sum total of sales from the previously derived column *total* is created as *Sales*, along with a unique count of *InvoiceDate* to provide the number of orders made, labeled *Orders*; then the difference of those two variables is found and labeled *AvgSale*. The data is then grouped by *CustomerID* to decrease the granularity and provide a more complete view of each customer and their purchasing history and habits. This new set of data will be labeled *customer_data*:
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 customer_data <- df1 %>% group_by(CustomerID) %>% summarize(Sales=sum(total), Orders=length(unique(InvoiceDate))) %>% mutate(AvgSale=Sales/Orders)
@@ -123,7 +123,7 @@ bottom5Sales <- top_n(customer_data, -5, Sales)
 options(scipen = 999)
 ```
 
-Based on the newly compressed data, customers' behaviors can be visualized and used in a meaningful clustering exercise:
+Based on the newly compressed data, customers' behaviors can be visualized and subsequently used in a meaningful clustering exercise:
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 #| label: fig-charts
@@ -165,7 +165,7 @@ ggplot(top5OrderCount, aes(x=reorder(CustomerID,-Orders),y=Orders, fill=as.facto
   guides(fill=guide_legend(title="CustomerID"))
 ```
 
-Having a better view and understanding of the data format and structure, the next step is to normalize the data in order to produce a normal distribution across the different variables. This is done by ranking the Sales, Orders, and Average Sales. Once these values have been ranked, they can be scaled for the final output. This final output is called "df_norm".
+Having a better view and understanding of the data format and structure, the next step is to normalize the data in order to produce a normal distribution across the different variables. This is done by ranking the *Sales*, *Orders*, and *AvgSale*. Once these values have been ranked, they can be scaled for the final output. This final output is called *df_norm*.
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 df_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, ties.method = "first"), AvgSale=rank(AvgSale))
@@ -173,13 +173,13 @@ df_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, tie
 df_norm <- df_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSale=scale(AvgSale))
 ```
 
-The resulting data is verified as normal by checking the standard deviation of each variable. CustomerID will not be normalized since it is an identifier for each record:
+The resulting data is verified as normal by checking the standard deviation of each variable. Noting that *CustomerID* will not be normalized since it is an identifier for each record:
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 data.frame(sapply(df_norm, sd))
 ```
 
-Now that the data is normalized, a value is determined for $k$ using the Elbow Method:
+Now that the data is normalized, a value is determined for $k$ using the elbow method:
 
 ```{r}
 # Create an empty vector to store WCSS values
@@ -199,7 +199,7 @@ ggplot(data.frame(K=1:10, WCSS=wcss), aes(x=K, y=WCSS)) +
   scale_x_continuous(breaks = seq(0, 10, by = 1))
 ```
 
-Based on the results of the Elbow Method, above, the total WCSS appears to decrease less and less starting at $4$. This gives us the ideal starting value for the initial number of clusters in the K-Means model.
+Based on the results of the Elbow Method, above, the total within cluster sum of squares appears to decrease the least starting at $4$. This gives us the ideal starting value for the initial number of clusters in the K-Means model.
 
 To build the model, a seed is set (in order to make the results reproducible) and the model function is initialized:
 
@@ -208,17 +208,16 @@ set.seed(100)
 model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
 ```
 
-The raw model results are presented here:
+The model results are presented here:
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 tidy(model1)
 df_norm$Cluster <- model1$cluster
 ```
 
-While the model output is useful, the best tool is to visualize the observations based on their resulting clusters.
+While the model output is useful, the best visual representation of the clusters is through scatter plot.
 
 Plot and view cluster results:
-
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 fviz_cluster(model1, data = df_norm,
              geom = "point",
@@ -227,10 +226,9 @@ fviz_cluster(model1, data = df_norm,
 )
 ```
 
-Since the model utilizes more than $2$ variables, the axis of the graph, above, are based on principle components instead of the individual model variables.
+Since the model utilizes more than $2$ variables and the plot plane is two-dimensional, the axis of the graph, above, are based on principle components instead of the individual model variables.
 
-The graph below shows the customers in relation to all three model variables.
-
+The graph below shows the customers in relation to all three model variables in a three-dimensional scatter plot:
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 customer_data$Cluster2 <- as.factor(model1$cluster)
 
@@ -252,7 +250,7 @@ axz <- list(
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 #| label: model-charts
-#| fig-cap: "*Interactive graph (left click to rotate / right click to move)*"
+#| fig-cap: "*Interactive graph (left-click to rotate / right-click to move)*"
 plot_ly(customer_data, x=~Orders, y=~Sales, z=~AvgSale,
         color=~Cluster2,
         colors=c("red","green","blue","violet")) %>% 

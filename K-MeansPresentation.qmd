@@ -138,7 +138,7 @@ $$ d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2) $$
 :::
 
 
-The YAML parse error occurs in the steps below. Address these lines to resolve error:
+<!--The YAML parse error occurs in the steps below. Address these lines to resolve error:-->
 
 <!-- 
 ## Determine K

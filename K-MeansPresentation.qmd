@@ -242,7 +242,7 @@ Based on the results of the Elbow Method, above, the total WCSS appears to decre
 :::{.notes}
 Regular data cleaning was done, missing values removed
 
-A subset of data is generated which excludes data associated with the UK to avoid all of the data being frpm one Country.
+A subset of data is generated which excludes data associated with the UK to avoid all of the data being from one Country.
 :::
 
 ## Analysis

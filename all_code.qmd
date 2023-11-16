@@ -1,0 +1,220 @@
+---
+title: "R Packages & Code"
+embed-resources: true
+---
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+library(rlang)
+library(haven)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(car)
+library(sjPlot)
+library(MASS)
+library(lmtest)
+library(gmodels)
+library(tidyr)
+library(sjmisc)
+library(sjlabelled)
+library(naniar)
+library(cluster)
+library(factoextra)
+library(plotly)
+library(broom)
+```
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+data <- read_csv("data.csv")
+```
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+InvoiceNo <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
+StockCode <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
+Description <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
+Quantity <- c("Min.: -80995.00","1st Qu.: 2.00","Median: 5.00","Mean: 12.06","3rd Qu.: 12.00","Max.: 80995.00")
+InvoiceDate <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
+UnitPrice <- c("Min.: 0.00","1st Qu.: 1.25","Median: 1.95","Mean: 3.46","3rd Qu.: 3.75","Max.: 38970.00")
+CustomerID <- c("Min.: 12346","1st Qu.: 13953","Median: 15152","Mean: 15288","3rd Qu.: 16791","Max.: 18287")
+Country <- c("Length: 406829","Class: character","Mode: character","NA","NA","NA")
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+data_nulls_removed <- na.omit(data)
+data_summary <- data.frame(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
+data_summary
+```
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+rm(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+head(data_nulls_removed,10)
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+topCountries_all <- data_nulls_removed %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE)
+
+ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) + 
+  geom_bar(stat="identity") +
+  labs(title = "Top 10 Countries", y="Total Lifetime Transactions") +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+data_no_uk <- data_nulls_removed[data_nulls_removed$Country != "United Kingdom",]
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+topCountries <- data_no_uk %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE) 
+
+ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) + 
+  geom_bar(stat="identity") +
+  labs(title = "Top 10 Countries (excluding UK)", y="Total Lifetime Transactions") +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+data_no_uk <- data_no_uk %>% mutate(total = data_no_uk$Quantity*data_no_uk$UnitPrice)
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+data_no_uk <- data_no_uk %>% subset(Quantity > 0)
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+df1 <- data_no_uk %>% dplyr::select(Quantity,UnitPrice,CustomerID,InvoiceDate,total)
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+customer_data <- df1 %>% group_by(CustomerID) %>% summarize(Sales=sum(total), Orders=length(unique(InvoiceDate))) %>% mutate(AvgSale=Sales/Orders)
+```
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+head(customer_data,10)
+```
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+top5AvgValues <- top_n(customer_data, 5, AvgSale)
+top5Sales <- top_n(customer_data, 5, Sales)
+top5OrderCount<- top_n(customer_data,5,Orders)
+bottom5AvgValues <- top_n(customer_data, -5, AvgSale)
+bottom5Sales <- top_n(customer_data, -5, Sales)
+options(scipen = 999)
+```
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+#| label: fig-charts
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Top 5 Avg Sales"
+#|   - "Bottom 5 Avg Sales"
+#|   - "Top 5 Sales"
+#|   - "Bottom 5 Sales"
+#|   - "Top 5 Order Frequencies"
+ggplot(top5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Top 5 Customers by Average Sale", x="CustomerID", y="Lifetime Average") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+
+ggplot(bottom5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Bottom 5 Customers by Average Sale", x="CustomerID",y="Lifetime Average") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+
+ggplot(top5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Top 5 Customers by Total Sales", x="CustomerID",y="Lifetime Total Sales") +
+  theme(plot.title = element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+
+ggplot(bottom5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=as.factor(CustomerID))) +
+  geom_bar(stat="identity") +
+  labs(title="Bottom 5 Customers by Total Sales",x="CustomerID",y="Total Sales") +
+  theme(plot.title = element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+
+ggplot(top5OrderCount, aes(x=reorder(CustomerID,-Orders),y=Orders, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Top 5 Customers by Order Count", x="CustomerID",y="Lifetime Total Orders") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+df_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, ties.method = "first"), AvgSale=rank(AvgSale))
+
+df_norm <- df_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSale=scale(AvgSale))
+```
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+data.frame(sapply(df_norm, sd))
+```
+
+```{r}
+# Create an empty vector to store WCSS values
+wcss <- vector("numeric", length = 10)
+
+# Iterate over a range of K values (e.g., from 1 to 10)
+for (i in 1:10) {
+  model <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")], centers = i, nstart = 10)
+  wcss[i] <- ceiling(model$tot.withinss)
+}
+
+# Plot the WCSS values against the number of clusters
+ggplot(data.frame(K=1:10, WCSS=wcss), aes(x=K, y=WCSS)) +
+  geom_line() +
+  geom_point() +
+  labs(title="Elbow Method to Find Optimal K", x="Number of Clusters (K)", y="Within-Cluster-Sum-of-Squares (WCSS)") +
+  scale_x_continuous(breaks = seq(0, 10, by = 1))
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+set.seed(100)
+model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
+```
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+tidy(model1)
+df_norm$Cluster <- model1$cluster
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+fviz_cluster(model1, data = df_norm,
+             geom = "point",
+             ellipse.type = "convex",
+             ggtheme = theme_bw()
+)
+```
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+customer_data$Cluster2 <- as.factor(model1$cluster)
+
+axx <- list(
+  nticks = 5,
+  range = c(0,50)
+)
+
+axy <- list(
+  nticks = 5,
+  range = c(0,40000)
+)
+
+axz <- list(
+  nticks = 4,
+  range = c(0,4000)
+)
+```
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+#| label: model-charts
+#| fig-cap: "*Interactive graph (left-click to rotate / right-click to move)*"
+plot_ly(customer_data, x=~Orders, y=~Sales, z=~AvgSale,
+        color=~Cluster2,
+        colors=c("red","green","blue","violet")) %>% 
+  add_markers(size=2) %>% 
+  layout(scene = list(xaxis=axx,yaxis=axy,zaxis=axz))
+```

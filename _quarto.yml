@@ -30,7 +30,6 @@ book:
         - FutureWorks.qmd
   appendices:
     - references.qmd
-    - K-MeansPresentation.qmd
     - all_code.qmd
 
 bibliography: references.bib

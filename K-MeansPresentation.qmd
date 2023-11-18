@@ -8,40 +8,42 @@ embed-resources: true
 ```{r}
 load("df_norm.RData")
 ```
-## An Introduction to K-Means Clustering
+## An Introduction to K-means clustering
 
 ::: incremental
-Finding meaningful patterns within data has become obtrusive as data collection and management continues to grow.
+Finding meaningful patterns within data has become obtrusive as data collection and management continues to grow at an unprecedented rate.
 
-K-Means Clustering caters to such voluminous & unlabeled data, utilizing
+K-means clustering caters to such highly voluminous & unlabeled data.
+
+By the end of this presentation we will have discussed the following concepts of k-means clustering:
 :::
 
 ::: {.fragment .fade-up}
 -   Unsupervised learning
 -   Clustering
--   Variance minimization techniques: distance calculations
+-   Mathematical foundation of the k means algorithm by the Euclidean Distance.
 :::
 
-## An Introduction to K-Means Clustering
+## An Introduction to K-means clustering
 
 ::: nonincremental
-There are 5 main steps to execute the K-Means Clustering method.
+There are 5 main steps to execute the k-means clustering method.
 :::
 
-::: {.fragment .fade-up}
--   Assign all data points to a cluster noted as 'K'.
--   Set 'K' random seed points.
+::: { .fragent .fade-up}
+-   Assign all data points to a cluster noted as $k$.
+-   Set $k$ random seed points.
 -   Reassign all data points to a cluster using distance to seed point.
 -   Compute the mean center of each new cluster noted as a centroid.
 -   Loop the re-assignment step of all data points to a new centroid based on its minimized relocation, until the centroid does not change.
 :::
 
 ::: notes
-We will discuss the 5 main steps of the method and apply it to an eCommerce data set but first it is necessary to introduce some components needed to set up the K-Means Clustering analysis.
+We will discuss the 5 main steps of the method and apply it to an eCommerce data set but first it is necessary to introduce some components needed to set up the k-means clustering analysis.
 
-We will employ the K-Means clustering algorithm to gain insights on customer segmentation in eCommerce data for a retail store based in the UK.
+We will employ the k-means clustering algorithm to gain insights on customer segmentation in eCommerce data for a retail store based in the UK.
 
-K-Means Clustering will be used to classify consumer bases into discrete clusters based on shared characteristics. These clusters will be interpreted and discussed at the end of the analysis.
+K-means clustering will be used to classify consumer bases into discrete clusters based on shared characteristics. These clusters will be interpreted and discussed at the end of the analysis.
 :::
 
 ## What is Unsupervised learning
@@ -68,28 +70,28 @@ Initial centroids are generated randomly in this generic model for K-means clust
 -   The goal of clustering is to create insightful clusters to better understand connections in the data.
 :::
 
-------------------------------------------------------------------------
+---
 
+::: columns
+::: {.column width="60%"}
 ::: fragment
--   k=4, the seed point are green, forming 4 respective clusters
-
+-   $k=4$, the seed point are green, forming 4 respective clusters
 -   Once the initial assignemnt of centroids is made the Euclidean distance is used to establish cluster members by minimal distance noted as the red lines in the figure.
 :::
-
-::: incrimental
-::: {.absolute bottom="130" left="30" width="450" height="300"}
+:::
+::: {.column width="40%"}
+::: fragment
 ![centroids](centroids.png)
 :::
 :::
-
+:::
 ::: notes
 This example the data are clustered based on 4 randomly set seed centers, k=4.
 :::
-
 ## Euclidean Distance
 
 ::: columns
-::: {.column width="50%"}
+::: {.column width="60%"}
 ::: fragment
 -   Euclidean distance can be employed as a key metric to measure the dissimilarity between data points, facilitating the grouping of similar data instances into clusters using the K-Means clustering algorithm.
 :::
@@ -99,9 +101,10 @@ $$d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)$$
 :::
 :::
 
-::: {.column width="50%"}
+::: {.column width="40%"}
 ::: fragment
--   Objective Function: The K-Means clustering objective is to minimize the within-cluster variance.
+Objective Function:
+- The k-means clustering objective is to minimize the within-cluster variance.
 :::
 
 ::: fragment
@@ -126,12 +129,12 @@ $$ d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2) $$
 -   The smaller the distance, the greater the similarity between objects
 :::
 
-------------------------------------------------------------------------
+---
 
 ::: nonincremental
 ::: columns
 ::: {.column width="50%"}
--   K-Means Clustering reassigns the data points to each cluster based on the Euclidean Distance calculation.
+-   K-means clustering reassigns the data points to each cluster based on the Euclidean Distance calculation.
 
 -   Each centroid location is updated by taking the position at each clusters mean center.
 :::
@@ -145,11 +148,11 @@ $$ d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2) $$
 ## Determine K
 
 ::: incremental
--   The elbow method plots the within cluster sum of squares by k.
+-   The elbow method plots the within cluster sum of squares by $k$.
 :::
 
 ::: fragment
-```{r code-line-numbers="5-9"}
+```{r, `code-line-numbers` "5-9"}
 #| echo: fenced
 # Create an empty vector to store WCSS values
 wcss <- vector("numeric", length = 10)
@@ -172,7 +175,7 @@ for (i in 1:10) {
 ::: panel-tabset
 ### Code
 
-```{r code-line-numbers="6-11"}
+```{r, `code-line-numbers`"6-11"}
 #| echo: true
 #| fig-width: 10
 #| fig-height: 4.5
@@ -191,7 +194,7 @@ ggplot(data.frame(K=1:10, WCSS=wcss), aes(x=K, y=WCSS)) +
 :::
 
 ::: notes
-Based on the results of the Elbow Method, above, the total WCSS appears to decrease less and less starting at 4. This gives us the ideal starting value for the initial number of clusters in the K-Means model.
+Based on the results of the Elbow Method, above, the total WCSS appears to decrease less and less starting at 4. This gives us the ideal starting value for the initial number of clusters in the K-means model.
 :::
 
 ## Data Preparation

@@ -292,7 +292,7 @@ We can make connections with purchasing frequency and amount to marketing and pr
 Here we have 4 distinct clusters all with different potential information about customer behavior.
 :::
 
-## Future Works
+## Future Works {.smaller}
 
 Over the past sixty years, improvements and additions have been made to the base k-means methodology in order to optimize performance and increase scalability
 

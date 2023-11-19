@@ -300,3 +300,75 @@ Over the past sixty years, improvements and additions have been made to the base
 
 -   Additional $k$ selection methods such as the Empirical and Silhouette methods, and the use of principal component analysis or other dimensionality reduction techniques to improve efficiency and overall clustering results.
 
+
+## The Analysis
+
+## Cluster Interpretation
+
+::: nonincremental
+
+Cluster 1:
+
+- Characteristics: Lower total sales, low orders, average per-order sales.
+- Recommendation: Targeted marketing for newer customers.
+
+Cluster 2:
+
+- Characteristics: Average total sales, below-average orders, very high per-order sales.
+- Recommendation: Marketing high-value items to infrequent buyers.
+
+:::
+
+## Cluster Interpretation
+
+::: nonincremental
+
+
+Cluster 3:
+
+- Characteristics: Higher total sales, higher orders, average per-order value.
+- Recommendation: Recommend low to mid-priced items for frequent buyers.
+
+Cluster 4:
+
+- Characteristics: Lowest total sales, low orders, low per-order sales.
+- Recommendation: Minimal marketing efforts due to low ROI.
+
+::: 
+
+## Future Works
+
+::: nonincremental
+
+- Challenges and Considerations:
+
+- Data Handling:
+
+  Managing large and noisy datasets.
+
+- Robustness:
+
+  Ensuring robustness against outliers.
+
+- Cluster Number Determination:
+
+  Defining an appropriate number of clusters.
+
+::: 
+
+## Future Works
+
+::: nonincremental
+
+- Research Focus:
+
+- Continued Exploration:
+
+  Ongoing refinement of clustering techniques.
+
+- Industry Evolution:
+
+  Adapting methods to meet evolving e-commerce demands.
+
+::: 
+

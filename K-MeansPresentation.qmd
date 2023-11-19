@@ -270,7 +270,7 @@ To understand the model results we compare the results in the table for each clu
 #| echo: true
 set.seed(100)
 model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
-
+tidy(model1)
 ```
 ![Cluster Results](results.png)
 

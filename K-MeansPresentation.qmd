@@ -5,20 +5,22 @@ format:
     incremental: true
 embed-resources: true
 ---
+
 ```{r}
 load("df_norm.RData")
 ```
+
 ## An Introduction to K-means clustering {.scrollable .smaller}
 
 ::: incremental
 Finding meaningful patterns within data has become obtrusive as data collection and management continues to grow at an unprecedented rate.
 
-K-means clustering caters to such highly voluminous & unlabeled data. 
+K-means clustering caters to such highly voluminous & unlabeled data.
 
 We will employ the k-means clustering algorithm to gain insights on customer segmentation in eCommerce data for a retail store based in the UK.
 :::
 
---- 
+------------------------------------------------------------------------
 
 By the end of this presentation we will have discussed the following concepts of k-means clustering:
 
@@ -30,12 +32,11 @@ By the end of this presentation we will have discussed the following concepts of
 
 ## Data Preparation {.scrollable .smaller}
 
-- Data from online retailer based in UK
-- 406,829 observations of customer transactions
+-   Data from online retailer based in UK
+-   406,829 observations of customer transactions
 
 ::: fragment
 ::: panel-tabset
-
 ### Raw Data {.smaller}
 
 ![Raw Customer Data](rawdata.png)
@@ -51,16 +52,15 @@ Quantity and UnitPrice are multiplied together to create total We want to exclud
 :::
 
 ## Cleaned Data {.scrollable .smaller}
+
 -   Nulls removed
 -   Subset of data without UK sales.
 -   Removed quantities $<0$
--   Created variables $Sales$, $Orders$ and $AvgSales$ to capture customer spending habits
-![Data by Customer acquisition](customerdata.png)
+-   Created variables $Sales$, $Orders$ and $AvgSales$ to capture customer spending habits ![Data by Customer acquisition](customerdata.png)
 
 ## Data Distribution {.scrollable .smaller}
 
 ::: panel-tabset
-
 ### Top 10
 
 ![Data favors UK](countriesuk.png)
@@ -68,17 +68,17 @@ Quantity and UnitPrice are multiplied together to create total We want to exclud
 ### Top 10 '-UK'
 
 ![Data favors UK](countries.png)
-
 :::
 
 ## Distribution by CustomerID {.scrollable .smaller}
 
 ::: panel-tabset
-
 ### page 1
+
 ![Data distribution by CustomerID](customerdistr.png)
 
 ### page 2
+
 ![Data spread for Orders](Top5OrderCount.png)
 :::
 
@@ -88,7 +88,7 @@ Quantity and UnitPrice are multiplied together to create total We want to exclud
 There are 5 main steps to execute the k-means clustering method.
 :::
 
-::: { .fragent .fade-up}
+::: {.fragent .fade-up}
 -   Assign all data points to a cluster noted as $k$.
 -   Set $k$ random seed points.
 -   Reassign all data points to a cluster using distance to seed point.
@@ -135,12 +135,14 @@ Initial centroids are generated randomly in this generic model for K-means clust
 -   Once the initial assignment of centroids is made the Euclidean distance is used to establish cluster members by minimal distance noted as the red lines in the figure.
 :::
 :::
+
 ::: {.column width="50%"}
 ::: fragment
 ![centroids](centroids.png)
 :::
 :::
 :::
+
 ::: notes
 This example the data are clustered based on 4 randomly set seed centers, k=4.
 :::
@@ -150,8 +152,8 @@ This example the data are clustered based on 4 randomly set seed centers, k=4.
 ::: columns
 ::: {.column width="60%"}
 ::: fragment
-- Euclidean distance is used to find dissimilarity between data points in order to group similar data instances into clusters 
-- In k-means it is done so by calculating the distance between a data object and cluster center by:
+-   Euclidean distance is used to find dissimilarity between data points in order to group similar data instances into clusters
+-   In k-means it is done so by calculating the distance between a data object and cluster center by:
 :::
 
 ::: fragment
@@ -163,8 +165,7 @@ $$d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)$$
 ::: fragment
 Objective Function:
 
-- The k-means clustering objective is to minimize the within-cluster variance.
-
+-   The k-means clustering objective is to minimize the within-cluster variance.
 :::
 
 ::: fragment
@@ -233,7 +234,6 @@ for (i in 1:10) {
 ## Elbow Method {.smaller}
 
 ::: panel-tabset
-
 ### Code
 
 ```{r, `code-line-numbers` "6-11"}
@@ -249,13 +249,11 @@ p1<- ggplot(data.frame(K=1:10, WCSS=wcss), aes(x=K, y=WCSS)) +
   scale_x_continuous(breaks = seq(0, 10, by = 1))
 ```
 
-
 ### Plot {.scrollable}
 
 ```{r}
 p1
 ```
-
 :::
 
 ::: notes
@@ -272,23 +270,22 @@ set.seed(100)
 model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
 tidy(model1)
 ```
+
 ![Cluster Results](results.png)
 
 ## Cluster Interpretation {.smaller}
 
-Since the goal is to evaluate the clusters and find meaning in the results.
-We can make connections with purchasing frequency and amount to marketing and pricing strategies to promote customer satisfaction.
+Since the goal is to evaluate the clusters and find meaning in the results. We can make connections with purchasing frequency and amount to marketing and pricing strategies to promote customer satisfaction.
 
-- cluster 1: potentially newer customers, large target for marketing.
+-   cluster 1: potentially newer customers, large target for marketing.
 
-- cluster 2: target for marketing a select range of costlier items.
+-   cluster 2: target for marketing a select range of costlier items.
 
-- cluster 3: likely frequent customers, may benefit from low to mid priced item recommendations to increase or maintain engagement.
+-   cluster 3: likely frequent customers, may benefit from low to mid priced item recommendations to increase or maintain engagement.
 
-- cluster 4: lowest investment return, lowest interactions, least concerns
+-   cluster 4: lowest investment return, lowest interactions, least concerns
 
 ::: notes
-
 Here we have 4 distinct clusters all with different potential information about customer behavior.
 :::
 
@@ -300,75 +297,62 @@ Over the past sixty years, improvements and additions have been made to the base
 
 -   Additional $k$ selection methods such as the Empirical and Silhouette methods, and the use of principal component analysis or other dimensionality reduction techniques to improve efficiency and overall clustering results.
 
-
-## The Analysis
-
 ## Cluster Interpretation
 
 ::: nonincremental
-
 Cluster 1:
 
-- Characteristics: Lower total sales, low orders, average per-order sales.
-- Recommendation: Targeted marketing for newer customers.
+-   Characteristics: Lower total sales, low orders, average per-order sales.
+-   Recommendation: Targeted marketing for newer customers.
 
 Cluster 2:
 
-- Characteristics: Average total sales, below-average orders, very high per-order sales.
-- Recommendation: Marketing high-value items to infrequent buyers.
-
+-   Characteristics: Average total sales, below-average orders, very high per-order sales.
+-   Recommendation: Marketing high-value items to infrequent buyers.
 :::
 
 ## Cluster Interpretation
 
 ::: nonincremental
-
-
 Cluster 3:
 
-- Characteristics: Higher total sales, higher orders, average per-order value.
-- Recommendation: Recommend low to mid-priced items for frequent buyers.
+-   Characteristics: Higher total sales, higher orders, average per-order value.
+-   Recommendation: Recommend low to mid-priced items for frequent buyers.
 
 Cluster 4:
 
-- Characteristics: Lowest total sales, low orders, low per-order sales.
-- Recommendation: Minimal marketing efforts due to low ROI.
-
-::: 
-
-## Future Works
-
-::: nonincremental
-
-- Challenges and Considerations:
-
-- Data Handling:
-
-  Managing large and noisy datasets.
-
-- Robustness:
-
-  Ensuring robustness against outliers.
-
-- Cluster Number Determination:
-
-  Defining an appropriate number of clusters.
-
-::: 
+-   Characteristics: Lowest total sales, low orders, low per-order sales.
+-   Recommendation: Minimal marketing efforts due to low ROI.
+:::
 
 ## Future Works
 
 ::: nonincremental
+-   Challenges and Considerations:
 
-- Research Focus:
+-   Data Handling:
 
-- Continued Exploration:
+    Managing large and noisy datasets.
 
-  Ongoing refinement of clustering techniques.
+-   Robustness:
 
-- Industry Evolution:
+    Ensuring robustness against outliers.
 
-  Adapting methods to meet evolving e-commerce demands.
+-   Cluster Number Determination:
 
-::: 
+    Defining an appropriate number of clusters.
+:::
 
+## Future Works
+
+::: nonincremental
+-   Research Focus:
+
+-   Continued Exploration:
+
+    Ongoing refinement of clustering techniques.
+
+-   Industry Evolution:
+
+    Adapting methods to meet evolving e-commerce demands.
+:::

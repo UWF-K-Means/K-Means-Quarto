@@ -8,19 +8,22 @@ embed-resources: true
 
 ```{r}
 load("df_norm.RData")
+load("data_nulls_removed.RData")
+load("data_no_uk.RData")
+load("customer_data.RData")
+#install.packages("tidyverse")
 ```
 
-## An Introduction to K-means clustering {.scrollable .smaller}
+## An Introduction to K-means clustering
 
 ::: incremental
 Finding meaningful patterns within data has become obtrusive as data collection and management continues to grow at an unprecedented rate.
 
 K-means clustering caters to such highly voluminous & unlabeled data.
 
-We will employ the k-means clustering algorithm to gain insights on customer segmentation in eCommerce data for a retail store based in the UK.
 :::
 
-------------------------------------------------------------------------
+---
 
 By the end of this presentation we will have discussed the following concepts of k-means clustering:
 
@@ -30,59 +33,138 @@ By the end of this presentation we will have discussed the following concepts of
 -   Mathematical foundation of the k means algorithm by the Euclidean Distance.
 :::
 
-## Data Preparation {.scrollable .smaller}
+---
+
+We will employ the k-means clustering algorithm to gain insights on customer segmentation in eCommerce data for a retail store based in the UK.
 
 -   Data from online retailer based in UK
 -   406,829 observations of customer transactions
 
-::: fragment
+## Data Prep {.smaller}
+
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+head(data_nulls_removed,10)
+
+```
+
+
+## Data Distribution by Country {.smaller}
+
 ::: panel-tabset
-### Raw Data {.smaller}
+### Top 10
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 
-![Raw Customer Data](rawdata.png)
+library(tidyverse)
+topCountries_all <- data_nulls_removed %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE)
 
-### Tab 2
+ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) + 
+  geom_bar(stat="identity") +
+  labs(title = "Top 10 Countries", y="Total Lifetime Transactions") +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+```
 
-![Second tab of columns](data2.png)
+
+### Top 10 '-UK'
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+
+topCountries <- data_no_uk %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE) 
+
+ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) + 
+  geom_bar(stat="identity") +
+  labs(title = "Top 10 Countries (excluding UK)", y="Total Lifetime Transactions") +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+```
+
 :::
-:::
+
+
+## Cleaned Data { .smaller}
+
+-   Nulls removed
+-   Subset of data without UK sales.
+-   Removed quantities $<0$
+-   Created variables $Sales$, $Orders$ and $AvgSales$ to capture customer spending habits ![Data by Customer acquisition](customerdata.png){.absolute bottom=0 right=100 width="500" height="350"}
 
 ::: notes
 Quantity and UnitPrice are multiplied together to create total We want to exclude returns to avoid negative values for Quantity. Sales is the sum total derived from the new total column Orders are calculated by Invoice date to account for all transactions. Average sale is the difference of Sales and Orders.
 :::
 
-## Cleaned Data {.scrollable .smaller}
+---
 
--   Nulls removed
--   Subset of data without UK sales.
--   Removed quantities $<0$
--   Created variables $Sales$, $Orders$ and $AvgSales$ to capture customer spending habits ![Data by Customer acquisition](customerdata.png)
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 
-## Data Distribution {.scrollable .smaller}
+top5AvgValues <- top_n(customer_data, 5, AvgSale)
+top5Sales <- top_n(customer_data, 5, Sales)
+top5OrderCount<- top_n(customer_data,5,Orders)
+bottom5AvgValues <- top_n(customer_data, -5, AvgSale)
+bottom5Sales <- top_n(customer_data, -5, Sales)
+options(scipen = 999)
+
+```
+
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+#| label: fig-charts1
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Top 5 Avg Sales"
+#|   - "Bottom 5 Avg Sales"
+
+ggplot(top5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Top 5 Customers by Average Sale", x="CustomerID", y="Lifetime Average") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+
+ggplot(bottom5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Bottom 5 Customers by Average Sale", x="CustomerID",y="Lifetime Average") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+
+```
+
+## Distribution by CustomerID {.smaller}
 
 ::: panel-tabset
-### Top 10
+## Total Sales
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+#| label: fig-charts2
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Top 5 Sales"
+#|   - "Bottom 5 Sales"
 
-![Data favors UK](countriesuk.png)
+ggplot(top5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Top 5 Customers by Total Sales", x="CustomerID",y="Lifetime Total Sales") +
+  theme(plot.title = element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
 
-### Top 10 '-UK'
+ggplot(bottom5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=as.factor(CustomerID))) +
+  geom_bar(stat="identity") +
+  labs(title="Bottom 5 Customers by Total Sales",x="CustomerID",y="Total Sales") +
+  theme(plot.title = element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
 
-![Data favors UK](countries.png)
+```
+
+## OrderCount
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+
+ggplot(top5OrderCount, aes(x=reorder(CustomerID,-Orders),y=Orders, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Top 5 Customers by Order Count", x="CustomerID",y="Lifetime Total Orders") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+```
+
 :::
 
-## Distribution by CustomerID {.scrollable .smaller}
-
-::: panel-tabset
-### page 1
-
-![Data distribution by CustomerID](customerdistr.png)
-
-### page 2
-
-![Data spread for Orders](Top5OrderCount.png)
-:::
-
-## An Introduction to K-means clustering {.scrollable .smaller}
+## An Introduction to K-means clustering {.smaller}
 
 ::: nonincremental
 There are 5 main steps to execute the k-means clustering method.
@@ -268,10 +350,10 @@ To understand the model results we compare the results in the table for each clu
 #| echo: true
 set.seed(100)
 model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
+library(broom)
 tidy(model1)
 ```
 
-![Cluster Results](results.png)
 
 ## Cluster Interpretation {.smaller}
 

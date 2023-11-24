@@ -11,50 +11,50 @@ load("df_norm.RData")
 load("data_nulls_removed.RData")
 load("data_no_uk.RData")
 load("customer_data.RData")
-#install.packages("tidyverse")
+library(broom)
 ```
 
-## A Deep Dive into K-means clustering
+## A Deep Dive Into K-Means Clustering
 
 ::: incremental
 Finding meaningful patterns within data has become obtrusive as data collection and management continues to grow at an unprecedented rate.
 
-- K-means clustering caters to such highly voluminous & unlabeled data
-- Finds inexplicitly labeled groups
-- Provides business insights
+- K-means clustering caters to voluminous & unpredictable data
+- Finds patterns within unlabeled groups
+- Provides potential business insights
 
 :::
 
 ::: notes
 
-There is a heightened demand for more robust analytical processes as data continues growing at an unprecedented rate.
+There is a heightened demand for more robust analytical processes as data continues growing at large rates.
 
-Unlabeled data is data that may have inexplicitly labeled groups or patterns suggesting diverse sub-populations within the data.
+Unlabeled data that may have groups or patterns suggesting diverse sub-populations within the population.
 
-We will explore the components of k-means clustering and learn how finding these "clusters" or sub-populations can be utilized within an eCommerce business to improve customer marketing and other strategies.
+We will explore the components of k-means clustering and learn how finding these "clusters" or sub-populations can be utilized within eCommerce businesses to improve customer marketing and revenue generation.
 
 :::
 
 ## Key Concepts
 
-By the end of this presentation we will have discussed the following concepts of k-means clustering:
+We will discuss the following foundational concepts of k-means clustering:
 
 ::: {.fragment .fade-up}
 -   Unsupervised learning
 -   Clustering
--   Mathematical foundation of the k means algorithm by the Euclidean Distance.
+-   Distance measurement using the Euclidean Distance.
 :::
 
 ::: notes
 
-Unsupervised learning, Clustering, and the Euclidean Distance are key components we will discuss in this presentation in order to fully understand how we will employ the k-means clustering algorithm.
+Unsupervised learning, clustering, and the Euclidean Distance are key components we will discuss in this presentation in order to fully understand how we will employ the k-means clustering algorithm.
 :::
 
 ## The Data
 
--   "Online Retail" from UC Irvine’s Machine Learning Repository.
--   Online retailer based in UK
--   406,829 observations of customer transactions
+-   "Online Retail" from UC Irvine’s Machine Learning Repository
+-   Online retailer based in the United Kingdom
+-   406,829 customer transactions
 -   8 variables: $InvoiceNo$, $StockCode$, $Description$, $Quantity$, $InvoiceDate$, $UnitPrice$, $CustomerID$, $Country$
 
 ::: notes
@@ -95,10 +95,8 @@ ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) +
 ```
 
 
-### Top 10 '-UK'
-
+### Top 10 (minus UK)
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-
 topCountries <- data_no_uk %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE) 
 
 ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) + 
@@ -120,7 +118,7 @@ We will use a subset of the data excluding the UK observations as to avoid skewn
 
 -   Nulls removed
 -   Subset of data without UK sales.
--   Removed quantities $<0$
+-   Removed transactions with item quantities $< 0$
 -   Created variables $Sales$, $Orders$ and $AvgSales$ to capture customer spending habits ![Data by Customer acquisition](customerdata.png){.absolute bottom=0 right=100 width="500" height="350"}
 
 ::: notes
@@ -131,14 +129,12 @@ Quantity and UnitPrice are multiplied together to create total We want to exclud
 ---
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-
 top5AvgValues <- top_n(customer_data, 5, AvgSale)
 top5Sales <- top_n(customer_data, 5, Sales)
 top5OrderCount<- top_n(customer_data,5,Orders)
 bottom5AvgValues <- top_n(customer_data, -5, AvgSale)
 bottom5Sales <- top_n(customer_data, -5, Sales)
 options(scipen = 999)
-
 ```
 
 
@@ -185,7 +181,6 @@ ggplot(bottom5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=as.factor(Cu
   labs(title="Bottom 5 Customers by Total Sales",x="CustomerID",y="Total Sales") +
   theme(plot.title = element_text(size = 20)) +
   guides(fill=guide_legend(title="CustomerID"))
-
 ```
 
 ## OrderCount
@@ -204,15 +199,15 @@ ggplot(top5OrderCount, aes(x=reorder(CustomerID,-Orders),y=Orders, fill=as.facto
 ## Introducing K-means clustering by steps {.smaller}
 
 ::: nonincremental
-There are 5 main steps to execute the k-means clustering method.
+There are 5 main steps to execute the k-means clustering method
 :::
 
 ::: {.fragent .fade-up}
--   Assign all data points to a cluster noted as $k$.
--   Set $k$ random seed points.
--   Reassign all data points to a cluster using distance to seed point.
--   Compute the mean center of each new cluster noted as a centroid.
--   Loop the re-assignment step of all data points to a new centroid based on its minimized relocation, until the centroid does not change.
+-   Assign all data points to a cluster noted as $k$
+-   Set $k$ random seed points
+-   Reassign all data points to the closest cluster using euclidean distance
+-   Compute the mean center of each new cluster (centroid)
+-   Loop the re-assignment step of all data points to a new centroid based on its minimized relocation, until the centroid does not change
 :::
 
 ::: notes
@@ -224,7 +219,7 @@ K-means clustering will be used to classify consumer bases into discrete cluster
 ## What is Unsupervised learning {.smaller}
 
 ::: incremental
--   Statistical modeling technique used to categorize/group data without the assistance of historical results or human intervention.
+-   Statistical modeling technique used to categorize/group data without the assistance of historical results or human intervention
 -   Autonomous data categorization
 -   Creates a data driven outcome
 :::
@@ -240,7 +235,7 @@ Initial centroids are generated randomly in this generic model for K-means clust
 ## Clustering {.smaller}
 
 ::: incremental
--   Clustering is the act of partitioning data into meaningful groups based on similarity in attributes.
+-   Clustering is the act of partitioning data into meaningful groups based on similarity of attributes
 
 -   The goal of clustering is to create insightful clusters to better understand connections in the data.
 :::
@@ -250,8 +245,8 @@ Initial centroids are generated randomly in this generic model for K-means clust
 ::: columns
 ::: {.column width="50%"}
 ::: fragment
--   $k=4$, the seed point are green, forming 4 respective clusters
--   Once the initial assignment of centroids is made the Euclidean distance is used to establish cluster members by minimal distance noted as the red lines in the figure.
+-   $k=4$, the seed points are green, forming 4 respective clusters
+-   Once the initial assignment of centroids is made, the Euclidean distance is used to establish cluster members by minimizing distance (red lines in the figure)
 :::
 :::
 
@@ -272,7 +267,7 @@ This example the data are clustered based on 4 randomly set seed centers, k=4.
 ::: {.column width="60%"}
 ::: fragment
 -   Euclidean distance is used to find dissimilarity between data points in order to group similar data instances into clusters
--   In k-means it is done so by calculating the distance between a data object and cluster center by:
+-   In k-means it is done so by calculating the distance between a data object and cluster center using the following formula:
 :::
 
 ::: fragment
@@ -284,7 +279,7 @@ $$d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)$$
 ::: fragment
 Objective Function:
 
--   The k-means clustering objective is to minimize the within-cluster variance.
+-   The k-means clustering objective is to minimize the within-cluster sum of squares (variance)
 :::
 
 ::: fragment
@@ -314,9 +309,9 @@ $$ d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2) $$
 ::: nonincremental
 ::: columns
 ::: {.column width="50%"}
--   K-means clustering reassigns the data points to each cluster based on the Euclidean Distance calculation.
+-   K-means clustering reassigns the data points to each cluster based on the Euclidean Distance calculation
 
--   A new centroid location is set by updating the position at each clusters mean center.
+-   A new centroid location is set by updating the position of each clusters mean center
 :::
 
 ::: {.column width="50%"}
@@ -325,10 +320,10 @@ $$ d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2) $$
 :::
 :::
 
-## Determine K {.smaller}
+## Determining K {.smaller}
 
 ::: incremental
--   The elbow method plots the within cluster sum of squares by $k$.
+-   The elbow method plots the within cluster sum of squares (WCSS) by $k$
 :::
 
 ::: fragment
@@ -345,9 +340,9 @@ for (i in 1:10) {
 :::
 
 ::: notes
--wcss notates the within cluster sums of squares total.
+-   WCSS notates the within cluster sums of squares total
 
--While cluster numbers are selected before the analysis, the cluster location in the data is randomly generated as mentioned.
+-   While cluster numbers are selected before the analysis, the cluster location in the data is randomly generated as mentioned
 :::
 
 ## Elbow Method {.smaller}
@@ -387,22 +382,21 @@ To understand the model results we compare the results in the table for each clu
 #| echo: true
 set.seed(100)
 model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
-library(broom)
 tidy(model1)
 ```
 
 
 ## Cluster Interpretation {.smaller}
 
-Since the goal is to evaluate the clusters and find meaning in the results. We can make connections with purchasing frequency and amount to marketing and pricing strategies to promote customer satisfaction.
+eCommerce clustering results:
 
--   cluster 1: potentially newer customers, large target for marketing.
+-   Cluster 1: potentially newer customers, large target for marketing
 
--   cluster 2: target for marketing a select range of costlier items.
+-   Cluster 2: target for marketing a select range of costlier items
 
--   cluster 3: likely frequent customers, may benefit from low to mid priced item recommendations to increase or maintain engagement.
+-   Cluster 3: likely frequent customers, may benefit from low to mid priced item recommendations to increase or maintain engagement
 
--   cluster 4: lowest investment return, lowest interactions, least concerns
+-   Cluster 4: lowest investment return, lowest interactions, least concerns
 
 ::: notes
 Here we have 4 distinct clusters all with different potential information about customer behavior.
@@ -410,11 +404,13 @@ Here we have 4 distinct clusters all with different potential information about 
 
 ## Future Works {.smaller}
 
-Over the past sixty years, improvements and additions have been made to the base k-means methodology in order to optimize performance and increase scalability
+Improvements and additions have been made to the base k-means methodology to optimize performance and increase scalability
 
--   This data may benefit from the exploration of differences in distance formulas, Mahatten distance and Chebyshev distance.
+-   This data may benefit from the exploration of differences in distance formulas such as the Mahatten distance and Chebyshev distances
 
--   Additional $k$ selection methods such as the Empirical and Silhouette methods, and the use of principal component analysis or other dimensionality reduction techniques to improve efficiency and overall clustering results.
+-   Additional $k$ selection methods such as the Empirical and Silhouette methods
+
+-   The use of dimensionality reduction techniques to improve efficiency and overall clustering results
 
 ## Cluster Interpretation
 

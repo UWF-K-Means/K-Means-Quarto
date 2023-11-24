@@ -14,16 +14,28 @@ load("customer_data.RData")
 #install.packages("tidyverse")
 ```
 
-## An Introduction to K-means clustering
+## A Deep Dive into K-means clustering
 
 ::: incremental
 Finding meaningful patterns within data has become obtrusive as data collection and management continues to grow at an unprecedented rate.
 
-K-means clustering caters to such highly voluminous & unlabeled data.
+- K-means clustering caters to such highly voluminous & unlabeled data
+- Finds inexplicitly labeled groups
+- Provides business insights
 
 :::
 
----
+::: notes
+
+There is a heightened demand for more robust analytical processes as data continues growing at an unprecedented rate.
+
+Unlabeled data is data that may have inexplicitly labeled groups or patterns suggesting diverse sub-populations within the data.
+
+We will explore the components of k-means clustering and learn how finding these "clusters" or sub-populations can be utilized within an eCommerce business to improve customer marketing and other strategies.
+
+:::
+
+## Key Concepts
 
 By the end of this presentation we will have discussed the following concepts of k-means clustering:
 
@@ -33,23 +45,41 @@ By the end of this presentation we will have discussed the following concepts of
 -   Mathematical foundation of the k means algorithm by the Euclidean Distance.
 :::
 
----
+::: notes
 
-We will employ the k-means clustering algorithm to gain insights on customer segmentation in eCommerce data for a retail store based in the UK.
+Unsupervised learning, Clustering, and the Euclidean Distance are key components we will discuss in this presentation in order to fully understand how we will employ the k-means clustering algorithm.
+:::
 
--   Data from online retailer based in UK
+## The Data
+
+-   "Online Retail" from UC Irvine’s Machine Learning Repository.
+-   Online retailer based in UK
 -   406,829 observations of customer transactions
+-   8 variables: $InvoiceNo$, $StockCode$, $Description$, $Quantity$, $InvoiceDate$, $UnitPrice$, $CustomerID$, $Country$
 
-## Data Prep {.smaller}
+::: notes
 
+The data used in this analysis comes from UC Irvine’s Machine Learning Repository “Online Retail” 2015.
+
+We chose this data for its generous size and complexity, the vast amount of unlabeled data points are customer transactions.
+
+We will first explore ways to better summarize individual customer transactions.
+
+:::
+
+## Preparing the Data {.smaller}
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 head(data_nulls_removed,10)
 
 ```
 
+::: notes
 
-## Data Distribution by Country {.smaller}
+From a quick view of our data we can see 8 variables around a customer transaction: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, and Country.
+:::
+
+## Regional Distribution of Data {.smaller}
 
 ::: panel-tabset
 ### Top 10
@@ -79,6 +109,12 @@ ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) +
 
 :::
 
+::: notes
+
+The frequency of purchases by Country may help provide some context about the regional distribution of customers, as well as the possible variety of customers.
+
+We will use a subset of the data excluding the UK observations as to avoid skewness in the data.
+:::
 
 ## Cleaned Data { .smaller}
 
@@ -88,6 +124,7 @@ ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) +
 -   Created variables $Sales$, $Orders$ and $AvgSales$ to capture customer spending habits ![Data by Customer acquisition](customerdata.png){.absolute bottom=0 right=100 width="500" height="350"}
 
 ::: notes
+
 Quantity and UnitPrice are multiplied together to create total We want to exclude returns to avoid negative values for Quantity. Sales is the sum total derived from the new total column Orders are calculated by Invoice date to account for all transactions. Average sale is the difference of Sales and Orders.
 :::
 
@@ -164,7 +201,7 @@ ggplot(top5OrderCount, aes(x=reorder(CustomerID,-Orders),y=Orders, fill=as.facto
 
 :::
 
-## An Introduction to K-means clustering {.smaller}
+## Introducing K-means clustering by steps {.smaller}
 
 ::: nonincremental
 There are 5 main steps to execute the k-means clustering method.

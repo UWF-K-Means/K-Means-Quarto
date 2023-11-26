@@ -11,50 +11,50 @@ load("df_norm.RData")
 load("data_nulls_removed.RData")
 load("data_no_uk.RData")
 load("customer_data.RData")
-library(broom)
+#install.packages("tidyverse")
 ```
 
-## A Deep Dive Into K-Means Clustering
+## A Deep Dive into K-means clustering
 
 ::: incremental
 Finding meaningful patterns within data has become obtrusive as data collection and management continues to grow at an unprecedented rate.
 
-- K-means clustering caters to voluminous & unpredictable data
-- Finds patterns within unlabeled groups
-- Provides potential business insights
+- K-means clustering caters to such highly voluminous & unlabeled data
+- Finds inexplicitly labeled groups
+- Provides business insights
 
 :::
 
 ::: notes
 
-There is a heightened demand for more robust analytical processes as data continues growing at large rates.
+There is a heightened demand for more robust analytical processes as data continues growing at an unprecedented rate.
 
-Unlabeled data that may have groups or patterns suggesting diverse sub-populations within the population.
+Unlabeled data is data that may have inexplicitly labeled groups or patterns suggesting diverse sub-populations within the data.
 
-We will explore the components of k-means clustering and learn how finding these "clusters" or sub-populations can be utilized within eCommerce businesses to improve customer marketing and revenue generation.
+We will explore the components of k-means clustering and learn how finding these "clusters" or sub-populations can be utilized within an eCommerce business to improve customer marketing and other strategies.
 
 :::
 
 ## Key Concepts
 
-We will discuss the following foundational concepts of k-means clustering:
+By the end of this presentation we will have discussed the following concepts of k-means clustering:
 
 ::: {.fragment .fade-up}
 -   Unsupervised learning
 -   Clustering
--   Distance measurement using the Euclidean Distance.
+-   Mathematical foundation of the k means algorithm by the Euclidean Distance.
 :::
 
 ::: notes
 
-Unsupervised learning, clustering, and the Euclidean Distance are key components we will discuss in this presentation in order to fully understand how we will employ the k-means clustering algorithm.
+Unsupervised learning, Clustering, and the Euclidean Distance are key components we will discuss in this presentation in order to fully understand how we will employ the k-means clustering algorithm.
 :::
 
 ## The Data
 
--   "Online Retail" from UC Irvine’s Machine Learning Repository
--   Online retailer based in the United Kingdom
--   406,829 customer transactions
+-   "Online Retail" from UC Irvine’s Machine Learning Repository.
+-   Online retailer based in UK
+-   406,829 observations of customer transactions
 -   8 variables: $InvoiceNo$, $StockCode$, $Description$, $Quantity$, $InvoiceDate$, $UnitPrice$, $CustomerID$, $Country$
 
 ::: notes
@@ -63,7 +63,9 @@ The data used in this analysis comes from UC Irvine’s Machine Learning Reposit
 
 We chose this data for its generous size and complexity, the vast amount of unlabeled data points are customer transactions.
 
-We will first explore ways to better summarize individual customer transactions.
+We will first explore ways to better summarize individual customer transactions. With an end goal to classify consumer bases into discrete clusters based on shared characteristics. 
+
+These clusters will be interpreted and discussed at the end of the analysis.
 
 :::
 
@@ -95,8 +97,10 @@ ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) +
 ```
 
 
-### Top 10 (minus UK)
+### Top 10 '-UK'
+
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+
 topCountries <- data_no_uk %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE) 
 
 ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) + 
@@ -109,57 +113,44 @@ ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) +
 
 ::: notes
 
-The frequency of purchases by Country may help provide some context about the regional distribution of customers, as well as the possible variety of customers.
+The frequency of purchases by Country provide us with context about the regional distribution of customers. 
 
-We will use a subset of the data excluding the UK observations as to avoid skewness in the data.
+Due to an overwhelming amount of data for the UK we will use a subset of the data excluding the UK's observations to avoid skewed results since this is a UK based company.
+
+So far we see the distribution of customer transactions across several countries, and now we want to consider what factors in the data set can be used to better summarize these customer lifetime experience.
+
 :::
 
 ## Cleaned Data { .smaller}
 
--   Nulls removed
+-   Created variables $Sales$, $Orders$ and $AvgSales$ to capture customer spending habits
 -   Subset of data without UK sales.
--   Removed transactions with item quantities $< 0$
--   Created variables $Sales$, $Orders$ and $AvgSales$ to capture customer spending habits ![Data by Customer acquisition](customerdata.png){.absolute bottom=0 right=100 width="500" height="350"}
+-   Removed null values and removed quantities $<0$
+
+::: {.fragment .fade-up}
+![Data by Customer acquisition](customerdata.png)
+:::
 
 ::: notes
 
-Quantity and UnitPrice are multiplied together to create total We want to exclude returns to avoid negative values for Quantity. Sales is the sum total derived from the new total column Orders are calculated by Invoice date to account for all transactions. Average sale is the difference of Sales and Orders.
+We created new variables to help depict a customers overall interactions with the retailer using descriptors: Quantity, Sales, and Average Sales.
+
+We are interested in purchasing behavior so we will exclude returns to avoid negative values for Quantity along with other null values.
+
 :::
 
----
+## Visualizing Customer Interaction by Total Sales and Orders {.smaller}
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+
 top5AvgValues <- top_n(customer_data, 5, AvgSale)
 top5Sales <- top_n(customer_data, 5, Sales)
 top5OrderCount<- top_n(customer_data,5,Orders)
 bottom5AvgValues <- top_n(customer_data, -5, AvgSale)
 bottom5Sales <- top_n(customer_data, -5, Sales)
 options(scipen = 999)
-```
-
-
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-#| label: fig-charts1
-#| layout-ncol: 2
-#| fig-cap: 
-#|   - "Top 5 Avg Sales"
-#|   - "Bottom 5 Avg Sales"
-
-ggplot(top5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
-  geom_bar(stat="identity") +
-  labs(title="Top 5 Customers by Average Sale", x="CustomerID", y="Lifetime Average") +
-  theme(plot.title=element_text(size = 20)) +
-  guides(fill=guide_legend(title="CustomerID"))
-
-ggplot(bottom5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
-  geom_bar(stat="identity") +
-  labs(title="Bottom 5 Customers by Average Sale", x="CustomerID",y="Lifetime Average") +
-  theme(plot.title=element_text(size = 20)) +
-  guides(fill=guide_legend(title="CustomerID"))
 
 ```
-
-## Distribution by CustomerID {.smaller}
 
 ::: panel-tabset
 ## Total Sales
@@ -181,6 +172,7 @@ ggplot(bottom5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=as.factor(Cu
   labs(title="Bottom 5 Customers by Total Sales",x="CustomerID",y="Total Sales") +
   theme(plot.title = element_text(size = 20)) +
   guides(fill=guide_legend(title="CustomerID"))
+
 ```
 
 ## OrderCount
@@ -196,24 +188,71 @@ ggplot(top5OrderCount, aes(x=reorder(CustomerID,-Orders),y=Orders, fill=as.facto
 
 :::
 
-## Introducing K-means clustering by steps {.smaller}
+::: notes
+
+Quantity and price were used to create a 'total' column. 
+'Sales' is also created as the sum total derived from the new 'total' column Orders are calculated by Invoice date to account for all transactions.
+
+:::
+
+## Visualizing the Average Customer Interaction
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+#| label: fig-charts1
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Top 5 Avg Sales"
+#|   - "Bottom 5 Avg Sales"
+
+ggplot(top5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Top 5 Customers by Average Sale", x="CustomerID", y="Lifetime Average") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+
+ggplot(bottom5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Bottom 5 Customers by Average Sale", x="CustomerID",y="Lifetime Average") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+
+```
+::: notes
+
+We created an 'Average sale' column that is the difference of Sales and Orders to represent the lifetime average spent.
+
+:::
+
+## Introducing K-Means Clustering By Steps {.smaller}
 
 ::: nonincremental
-There are 5 main steps to execute the k-means clustering method
+There are 5 main steps to execute the k-means clustering method.
 :::
 
 ::: {.fragent .fade-up}
--   Assign all data points to a cluster noted as $k$
--   Set $k$ random seed points
--   Reassign all data points to the closest cluster using euclidean distance
--   Compute the mean center of each new cluster (centroid)
--   Loop the re-assignment step of all data points to a new centroid based on its minimized relocation, until the centroid does not change
+-   Set $k$, the ideal number of clusters.
+-   Assign each data point to a cluster by its proximity to the $centroid$.
+-   Compute each new $centorid$ by finding cluster average.
+-   Reassign all data points to a cluster calculating its distance to a new centroid
+-   Establish final cluster members by looping the cluster assignment step of all data points to a new centroid until the centroid does not change.
 :::
 
 ::: notes
-We will discuss the 5 main steps of the method and apply it to an eCommerce data set but first it is necessary to introduce some components needed to set up the k-means clustering analysis.
+We will break down the following 5 basic steps of the k-means method followed by an example with an eCommerce data set. 
 
-K-means clustering will be used to classify consumer bases into discrete clusters based on shared characteristics. These clusters will be interpreted and discussed at the end of the analysis.
+In summary the steps are 
+1. Establish 'k'(a number of clusters) and start by randomly marking a location in the data set to represent a central reference point.
+
+2. Calculate the minimal distance from each data point to a centroid to designate premature cluster members.
+
+3. Assign new centroids by computing the mean of each of the clusters.
+
+4. Re-assign the data points to a cluster by their distance to the new centroid.
+
+5. Lastly, as data points shift and centroid means are re-calculated, the process loops the assignment of data points to a cluster until the mean value for each centroid does not change.  
+
+First it is necessary to introduce some components needed to set up the k-means clustering analysis.
+
 :::
 
 ## What is Unsupervised learning {.smaller}
@@ -382,6 +421,7 @@ To understand the model results we compare the results in the table for each clu
 #| echo: true
 set.seed(100)
 model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
+library(broom)
 tidy(model1)
 ```
 

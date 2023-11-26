@@ -46,7 +46,7 @@ data_summary
 rm(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
 ```
 
-The descriptions show that the data, excluding observations with null values, consists of $406,829$ total observations. This specific data set originates from an online retailer located in the United Kingdom, but provides retail service to many different countries and regions. From the summary of the chosen data set, $8$ variables are identified: *InvoiceNo*, *StockCode*, *Description*, *Quantity*, *InvoiceDate*, *UnitPrice*, *CustomerID*, and *Country*. The data types can be ignored in this particular description table, as they will be corrected in the data view below:
+The descriptions show that the data, excluding observations with null values, consists of $406,829$ total observations. This specific data set originates from an online retailer located in the United Kingdom, but provides retail service to many different countries and regions. From the summary of the chosen data set, $8$ variables are identified: *InvoiceNo*, *StockCode*, *Description*, *Quantity*, *InvoiceDate*, *UnitPrice*, *CustomerID*, and *Country*.
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 head(data_nulls_removed,10)

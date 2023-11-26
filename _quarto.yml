@@ -18,16 +18,12 @@ book:
   page-navigation: true
   chapters:
     - index.qmd
-    - part: "The Method"
-      chapters:
-        - Methods.qmd
-        - Methods2.qmd
-        - Methods3.qmd
-    - part: "E-commerce Analysis"
-      chapters:
-        - analysis.qmd
-        - Conclusion.qmd
-        - FutureWorks.qmd
+    - Methods.qmd
+    - Methods2.qmd
+    - Methods3.qmd
+    - analysis.qmd
+    - Conclusion.qmd
+    - FutureWorks.qmd
   appendices:
     - references.qmd
     - all_code.qmd

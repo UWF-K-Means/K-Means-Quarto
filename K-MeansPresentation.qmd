@@ -91,7 +91,7 @@ ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
 
-### Top 10 '-UK'
+### Top 10 (UK removed)
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 

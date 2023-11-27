@@ -12,7 +12,7 @@ load("df_norm.RData")
 load("data_nulls_removed.RData")
 load("data_no_uk.RData")
 load("df1.RData")
-#assign("customer_data2", get(load("customer_data2.Rdata")))
+assign("customer_data2", get(load("customer_data2.Rdata")))
 load("customer_data.RData")
 load("axx.RData")
 load("axy.RData")
@@ -124,11 +124,13 @@ So far we see the distribution of customer transactions across several countries
 
 ::: panel-tabset
 ### Code
+
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 data_no_uk <- data_no_uk %>% subset(Quantity > 0)
 ```
 
 ### Data Table
+
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 head(customer_data)
 ```
@@ -150,9 +152,7 @@ df_norm <- df_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSal
 data.frame(sapply(df_norm, sd))
 ```
 
-
 ::: notes
-
 next step is to normalize the data in order to produce a normal distribution across the different variables. This is done by ranking the Sales, Orders, and AvgSale. Once these values have been ranked, they can be scaled for the final output. This final output is called df_norm.
 
 The resulting data is verified as normal by checking the standard deviation of each variable. Noting that CustomerID will not be normalized since it is an identifier for each record
@@ -170,8 +170,8 @@ options(scipen = 999)
 ```
 
 ::: panel-tabset
-
 ### AverageSales
+
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 #| label: fig-charts1
 #| layout-ncol: 2
@@ -193,6 +193,7 @@ ggplot(bottom5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.f
 ```
 
 ### OrderCount
+
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 
 ggplot(top5OrderCount, aes(x=reorder(CustomerID,-Orders),y=Orders, fill=as.factor(CustomerID))) + 
@@ -232,7 +233,6 @@ ggplot(bottom5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=as.factor(Cu
   theme(plot.title = element_text(size = 20)) +
   guides(fill=guide_legend(title="CustomerID"))
 ```
-
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 data_no_uk <- data_no_uk %>% mutate(total = data_no_uk$Quantity*data_no_uk$UnitPrice)

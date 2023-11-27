@@ -20,6 +20,25 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -99,64 +118,44 @@ ul.task-list li input[type="checkbox"] {
   <a href="./index.html" class="sidebar-item-text sidebar-link">Introduction</a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Methods.html" class="sidebar-item-text sidebar-link">Overview</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Methods2.html" class="sidebar-item-text sidebar-link">Euclidean Distance &amp; Finding K</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Methods3.html" class="sidebar-item-text sidebar-link active">Step by Step</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis.html" class="sidebar-item-text sidebar-link">Analysis</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Conclusion.html" class="sidebar-item-text sidebar-link">Conclusion</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./FutureWorks.html" class="sidebar-item-text sidebar-link">Future Works</a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">The Method</a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Appendices</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Methods.html" class="sidebar-item-text sidebar-link">Overview</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Methods2.html" class="sidebar-item-text sidebar-link">Euclidean Distance &amp; Finding K</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Methods3.html" class="sidebar-item-text sidebar-link active">Step by Step</a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">E-commerce Analysis</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./analysis.html" class="sidebar-item-text sidebar-link">Analysis</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Conclusion.html" class="sidebar-item-text sidebar-link">Conclusion</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./FutureWorks.html" class="sidebar-item-text sidebar-link">Future Works</a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Appendices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
@@ -199,28 +198,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The k-means algorithm for partitioning can be executed in 5 main steps.</p>
 <ol type="1">
 <li><p>Partition <span class="math inline">\(N\)</span> objects, or observations, into <span class="math inline">\(K\)</span> nonempty subsets. Each cluster must not be empty and will have a different classification. This is <span class="math inline">\(K\)</span>, if <span class="math inline">\(k=4\)</span> that means there will be four clusters.</p></li>
-<li><p>Then compute seed points, which are randomly assigned reference points called centroids. In <a href="#fig-centroids">Figure&nbsp;<span>1</span></a> <span class="math inline">\(k=4\)</span> and are highlighted in green.</p></li>
-<li><p>Assign each object to the cluster with the nearest assigned centroid. <a href="#fig-centroids">Figure&nbsp;<span>1</span></a> shows the Euclidean distance calculation as a line connecting each observation to one of the 4 centroids.</p></li>
+<li><p>Then compute seed points, which are randomly assigned reference points called centroids. In <span class="quarto-unresolved-ref">?fig-centroids</span> <span class="math inline">\(k=4\)</span> and are highlighted in green.</p></li>
+<li><p>Assign each object to the cluster with the nearest assigned centroid. <span class="quarto-unresolved-ref">?fig-centroids</span> shows the Euclidean distance calculation as a line connecting each observation to one of the 4 centroids.</p></li>
 </ol>
-<div id="fig-centroids" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><a href="@Shabalin2023"><img src="centroids.png" class="img-fluid figure-img"></a></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: centroids</figcaption><p></p>
-</figure>
-</div>
+<p><img src="centroids.png" id="fig-centroids" class="img-fluid" alt="centroids"><span class="citation" data-cites="Shabalin2023">(<a href="references.html#ref-Shabalin2023" role="doc-biblioref">Andrey A. Shambalin, n.d.</a>)</span></p>
 <ol start="4" type="1">
-<li><p>Adjust the centroid location using the Euclidean distance formula to minimize the distance of each data observation to its assigned centroid. <a href="#fig-clusters">Figure&nbsp;<span>2</span></a> shows how the Euclidean distance drives some cluster members to reassign to a new cluster, influencing the centroids positions. This updates the cluster mean, <span class="math inline">\(\mu_i\)</span>, in turn relocating the centroids from where they were seen in <a href="#fig-centroids">Figure&nbsp;<span>1</span></a>.</p></li>
+<li><p>Adjust the centroid location using the Euclidean distance formula to minimize the distance of each data observation to its assigned centroid. <span class="quarto-unresolved-ref">?fig-clusters</span> shows how the Euclidean distance drives some cluster members to reassign to a new cluster, influencing the centroids positions. This updates the cluster mean, <span class="math inline">\(\mu_i\)</span>, in turn relocating the centroids from where they were seen in <span class="quarto-unresolved-ref">?fig-centroids</span>.</p></li>
 <li><p>The final step is to repeat steps 2-4 until there is no change in distance between the observations and the centroids.</p></li>
 </ol>
-<div id="fig-clusters" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><a href="@Shabalin2023"><img src="clusters.png" class="img-fluid figure-img"></a></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2: clusters</figcaption><p></p>
-</figure>
-</div>
+<p><img src="clusters.png" id="fig-clusters" class="img-fluid" alt="clusters"><span class="citation" data-cites="Shabalin2023">(<a href="references.html#ref-Shabalin2023" role="doc-biblioref">Andrey A. Shambalin, n.d.</a>)</span></p>
 <p>The result uncovers 4 distinct clusters containing the most similar observations within groups.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-Shabalin2023" class="csl-entry" role="doc-biblioentry">
+Andrey A. Shambalin, Ph.D. n.d. <span>“Visuals and Animations, k-Means Clustering.”</span> <a href="https://shabal.in/visuals/kmeans/1.html">https://shabal.in/visuals/kmeans/1.html</a>.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

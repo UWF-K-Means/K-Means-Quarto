@@ -405,7 +405,7 @@ model1 <- kmeans(df_norm[c("Sales", "Orders", "AvgSale")],4)
 tidy(model1)
 ```
 
-## Cluster Interpretation {.smaller}
+## Cluster Interpretation
 
 ::: nonincremental
 Cluster 1:
@@ -419,7 +419,7 @@ Cluster 2:
 -   Recommendation: Marketing high-value items to infrequent buyers
 :::
 
-## Cluster Interpretation {.smaller}
+## Cluster Interpretation
 
 ::: nonincremental
 Cluster 3:

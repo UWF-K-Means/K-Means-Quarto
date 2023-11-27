@@ -11,7 +11,8 @@ embed-resources: true
 load("df_norm.RData")
 load("data_nulls_removed.RData")
 load("data_no_uk.RData")
-assign("customer_data2", get(load("customer_data2.Rdata")))
+load("df1.RData")
+#assign("customer_data2", get(load("customer_data2.Rdata")))
 load("customer_data.RData")
 load("axx.RData")
 load("axy.RData")
@@ -25,13 +26,11 @@ library(plotly)
 
 ## A Deep Dive Into K-Means Clustering
 
-::: incremental
 Finding meaningful patterns within data has become obtrusive as data collection and management continues to grow at an unprecedented rate
 
 -   K-means clustering caters to highly unpredictable data
 -   Finds inexplicitly labeled groups
 -   May provide unknown/hidden business insights
-:::
 
 ::: notes
 There is a heightened demand for more robust analytical processes as data continues growing at a fast pace
@@ -123,16 +122,40 @@ So far we see the distribution of customer transactions across several countries
 -   Subset of data without UK sales
 -   Removed null values and removed quantities $< 0$
 
-::: {.fragment .fade-up}
+::: panel-tabset
+### Code
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+data_no_uk <- data_no_uk %>% subset(Quantity > 0)
+```
+
+### Data Table
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 head(customer_data)
 ```
 :::
 
 ::: notes
-We created new variables to help depict a customers overall interactions with the retailer using descriptors: Quantity, Sales, and Average Sales.
+We created some new variables to help depict a customers overall interactions with the retailer using descriptors: Quantity, Sales, and Average Sales.
 
-We are interested in purchasing behavior so we will exclude returns to avoid negative values for Quantity along with other null values.
+We are interested in purchasing behavior so we will exclude return values to avoid returning a negative Quantity, along with removing other null values.
+:::
+
+## Normalizing the data
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+df_ranked <- customer_data %>% mutate(Sales=rank(Sales), Orders=rank(Orders, ties.method = "first"), AvgSale=rank(AvgSale))
+
+df_norm <- df_ranked %>% mutate(Sales=scale(Sales), Orders=scale(Orders), AvgSale=scale(AvgSale))
+
+data.frame(sapply(df_norm, sd))
+```
+
+
+::: notes
+
+next step is to normalize the data in order to produce a normal distribution across the different variables. This is done by ranking the Sales, Orders, and AvgSale. Once these values have been ranked, they can be scaled for the final output. This final output is called df_norm.
+
+The resulting data is verified as normal by checking the standard deviation of each variable. Noting that CustomerID will not be normalized since it is an identifier for each record
 :::
 
 ## Visualizing Customer Interaction by Total Sales and Orders {.smaller}
@@ -147,7 +170,48 @@ options(scipen = 999)
 ```
 
 ::: panel-tabset
-## Total Sales
+
+### AverageSales
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+#| label: fig-charts1
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Top 5 Avg Sales"
+#|   - "Bottom 5 Avg Sales"
+
+ggplot(top5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Top 5 Customers by Average Sale", x="CustomerID", y="Lifetime Average") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+
+ggplot(bottom5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Bottom 5 Customers by Average Sale", x="CustomerID",y="Lifetime Average") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+```
+
+### OrderCount
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+
+ggplot(top5OrderCount, aes(x=reorder(CustomerID,-Orders),y=Orders, fill=as.factor(CustomerID))) + 
+  geom_bar(stat="identity") +
+  labs(title="Top 5 Customers by Order Count", x="CustomerID",y="Lifetime Total Orders") +
+  theme(plot.title=element_text(size = 20)) +
+  guides(fill=guide_legend(title="CustomerID"))
+```
+:::
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+customer_data <- df1 %>% group_by(CustomerID) %>% summarize(Sales=sum(total), Orders=length(unique(InvoiceDate))) %>% mutate(AvgSale=Sales/Orders)
+```
+
+::: notes
+Quantity and price were used to create a 'total' column. 'Sales' is also created as the sum total derived from the new 'total' column Orders are calculated by Invoice date to account for all transactions.
+:::
+
+## Visualizing Total Sales
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 #| label: fig-charts2
@@ -169,42 +233,9 @@ ggplot(bottom5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=as.factor(Cu
   guides(fill=guide_legend(title="CustomerID"))
 ```
 
-## OrderCount
 
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-
-ggplot(top5OrderCount, aes(x=reorder(CustomerID,-Orders),y=Orders, fill=as.factor(CustomerID))) + 
-  geom_bar(stat="identity") +
-  labs(title="Top 5 Customers by Order Count", x="CustomerID",y="Lifetime Total Orders") +
-  theme(plot.title=element_text(size = 20)) +
-  guides(fill=guide_legend(title="CustomerID"))
-```
-:::
-
-::: notes
-Quantity and price were used to create a 'total' column. 'Sales' is also created as the sum total derived from the new 'total' column Orders are calculated by Invoice date to account for all transactions.
-:::
-
-## Visualizing the Average Customer Interaction
-
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-#| label: fig-charts1
-#| layout-ncol: 2
-#| fig-cap: 
-#|   - "Top 5 Avg Sales"
-#|   - "Bottom 5 Avg Sales"
-
-ggplot(top5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
-  geom_bar(stat="identity") +
-  labs(title="Top 5 Customers by Average Sale", x="CustomerID", y="Lifetime Average") +
-  theme(plot.title=element_text(size = 20)) +
-  guides(fill=guide_legend(title="CustomerID"))
-
-ggplot(bottom5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.factor(CustomerID))) + 
-  geom_bar(stat="identity") +
-  labs(title="Bottom 5 Customers by Average Sale", x="CustomerID",y="Lifetime Average") +
-  theme(plot.title=element_text(size = 20)) +
-  guides(fill=guide_legend(title="CustomerID"))
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+data_no_uk <- data_no_uk %>% mutate(total = data_no_uk$Quantity*data_no_uk$UnitPrice)
 ```
 
 ::: notes

@@ -91,6 +91,9 @@ Here the *Quantity* and *UnitPrice* columns are multiplied together and assigned
 data_no_uk <- data_no_uk %>% mutate(total = data_no_uk$Quantity*data_no_uk$UnitPrice)
 save(data_no_uk, file = "data_no_uk.RData")
 ```
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+head(data_no_uk,10)
+```
 
 The data is beginning to look usable and gives a more wholistic view of the customers, but there are still some improvements that can be made to ensure bias is avoided. Since the interest lies in purchasing-customer clustering, any customers or invoices that include returns or negative values for *Quantity* can be excluded from the data.
 
@@ -104,6 +107,9 @@ For the remainder of the analysis, only the applicable columns of interest are r
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
 df1 <- data_no_uk %>% dplyr::select(Quantity,UnitPrice,CustomerID,InvoiceDate,total)
 save(df1, file = "df1.RData")
+```
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+head(df1,10)
 ```
 
 Next, a sum total of sales from the previously derived column *total* is created as *Sales*, along with a unique count of *InvoiceDate* to provide the number of orders made, labeled *Orders*; then the difference of those two variables is found and labeled *AvgSale*. The data is then grouped by *CustomerID* to decrease the granularity and provide a more complete view of each customer and their purchasing history and habits. This new set of data will be labeled *customer_data*:

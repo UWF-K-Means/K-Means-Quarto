@@ -11,26 +11,27 @@ load("df_norm.RData")
 load("data_nulls_removed.RData")
 load("data_no_uk.RData")
 load("customer_data.RData")
-library("broom")
+library(broom)
+library(tidyverse)
 #install.packages("tidyverse")
 ```
 
-## A Deep Dive into K-means clustering
+## A Deep Dive Into K-Means Clustering
 
 ::: incremental
-Finding meaningful patterns within data has become obtrusive as data collection and management continues to grow at an unprecedented rate.
+Finding meaningful patterns within data has become obtrusive as data collection and management continues to grow at an unprecedented rate
 
--   K-means clustering caters to such highly voluminous & unlabeled data
+-   K-means clustering caters to highly unpredictable data
 -   Finds inexplicitly labeled groups
--   Provides business insights
+-   May provide unknown/hidden business insights
 :::
 
 ::: notes
-There is a heightened demand for more robust analytical processes as data continues growing at an unprecedented rate.
+There is a heightened demand for more robust analytical processes as data continues growing at a fast pace
 
-Unlabeled data is data that may have inexplicitly labeled groups or patterns suggesting diverse sub-populations within the data.
+Unlabeled data is data that may have inexplicitly labeled groups or patterns suggesting diverse sub-populations within the data
 
-We will explore the components of k-means clustering and learn how finding these "clusters" or sub-populations can be utilized within an eCommerce business to improve customer marketing and other strategies.
+We will explore the components of k-means clustering and learn how finding these "clusters" or sub-populations can be utilized within an eCommerce business to improve customer marketing and other strategies
 :::
 
 ## Key Concepts
@@ -40,7 +41,8 @@ By the end of this presentation we will have discussed the following concepts of
 ::: {.fragment .fade-up}
 -   Unsupervised learning
 -   Clustering
--   Mathematical foundation of the k means algorithm by the Euclidean Distance.
+-   Calculating distance, specifically using Euclidean Distance
+-   Example interpretation of results
 :::
 
 ::: notes
@@ -49,9 +51,9 @@ Unsupervised learning, Clustering, and the Euclidean Distance are key components
 
 ## The Data
 
--   "Online Retail" from UC Irvine's Machine Learning Repository.
+-   "Online Retail" from UC Irvine's Machine Learning Repository
 -   Online retailer based in UK
--   406,829 observations of customer transactions
+-   541,909 observations of customer transactions
 -   8 variables: $InvoiceNo$, $StockCode$, $Description$, $Quantity$, $InvoiceDate$, $UnitPrice$, $CustomerID$, $Country$
 
 ::: notes
@@ -68,7 +70,6 @@ These clusters will be interpreted and discussed at the end of the analysis.
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 head(data_nulls_removed,10)
-
 ```
 
 ::: notes
@@ -81,8 +82,6 @@ From a quick view of our data we can see 8 variables around a customer transacti
 ### Top 10
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-
-library(tidyverse)
 topCountries_all <- data_nulls_removed %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE)
 
 ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) + 
@@ -94,7 +93,6 @@ ggplot(data = topCountries_all, mapping = aes(x=Country, y=n, fill=Country)) +
 ### Top 10 (UK removed)
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-
 topCountries <- data_no_uk %>% count(Country) %>% slice_max(n, n = 10, with_ties = FALSE) 
 
 ggplot(data = topCountries, mapping = aes(x=Country, y=n, fill=Country)) + 
@@ -114,12 +112,14 @@ So far we see the distribution of customer transactions across several countries
 
 ## Cleaned Data {.smaller}
 
--   Created variables $Sales$, $Orders$ and $AvgSales$ to capture customer spending habits
--   Subset of data without UK sales.
--   Removed null values and removed quantities $<0$
+-   Created variables $Sales$, $Orders$, and $AvgSales$ to capture customer spending habits
+-   Subset of data without UK sales
+-   Removed null values and removed quantities $< 0$
 
 ::: {.fragment .fade-up}
-![Data by Customer acquisition](customerdata.png)
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+head(customer_data)
+```
 :::
 
 ::: notes
@@ -131,14 +131,12 @@ We are interested in purchasing behavior so we will exclude returns to avoid neg
 ## Visualizing Customer Interaction by Total Sales and Orders {.smaller}
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-
 top5AvgValues <- top_n(customer_data, 5, AvgSale)
 top5Sales <- top_n(customer_data, 5, Sales)
 top5OrderCount<- top_n(customer_data,5,Orders)
 bottom5AvgValues <- top_n(customer_data, -5, AvgSale)
 bottom5Sales <- top_n(customer_data, -5, Sales)
 options(scipen = 999)
-
 ```
 
 ::: panel-tabset
@@ -162,7 +160,6 @@ ggplot(bottom5Sales, aes(x=reorder(CustomerID,-Sales),y=Sales, fill=as.factor(Cu
   labs(title="Bottom 5 Customers by Total Sales",x="CustomerID",y="Total Sales") +
   theme(plot.title = element_text(size = 20)) +
   guides(fill=guide_legend(title="CustomerID"))
-
 ```
 
 ## OrderCount
@@ -201,7 +198,6 @@ ggplot(bottom5AvgValues, aes(x=reorder(CustomerID,-AvgSale),y=AvgSale, fill=as.f
   labs(title="Bottom 5 Customers by Average Sale", x="CustomerID",y="Lifetime Average") +
   theme(plot.title=element_text(size = 20)) +
   guides(fill=guide_legend(title="CustomerID"))
-
 ```
 
 ::: notes
@@ -211,34 +207,36 @@ We created an 'Average sale' column that is the difference of Sales and Orders t
 ## Introducing K-Means Clustering By Steps {.smaller}
 
 ::: nonincremental
-There are 5 main steps to execute the k-means clustering method.
+There are 5 main steps to execute the k-means clustering method
 :::
 
 ::: {.fragent .fade-up}
--   Set $k$, the ideal number of clusters.
--   Assign each data point to a cluster by its proximity to the $centroid$.
--   Compute each new $centorid$ by finding cluster average.
+-   Set $k$, the ideal number of clusters
+-   Assign each data point to a cluster by its proximity to the $centroid$
+-   Compute each new $centorid$ by finding cluster average
 -   Reassign all data points to a cluster calculating its distance to a new centroid
--   Establish final cluster members by looping the cluster assignment step of all data points to a new centroid until the centroid does not change.
+-   Establish final cluster members by looping the cluster assignment step of all data points to a new centroid until the centroid does not change
 :::
 
 ::: notes
-We will break down the following 5 basic steps of the k-means method followed by an example with an eCommerce data set.
+We will break down the following 5 basic steps of the k-means method followed by an example with the eCommerce data set
 
-In summary the steps are 1. Establish 'k'(a number of clusters) and start by randomly marking a location in the data set to represent a central reference point.
+In summary, the steps are:
 
-2.  Calculate the minimal distance from each data point to a centroid to designate premature cluster members.
+1.  Establish $k$ (number of clusters) and start by randomly marking a location in the data set to represent a central reference point
 
-3.  Assign new centroids by computing the mean of each of the clusters.
+2.  Calculate the minimal distance from each data point to a centroid to designate premature cluster members
 
-4.  Re-assign the data points to a cluster by their distance to the new centroid.
+3.  Assign new centroids by computing the mean of each of the clusters
 
-5.  Lastly, as data points shift and centroid means are re-calculated, the process loops the assignment of data points to a cluster until the mean value for each centroid does not change.
+4.  Re-assign the data points to a cluster by their distance to the new centroid
 
-First it is necessary to introduce some components needed to set up the k-means clustering analysis.
+5.  Lastly, as data points shift and centroid means are re-calculated, the process loops the assignment of data points to a cluster until the mean value for each centroid does not change
+
+It is necessary to introduce some components needed to set up the k-means clustering analysis
 :::
 
-## What is Unsupervised learning {.smaller}
+## Unsupervised Learning {.smaller}
 
 ::: incremental
 -   Statistical modeling technique used to categorize/group data without the assistance of historical results or human intervention
@@ -259,7 +257,7 @@ Initial centroids are generated randomly in this generic model for K-means clust
 ::: incremental
 -   Clustering is the act of partitioning data into meaningful groups based on similarity of attributes
 
--   The goal of clustering is to create insightful clusters to better understand connections in the data.
+-   The goal of clustering is to create insightful clusters to better understand connections in the data
 :::
 
 ## Clustering {.smaller}
@@ -315,7 +313,7 @@ $$ d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2) $$
 ## Euclidean Distance {.smaller}
 
 ::: nonincremental
--   $k$ is the number of clusters.
+-   $k$ is the number of clusters
 
 -   $C_i$ represents the number of points in the cluster $i$
 
@@ -412,13 +410,13 @@ tidy(model1)
 ::: nonincremental
 Cluster 1:
 
--   Characteristics: Lower total sales, low orders, average per-order sales.
--   Recommendation: Targeted marketing for newer customers.
+-   Characteristics: Lower total sales, low orders, average per-order sales
+-   Recommendation: Targeted marketing for newer customers
 
 Cluster 2:
 
--   Characteristics: Average total sales, below-average orders, very high per-order sales.
--   Recommendation: Marketing high-value items to infrequent buyers.
+-   Characteristics: Average total sales, below-average orders, very high per-order sales
+-   Recommendation: Marketing high-value items to infrequent buyers
 :::
 
 ## Cluster Interpretation {.smaller}
@@ -426,43 +424,43 @@ Cluster 2:
 ::: nonincremental
 Cluster 3:
 
--   Characteristics: Higher total sales, higher orders, average per-order value.
--   Recommendation: Recommend low to mid-priced items for frequent buyers.
+-   Characteristics: Higher total sales, higher orders, average per-order value
+-   Recommendation: Recommend low to mid-priced items for frequent buyers
 
 Cluster 4:
 
--   Characteristics: Lowest total sales, low orders, low per-order sales.
--   Recommendation: Minimal marketing efforts due to low ROI.
+-   Characteristics: Lowest total sales, low orders, low per-order sales
+-   Recommendation: Minimal marketing efforts due to low ROI
 :::
 
 ## Future Works
 
 ::: nonincremental
--   Challenges and Considerations:
+Challenges and Considerations -
 
 -   Data Handling:
 
-    Managing large and noisy datasets.
+    Managing large and noisy datasets
 
 -   Robustness:
 
-    Ensuring robustness against outliers.
+    Ensuring robustness against outliers
 
 -   Cluster Number Determination:
 
-    Defining an appropriate number of clusters.
+    Defining an appropriate number of clusters
 :::
 
 ## Future Works
 
 ::: nonincremental
--   Research Focus:
+Research Focus -
 
 -   Continued Exploration:
 
-    Ongoing refinement of clustering techniques.
+    Ongoing refinement of clustering techniques and cluster selection process
 
 -   Industry Evolution:
 
-    Adapting methods to meet evolving e-commerce demands.
+    Adapting newer methods to meet evolving e-commerce demands
 :::

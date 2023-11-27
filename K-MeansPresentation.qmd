@@ -12,10 +12,12 @@ load("df_norm.RData")
 load("data_nulls_removed.RData")
 load("data_no_uk.RData")
 load("customer_data.RData")
+load("customer_data2.RData")
 library(broom)
 library(tidyverse)
 library(knitr)
-#install.packages("tidyverse")
+library(factoextra)
+library(plotly)
 ```
 
 ## A Deep Dive Into K-Means Clustering
@@ -434,6 +436,18 @@ Cluster 4:
 -   Characteristics: Lowest total sales, low orders, low per-order sales
 -   Recommendation: Minimal marketing efforts due to low ROI
 :::
+
+## Cluster Interpretation
+
+```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+#| label: model-charts
+#| fig-cap: "*Interactive graph (left-click to rotate / right-click to move)*"
+plot_ly(customer_data2, x=~Orders, y=~Sales, z=~AvgSale,
+        color=~Cluster2,
+        colors=c("red","green","blue","violet")) %>% 
+  add_markers(size=2) %>% 
+  layout(scene = list(xaxis=axx,yaxis=axy,zaxis=axz))
+```
 
 ## Future Works
 

@@ -91,6 +91,7 @@ Here the *Quantity* and *UnitPrice* columns are multiplied together and assigned
 data_no_uk <- data_no_uk %>% mutate(total = data_no_uk$Quantity*data_no_uk$UnitPrice)
 save(data_no_uk, file = "data_no_uk.RData")
 ```
+
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 head(data_no_uk,10)
 ```
@@ -108,6 +109,7 @@ For the remainder of the analysis, only the applicable columns of interest are r
 df1 <- data_no_uk %>% dplyr::select(Quantity,UnitPrice,CustomerID,InvoiceDate,total)
 save(df1, file = "df1.RData")
 ```
+
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 head(df1,10)
 ```
@@ -246,7 +248,7 @@ The graph below shows the customers in relation to all three model variables in 
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 customer_data$Cluster2 <- as.factor(model1$cluster)
-save(customer_data, file = "customer_data.RData")
+save(customer_data, file = "customer_data2.RData")
 
 axx <- list(
   nticks = 5,

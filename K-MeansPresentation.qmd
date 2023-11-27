@@ -3,6 +3,7 @@ title: "K-Means Presentation"
 format: 
   revealjs:
     incremental: true
+    df-print: kable
 embed-resources: true
 ---
 
@@ -13,6 +14,7 @@ load("data_no_uk.RData")
 load("customer_data.RData")
 library(broom)
 library(tidyverse)
+library(knitr)
 #install.packages("tidyverse")
 ```
 
@@ -69,7 +71,7 @@ These clusters will be interpreted and discussed at the end of the analysis.
 ## Preparing the Data {.smaller}
 
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
-head(data_nulls_removed,10)
+head(data_nulls_removed,3)
 ```
 
 ::: notes

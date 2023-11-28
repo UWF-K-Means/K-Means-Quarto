@@ -29,6 +29,7 @@ book:
     - all_code.qmd
 
 bibliography: references.bib
+csl: ieee.csl
 
 format:
   html:

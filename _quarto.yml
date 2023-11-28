@@ -29,7 +29,7 @@ book:
     - all_code.qmd
 
 bibliography: references.bib
-csl: ieee.csl
+csl: http://www.zotero.org/styles/ieee
 
 format:
   html:

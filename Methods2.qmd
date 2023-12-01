@@ -1,15 +1,15 @@
 # Euclidean Distance & Finding K {.unnumbered}
 
-The formula for calculating the Euclidean distance between a data object and a cluster center can be expressed as follows:\
+The formula for calculating the Euclidean distance @Bishop2006 between a data object and a cluster center can be expressed as follows:
 $$
 d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)
 $$\
-Objective function: The k-means clustering objective is to minimize the within-cluster variance. It is formulated as -\
+Objective function: The k-means clustering objective is to minimize the within-cluster variance. It is formulated as:
 $$
 d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2)
 $$
 
-Where:\
+Where:
 $k$ is the number of clusters.
 
 $C_i$ represents the number of points in the cluster $i$
@@ -18,4 +18,4 @@ $\mu_i$ represents the centroid mean of cluster $i$
 
 The objective function is the sum of squared Euclidean distances from each point in a cluster to its centroid. The goal is to find cluster assignments and centroids that minimize this objective.
 
-To determine $k$, the number of clusters to initially set, there are a few approaches such as the empirical, elbow, and Silhouette methods. The empirical method assigns the number of clusters $\approx \frac{n^{\frac{1}{2}}}{2}$ for a data set of $n$ observations. The elbow method is based on the idea that increasing the number of clusters, $k$, will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters, the inflection point is determined using the turning point in the curve.
+To determine $k$, the number of clusters to initially set, there are a few approaches such as the empirical, elbow, and Silhouette methods. The empirical method assigns the number of clusters $\approx \frac{n^{\frac{1}{2}}}{2}$ for a data set of $n$ observations @Bishop2006. The elbow method is based on the idea that increasing the number of clusters, $k$, will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters, the inflection point is determined using the turning point in the curve.

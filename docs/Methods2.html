@@ -20,6 +20,25 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -176,22 +195,24 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>The formula for calculating the Euclidean distance between a data object and a cluster center can be expressed as follows:<br>
-<span class="math display">\[
+<p>The formula for calculating the Euclidean distance <span class="citation" data-cites="Bishop2006"><a href="references.html#ref-Bishop2006" role="doc-biblioref">[1]</a></span> between a data object and a cluster center can be expressed as follows: <span class="math display">\[
 d(x,C_i)=sqrt(\sum_{i=1}^{N} (x_j−C_{ij})^2)
 \]</span><br>
-Objective function: The k-means clustering objective is to minimize the within-cluster variance. It is formulated as -<br>
-<span class="math display">\[
+Objective function: The k-means clustering objective is to minimize the within-cluster variance. It is formulated as: <span class="math display">\[
 d(x,C_i)=(\sum_{i=1}^{k}*\sum_{x \in C_i}^{}(||x-\mu_i||)^2)
 \]</span></p>
-<p>Where:<br>
-<span class="math inline">\(k\)</span> is the number of clusters.</p>
+<p>Where: <span class="math inline">\(k\)</span> is the number of clusters.</p>
 <p><span class="math inline">\(C_i\)</span> represents the number of points in the cluster <span class="math inline">\(i\)</span></p>
 <p><span class="math inline">\(\mu_i\)</span> represents the centroid mean of cluster <span class="math inline">\(i\)</span></p>
 <p>The objective function is the sum of squared Euclidean distances from each point in a cluster to its centroid. The goal is to find cluster assignments and centroids that minimize this objective.</p>
-<p>To determine <span class="math inline">\(k\)</span>, the number of clusters to initially set, there are a few approaches such as the empirical, elbow, and Silhouette methods. The empirical method assigns the number of clusters <span class="math inline">\(\approx \frac{n^{\frac{1}{2}}}{2}\)</span> for a data set of <span class="math inline">\(n\)</span> observations. The elbow method is based on the idea that increasing the number of clusters, <span class="math inline">\(k\)</span>, will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters <span class="math inline">\(K\)</span>, the inflection point is determined using the turning point in the curve.</p>
+<p>To determine <span class="math inline">\(k\)</span>, the number of clusters to initially set, there are a few approaches such as the empirical, elbow, and Silhouette methods. The empirical method assigns the number of clusters <span class="math inline">\(\approx \frac{n^{\frac{1}{2}}}{2}\)</span> for a data set of <span class="math inline">\(n\)</span> observations <span class="citation" data-cites="Bishop2006"><a href="references.html#ref-Bishop2006" role="doc-biblioref">[1]</a></span>. The elbow method is based on the idea that increasing the number of clusters, <span class="math inline">\(k\)</span>, will reduce the sum of within-cluster variance. After plotting the sum of within-cluster variances as a function of the number of clusters, the inflection point is determined using the turning point in the curve.</p>
 
 
+<div id="refs" class="references csl-bib-body" role="doc-bibliography" style="display: none">
+<div id="ref-Bishop2006" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">C. M. Bishop, <span>“Pattern recognition and machine learning,”</span> <em>SpringerLink</em>. Springer New York, 2006. Available: <a href="https://link.springer.com/book/9780387310732">https://link.springer.com/book/9780387310732</a></div>
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

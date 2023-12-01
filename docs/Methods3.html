@@ -197,32 +197,44 @@ div.csl-indent {
 
 <p>The k-means algorithm for partitioning can be executed in 5 main steps.</p>
 <ol type="1">
-<li><p>Partition <span class="math inline">\(N\)</span> objects, or observations, into <span class="math inline">\(K\)</span> nonempty subsets. Each cluster must not be empty and will have a different classification. This is <span class="math inline">\(K\)</span>, if <span class="math inline">\(k=4\)</span> that means there will be four clusters.</p></li>
-<li><p>Then compute seed points, which are randomly assigned reference points called centroids. In <a href="#fig-centroids">Figure&nbsp;<span>1</span></a> <span class="math inline">\(k=4\)</span> and are highlighted in green.</p></li>
-<li><p>Assign each object to the cluster with the nearest assigned centroid. <a href="#fig-centroids">Figure&nbsp;<span>1</span></a> shows the Euclidean distance calculation as a line connecting each observation to one of the 4 centroids. <a href="#fig-centroids">Figure&nbsp;<span>1</span></a></p></li>
+<li><p>Partition <span class="math inline">\(N\)</span> objects, or observations, into <span class="math inline">\(K\)</span> nonempty subsets <span class="citation" data-cites="Huda2017"><a href="references.html#ref-Huda2017" role="doc-biblioref">[1]</a></span>. Each cluster must not be empty and will have a different classification. This is <span class="math inline">\(K\)</span>, if <span class="math inline">\(k=4\)</span> that means there will be four clusters.</p></li>
+<li><p>Then compute seed points, which are randomly assigned reference points called <span class="math inline">\(centroids\)</span> <span class="citation" data-cites="Mehar2013"><a href="references.html#ref-Mehar2013" role="doc-biblioref">[2]</a></span>. In the following figures we will see <span class="math inline">\(K=4\)</span>, which are highlighted in green.</p></li>
+<li><p>Assign each object to the cluster with the nearest assigned <span class="math inline">\(centroid\)</span>. <a href="#fig-centroids">Figure&nbsp;<span>1</span></a> shows the Euclidean distance calculation <span class="citation" data-cites="Bishop2006"><a href="references.html#ref-Bishop2006" role="doc-biblioref">[3]</a></span> as a red line connecting each observation to one of the 4 <span class="math inline">\(centroids\)</span>.</p></li>
 </ol>
 <div id="fig-centroids" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="centroids.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: Centroids <span class="citation" data-cites="Shabalin2023"><a href="references.html#ref-Shabalin2023" role="doc-biblioref">[1]</a></span></figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Centroids <span class="citation" data-cites="Shabalin2023"><a href="references.html#ref-Shabalin2023" role="doc-biblioref">[4]</a></span></figcaption><p></p>
 </figure>
 </div>
 <ol start="4" type="1">
-<li><p>Adjust the centroid location using the Euclidean distance formula to minimize the distance of each data observation to its assigned centroid. <a href="#fig-clusters">Figure&nbsp;<span>2</span></a> shows how the Euclidean distance drives some cluster members to reassign to a new cluster, influencing the centroids positions. This updates the cluster mean, <span class="math inline">\(\mu_i\)</span>, in turn relocating the centroids from where they were seen in <a href="#fig-centroids">Figure&nbsp;<span>1</span></a>.</p></li>
-<li><p>The final step is to repeat steps 2-4 until there is no change in distance between the observations and the centroids.</p></li>
+<li><p>Adjust the <span class="math inline">\(centroid\)</span> location using the Euclidean distance formula to minimize the distance of each data observation to its assigned <span class="math inline">\(centroid\)</span> . <a href="#fig-clusters">Figure&nbsp;<span>2</span></a> shows how the Euclidean distance drives some cluster members to reassign to a new cluster, influencing the <span class="math inline">\(centroids\)</span> positions. This updates the cluster mean, <span class="math inline">\(\mu_i\)</span>, in turn relocating the <span class="math inline">\(centroids\)</span> from where they were seen in <a href="#fig-centroids">Figure&nbsp;<span>1</span></a>.</p></li>
+<li><p>The final step is to repeat steps 2-4 until there is no change in distance between the observations and the <span class="math inline">\(centroids\)</span> <span class="citation" data-cites="Morissette2013"><a href="references.html#ref-Morissette2013" role="doc-biblioref">[5]</a></span>.</p></li>
 </ol>
 <div id="fig-clusters" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="clusters.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2: Clusters <span class="citation" data-cites="Shabalin2023"><a href="references.html#ref-Shabalin2023" role="doc-biblioref">[1]</a></span></figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Clusters <span class="citation" data-cites="Shabalin2023"><a href="references.html#ref-Shabalin2023" role="doc-biblioref">[4]</a></span></figcaption><p></p>
 </figure>
 </div>
 <p>The result uncovers 4 distinct clusters containing the most similar observations within groups.</p>
 
 
 <div id="refs" class="references csl-bib-body" role="doc-bibliography" style="display: none">
+<div id="ref-Huda2017" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">H. H. Ali and L. E. Kadhum, <span>“K- means clustering algorithm applications in data mining and pattern recognition,”</span> 2017. Available: <a href="https://api.semanticscholar.org/CorpusID:36213323">https://api.semanticscholar.org/CorpusID:36213323</a></div>
+</div>
+<div id="ref-Mehar2013" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">A. M. Mehar, K. Matawie, and A. Maeder, <span>“Determining an optimal value of k in k-means clustering,”</span> in <em>2013 IEEE international conference on bioinformatics and biomedicine</em>, 2013, pp. 51–55. doi: <a href="https://doi.org/10.1109/BIBM.2013.6732734">10.1109/BIBM.2013.6732734</a>.</div>
+</div>
+<div id="ref-Bishop2006" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">C. M. Bishop, <span>“Pattern recognition and machine learning,”</span> <em>SpringerLink</em>. Springer New York, 2006. Available: <a href="https://link.springer.com/book/9780387310732">https://link.springer.com/book/9780387310732</a></div>
+</div>
 <div id="ref-Shabalin2023" class="csl-entry" role="doc-biblioentry">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline">Ph. D. Andrey A. Shambalin, <span>“Visuals and animations, k-means clustering.”</span> Available: <a href="https://shabal.in/visuals/kmeans/1.html">https://shabal.in/visuals/kmeans/1.html</a></div>
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">Ph. D. Andrey A. Shambalin, <span>“Visuals and animations, k-means clustering.”</span> Available: <a href="https://shabal.in/visuals/kmeans/1.html">https://shabal.in/visuals/kmeans/1.html</a></div>
+</div>
+<div id="ref-Morissette2013" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">S. Morissette Laurence AND Chartier, <span>“The k-means clustering technique: General considerations and implementation in mathematica,”</span> <em>Tutorials in Quantitative Methods for Psychology</em>, vol. 9, no. 1, pp. 15–24, 2013, doi: <a href="https://doi.org/10.20982/tqmp.09.1.p015">10.20982/tqmp.09.1.p015</a>.</div>
 </div>
 </div>
 

@@ -2,17 +2,17 @@
 
 The k-means algorithm for partitioning can be executed in 5 main steps.
 
-1.  Partition $N$ objects, or observations, into $K$ nonempty subsets. Each cluster must not be empty and will have a different classification. This is $K$, if $K=4$ that means there will be four clusters.
+1.  Partition $N$ objects, or observations, into $K$ nonempty subsets @Huda2017. Each cluster must not be empty and will have a different classification. This is $K$, if $k=4$ that means there will be four clusters.
 
-2.  Then compute seed points, which are randomly assigned reference points called centroids. In @fig-centroids $K=4$ and are highlighted in green.
+2.  Then compute seed points, which are randomly assigned reference points called $centroids$ @Morissette2013. In the following figures we will see $K=4$, which are highlighted in green.
 
-3.  Assign each object to the cluster with the nearest assigned centroid. @fig-centroids shows the Euclidean distance calculation as a line connecting each observation to one of the 4 centroids. @fig-centroids
+3.  Assign each object to the cluster with the nearest assigned $centroid$. @fig-centroids shows the Euclidean Distance calculation as a red line connecting each observation to one of the 4 $centroids$.
 
 ![Centroids @Shabalin2023](centroids.png){#fig-centroids}
 
-4.  Adjust the centroid location using the Euclidean distance formula to minimize the distance of each data observation to its assigned centroid. @fig-clusters shows how the Euclidean distance drives some cluster members to reassign to a new cluster, influencing the centroids positions. This updates the cluster mean, $\mu_i$, in turn relocating the centroids from where they were seen in @fig-centroids.
+4.  Adjust the $centroid$ location using the Euclidean Distance formula to minimize the distance of each data observation to its assigned $centroid$ . @fig-clusters shows how the Euclidean Distance drives some cluster members to reassign to a new cluster, influencing the $centroids$ positions. This updates the cluster mean, $\mu_i$, in turn relocating the $centroids$ from where they were seen in @fig-centroids.
 
-5.  The final step is to repeat steps 2-4 until there is no change in distance between the observations and the centroids.
+5.  The final step is to repeat steps 2-4 until there is no change in distance between the observations and the $centroids$ @Morissette2013.
 
 ![Clusters @Shabalin2023](clusters.png){#fig-clusters}
 

@@ -2,15 +2,10 @@
 
 ```{r, echo=TRUE, error=FALSE, warning=FALSE, message=FALSE, results='hide'}
 library(rlang)
-library(haven)
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
-library(car)
 library(sjPlot)
-library(MASS)
-library(lmtest)
-library(gmodels)
 library(tidyr)
 library(sjmisc)
 library(sjlabelled)
@@ -19,7 +14,6 @@ library(cluster)
 library(factoextra)
 library(plotly)
 library(broom)
-
 
 
 data <- read_csv("data.csv")
@@ -171,3 +165,7 @@ plot_ly(customer_data, x=~Orders, y=~Sales, z=~AvgSale,
   add_markers(size=2) %>% 
   layout(scene = list(xaxis=axx,yaxis=axy,zaxis=axz))
 ```
+
+## The following packages were loaded and/or used during the analysis: 
+
+[@rlang] [@dplyr] [@tidyverse] [@ggplot2] [@sjPlot] [@tidyr] [@sjmisc] [@sjlabelled] [@naniar] [@cluster] [@factoextra] [@plotly] [@broom]
